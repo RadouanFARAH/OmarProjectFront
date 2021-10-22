@@ -1,0 +1,48 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="cssHeader bgheader">
+
+    <ion-title class="tajawal-Bold cssTitleHead">
+      <span class="cssBtnHeaderLeft" routerLink="/vendeur-demande-conso">
+        <fa-icon icon="arrow-left"></fa-icon>
+      </span>
+      تفاصيل الطلبية
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="bgInterface2">
+  <ion-grid class="ion-no-padding">
+    <div class="cssHeight">
+      <ion-row *ngFor="let d of data">
+        <ion-col class="ion-no-padding">
+
+          <div class="cssProduct">
+            <div class="cssImg">
+              <img [src]="d.img" alt="@youb">
+            </div>
+            <div class="cssInfos">
+              <p>
+                <span class="cssLibel tajawal-Boldd">كود المنتج :</span>
+                <span class="cssValue tajawal-Medium cssNumber">{{d.codeProduit}}</span>
+              </p>
+              <p>
+                <span class="cssLibel tajawal-Boldd">فئة المنتج :</span>
+                <span class="cssValue tajawal-Medium">{{d.category}}</span>
+              </p>
+              <p>
+                <span class="cssLibel tajawal-Boldd">الكمية :</span>
+                <span class="cssValue tajawal-Medium cssNumber">{{d.qte}}</span>
+              </p>
+              <p>
+                <span class="cssLibel tajawal-Boldd">ثمن الوحدة :</span>
+                <span class="cssValue tajawal-Medium cssNumber">{{(d.prixUnitaire).toFixed(2)}}</span> درهم
+              </p>
+            </div>
+          </div>
+
+        </ion-col>
+      </ion-row>
+    </div>
+  </ion-grid>
+
+</ion-content>

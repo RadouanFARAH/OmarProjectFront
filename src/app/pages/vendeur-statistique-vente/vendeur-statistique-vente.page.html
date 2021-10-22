@@ -1,0 +1,234 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="cssHeader bgheader">
+
+    <ion-title class="tajawal-Bold cssTitleHead">
+      <span class="cssBtnHeaderLeft" routerLink="/vendeur-home">
+        <fa-icon icon="arrow-left"></fa-icon>
+      </span>
+      حصيلة المبيعات
+    </ion-title>
+  </ion-toolbar>
+
+  <ion-toolbar>
+    <ion-segment value="day" [(ngModel)]="selectedSegment" class="cssSegment">
+      <ion-segment-button value="day" class="segmentBtn1">
+        اليوم
+      </ion-segment-button>
+      <ion-segment-button value="days" class="segmentBtn2">
+        الأيام السابقة
+      </ion-segment-button>
+      <ion-segment-button value="mounths" class="segmentBtn3">
+        الشهور السابقة
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content class="bgInterface2 cssPosition">
+
+  <!-- section one -->
+  <div class="cssSection" *ngIf="selectedSegment == 'day'">
+    <div class="cssHeight">
+      <ion-grid class="ion-no-padding">
+
+        <ion-row>
+          <ion-col class="ion-no-padding">
+            <div class="cssContainer cssSectionTtile tajawal-Bold">
+              مبيعات اليوم
+            </div>
+          </ion-col>
+        </ion-row>
+
+        <ion-row *ngFor="let d of dataDay" style="margin: 6px 0px;">
+          <ion-col class="ion-no-padding">
+            <div class="cssContainer cssVenteDay">
+              <div class="cssinfos">
+                <div class="cssName tajawal-Boldd">{{d.nom}}</div>
+                <div class="cssSerial">{{d.serial}}</div>
+              </div>
+              <div class="cssCount">
+                <div class="cssValue"><span>{{d.qte}}</span><span class="tajawal-Medium">وحدة</span></div>
+                <div class="cssValue"><span>{{d.note}}</span><span class="tajawal-Medium">نقطة</span></div>
+                <div class="cssValue"><span>{{d.prix}}</span><span class="tajawal-Medium">درهم</span></div>
+              </div>
+            </div>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col class="ion-no-padding">
+            <div class="cssContainer cssTotalDay" style="margin-bottom: 12px;">
+              <div class="cssTitleCard tajawal-Boldd">مجموع اليوم</div>
+
+              <div class="cssCard">
+                <div class="cssCol">
+                  <div class="cssRow">
+                    <span class="cssLibel tajawal-Boldd">عدد المنتوجات :</span>
+                    <span class="cssValue">{{sommeDataDay.qtes}}</span>
+                  </div>
+
+                  <div class="cssRow">
+                    <span class="cssLibel tajawal-Boldd">عدد الفاتورات :</span>
+                    <span class="cssValue">{{sommeDataDay.nbrFacture}}</span>
+                  </div>
+                </div>
+
+                <div class="cssCol">
+                  <div class="cssRow">
+                    <span class="cssLibel tajawal-Boldd">النقط :</span>
+                    <span class="cssValue">{{sommeDataDay.notes}}</span>
+                  </div>
+
+                  <div class="cssRow">
+                    <span class="cssLibel tajawal-Boldd">المبلغ :</span>
+                    <span class="cssValue">{{sommeDataDay.prixs}}</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </ion-col>
+        </ion-row>
+
+      </ion-grid>
+    </div>
+  </div>
+
+  <!-- section two -->
+  <div class="cssSection2" *ngIf="selectedSegment == 'days'">
+    <div class="cssHeight">
+      <ion-grid class="ion-no-padding">
+
+        <ion-row>
+          <ion-col class="ion-no-padding">
+            <div class="cssContainer cssSectionTtile tajawal-Bold">
+              مبيعات الأيام السابقة
+            </div>
+          </ion-col>
+        </ion-row>
+
+        <ion-row *ngFor="let d of dataDays" style="margin: 6px 0px;">
+          <ion-col class="ion-no-padding">
+            <div class="cssContainer cssVenteDay">
+              <div class="cssinfos">
+                <div class="cssName cssDate tajawal-Boldd">{{d.date}}</div>
+              </div>
+              <div class="cssCount">
+                <div class="cssValue"><span>{{d.qte}}</span><span class="tajawal-Medium">وحدة</span></div>
+                <div class="cssValue"><span>{{d.note}}</span><span class="tajawal-Medium">نقطة</span></div>
+                <div class="cssValue"><span>{{d.prix}}</span><span class="tajawal-Medium">درهم</span></div>
+              </div>
+            </div>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col class="ion-no-padding">
+            <div class="cssContainer cssTotalDay">
+              <div class="cssTitleCard tajawal-Boldd">مجموع الشهر</div>
+
+              <div class="cssCard">
+                <div class="cssCol">
+                  <div class="cssRow">
+                    <span class="cssLibel tajawal-Boldd">عدد المنتوجات :</span>
+                    <span class="cssValue">{{sommeDataMount.qtes}}</span>
+                  </div>
+
+                  <div class="cssRow">
+                    <span class="cssLibel tajawal-Boldd">عدد الفاتورات :</span>
+                    <span class="cssValue">{{sommeDataMount.nbrFacture}}</span>
+                  </div>
+                </div>
+
+                <div class="cssCol">
+                  <div class="cssRow">
+                    <span class="cssLibel tajawal-Boldd">النقط :</span>
+                    <span class="cssValue">{{sommeDataMount.notes}}</span>
+                  </div>
+
+                  <div class="cssRow">
+                    <span class="cssLibel tajawal-Boldd">المبلغ :</span>
+                    <span class="cssValue">{{sommeDataMount.prixs}}</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col class="ion-no-padding">
+            <div class="cssContainer cssSommeMounth" style="margin-top: 12px; margin-bottom: 12px;">
+
+              <div class="cssTitleCard tajawal-Boldd">الهدف</div>
+
+              <div>
+                <div class="cssRow">
+                  <div class="cssLibel tajawal-Medium">النقط</div>
+                  <div class="cssBar">
+                    <span class="cssEnd">60000</span>
+                    <span class="cssStart">0</span>
+                    <div class="progress">
+                      <div class="progress-bar cssColorBar" role="progressbar" style="width: 11%;" aria-valuenow="11"
+                        aria-valuemin="0" aria-valuemax="100">11%</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="cssRow">
+                  <div class="cssLibel tajawal-Medium">الفاتورات</div>
+                  <div class="cssBar">
+                    <span class="cssEnd">2600</span>
+                    <span class="cssStart">0</span>
+                    <div class="progress">
+                      <div class="progress-bar cssColorBar" role="progressbar" style="width: 18%;" aria-valuenow="18"
+                        aria-valuemin="0" aria-valuemax="100">18%</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </ion-col>
+        </ion-row>
+
+      </ion-grid>
+    </div>
+  </div>
+
+  <!-- section three -->
+  <div class="cssSection3" *ngIf="selectedSegment == 'mounths'">
+    <div class="cssHeight">
+      <ion-grid class="ion-no-padding">
+
+        <ion-row>
+          <ion-col class="ion-no-padding">
+            <div class="cssContainer cssSectionTtile tajawal-Bold">
+              مبيعات الشهور السابقة
+            </div>
+          </ion-col>
+        </ion-row>
+
+        <ion-row *ngFor="let d of dataMounts" style="margin: 6px 0px;">
+          <ion-col class="ion-no-padding">
+            <div class="cssContainer cssVenteDay">
+              <div class="cssinfos">
+                <div class="cssName cssDate tajawal-Boldd">{{d.date}}</div>
+              </div>
+              <div class="cssCount">
+                <div class="cssValue"><span>{{d.note}}</span><span class="tajawal-Medium">نقطة</span></div>
+                <div class="cssValue"><span>{{d.prix}}</span><span class="tajawal-Medium">درهم</span></div>
+                <div class="cssValue"><span>{{d.facture}}</span><span class="tajawal-Medium">فاتورة</span></div>
+              </div>
+            </div>
+          </ion-col>
+        </ion-row>
+
+
+      </ion-grid>
+    </div>
+  </div>
+
+</ion-content>

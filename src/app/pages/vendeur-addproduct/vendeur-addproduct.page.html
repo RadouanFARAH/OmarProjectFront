@@ -1,0 +1,139 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="cssHeader bgheader">
+
+    <ion-title class="tajawal-Bold cssTitleHead">
+      <span class="cssBtnHeaderLeft" routerLink="/vendeur-home">
+        <fa-icon icon="arrow-left"></fa-icon>
+      </span>
+      إضافة منتج
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="bgInterface2">
+  <ion-grid class="ion-no-padding">
+
+    <!-- Name -->
+    <form class="cssForm" [formGroup]="dataForm">
+      <ion-row>
+        <ion-col class="ion-no-padding">
+          <div>
+            <ion-label class="cssLabel tajawal-Bold">اسم المنتج</ion-label>
+            <ion-input placeholder="ضع إسم مناسب لمنتوجك الخاص" type="text" class="cssInput tajawal-Medium"
+              formControlName="nom">
+            </ion-input>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col class="ion-no-padding">
+          <div>
+            <ion-label class="cssLabel tajawal-Bold">الثمن الأصلي</ion-label>
+            <ion-input placeholder="ضع ثمن المنتوج" type="text" class="cssInput tajawal-Medium"
+              formControlName="prixInitial">
+            </ion-input>
+          </div>
+        </ion-col>
+
+        <ion-col class="ion-no-padding">
+          <div>
+            <ion-label class="cssLabel tajawal-Bold">ثمن التخفيض</ion-label>
+            <ion-input placeholder="ضع ثمن تخفيض المنتوج" type="text" class="cssInput tajawal-Medium"
+              formControlName="prixFinal">
+            </ion-input>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col class="ion-no-padding">
+          <div>
+            <ion-label class="cssLabel tajawal-Bold">الفئات</ion-label>
+            <ion-input placeholder="إختر الفئة" type="text" class="cssInput tajawal-Medium" formControlName="category">
+            </ion-input>
+          </div>
+        </ion-col>
+
+        <ion-col class="ion-no-padding">
+          <div>
+            <ion-label class="cssLabel tajawal-Bold">المدن</ion-label>
+            <ion-input value="الرباط" type="text" class="cssInput tajawal-Medium" formControlName="ville">
+            </ion-input>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col class="ion-no-padding">
+          <div>
+            <ion-label class="cssLabel tajawal-Bold">الوصف</ion-label>
+            <!-- <ion-input placeholder="أضف وصف للمنتوج الخاص بك" type="text" class="cssInput tajawal-Medium">
+            </ion-input> -->
+            <ion-textarea rows="3" cols="20" class="cssTextAera tajawal-Medium" placeholder="أضف وصف للمنتوج الخاص بك"
+              formControlName="description">
+            </ion-textarea>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col class="ion-no-padding">
+          <ion-label class="cssLabel tajawal-Bold">صور المنتج</ion-label>
+          <div class="cssImgages">
+            <div class="cssbtnImg">
+              <img src="../../../assets/images/cam2.png" alt="@youb">
+              <p>أضف صورة</p>
+            </div>
+            <div class="cssImg"></div>
+            <div class="cssImg"></div>
+            <div class="cssImg"></div>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <div style="margin: 16px 0px;">
+            <ion-button expand="block" class="tajawal-Bold" (click)="showAlert()">نشر المنتج</ion-button>
+          </div>
+        </ion-col>
+      </ion-row>
+    </form>
+
+  </ion-grid>
+
+  <!-- alert error && success -->
+  <div class="alerte" *ngIf="showSuccessAlerte">
+    <div class="box2">
+      <div class="successImg">
+        <img src="../../../assets/images/successAlert1.gif" alt="@youb" draggable="false">
+      </div>
+      <div class="message">
+        <p class="message_content tajawal-Medium">
+          عملية نشر المنتج قد تمت بنجاح، ستتم معالجة الطلبية ونشرها للعملاء.
+        </p>
+        <div class="message_btn">
+          <button routerLink="/vendeur-home" class="tajawal-Medium">رجوع</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="alerte" *ngIf="showErrorAlerte">
+    <div class="box2">
+      <div class="successImg">
+        <img src="../../../assets/images/errorAlert1.gif" alt="@youb" draggable="false">
+      </div>
+      <div class="message">
+        <p id="koho" class="message_content tajawal-Medium">
+          فشل في محاولة نشر المنتج. المرجو منك إعادة العملية.
+        </p>
+        <div class="message_btn_Err">
+          <button class="tajawal-Medium">إعادة المحاولة</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</ion-content>

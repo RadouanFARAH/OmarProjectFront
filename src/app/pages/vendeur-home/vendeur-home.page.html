@@ -1,0 +1,199 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="cssHeader bgheader">
+    <!-- <ng-container *ngIf="!user">
+      <ion-buttons slot="start">
+        <ion-menu-button menu="responsable-menu" style="color: #fff;"></ion-menu-button>
+      </ion-buttons>
+      <ion-title class="tajawal-Bold cssTitleHead">
+        <span class="cssBtnHeader" (click)="showMenu()">
+          <fa-icon icon="ellipsis-v"></fa-icon>
+        </span>
+        واجهة المسؤول
+      </ion-title>
+    </ng-container> -->
+
+    <!-- <ng-container *ngIf="user"> -->
+    <ion-buttons slot="end">
+      <ion-menu-button menu="vendeur-menu" style="color: #fff;"></ion-menu-button>
+    </ion-buttons>
+    <ion-title class="tajawal-Bold cssTitleHead">
+      <!-- <span class="cssBtnHeader" (click)="showMenu()">
+        <fa-icon icon="ellipsis-v"></fa-icon>
+      </span> -->
+      واجهة البائع
+    </ion-title>
+    <!-- </ng-container> -->
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="bgInterface2">
+  <ion-grid class="ion-no-padding">
+    <!-- Menu -->
+    <!-- <div class="cssMenu animate__animated animate__fadeInDown animate__delay-0s" *ngIf="isShow">
+      <ion-list class="ion-no-padding">
+        <ion-item lines="none" *ngIf="user">
+          <label class="almarai-bold" routerLink="/vendeur-addproduct">إضافة منتج جديد</label>
+        </ion-item>
+        <ion-item lines="none" *ngIf="!user">
+          <label class="almarai-bold" routerLink="/responsable-my-vend">قائمة البائعين</label>
+        </ion-item>
+        <ion-item lines="none" *ngIf="user">
+          <label class="almarai-bold" routerLink="/vendeur-my-conso">قائمة العملاء</label>
+        </ion-item>
+        <ion-item lines="none" *ngIf="user">
+          <label class="almarai-bold" routerLink="/vendeur-statistique-vente">حصيلة المبيعات</label>
+        </ion-item>
+        <ion-item lines="none">
+          <label class="almarai-bold" routerLink="/login">خروج</label>
+        </ion-item>
+      </ion-list>
+    </div> -->
+
+    <!-- row 1 , card 1 & cared 2 : vendeur -->
+    <ion-row>
+      <ion-col class="ion-no-padding">
+        <div class="cssSmallCard1">
+          <div>
+            <span class="cssLibel almarai-ExtraBold">المسؤول :</span>
+            <span class="cssValue almarai-Regular">{{data.responsable}}</span>
+          </div>
+          <div>
+            <span class="cssLibel almarai-ExtraBold">البائع :</span>
+            <span class="cssValue almarai-Regular">{{data.vendeur}}</span>
+          </div>
+        </div>
+      </ion-col>
+
+      <ion-col class="ion-no-padding">
+        <div class="cssSmallCard2">
+          <div>
+            <span class="cssLibel almarai-ExtraBold">اليوم :</span>
+            <span class="cssValue almarai-Regular">{{data.jour}}</span>
+          </div>
+          <div>
+            <span class="cssLibel almarai-ExtraBold">المنطقة :</span>
+            <span class="cssValue almarai-Regular">{{data.zone}}</span>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+
+    <!-- row 1 , card 1 & cared 2 : responsable -->
+    <!-- <div class="cssResponsable" *ngIf="!user">
+      <ion-row *ngIf="!user">
+        <ion-col class="ion-no-padding">
+          <div class="cssCol cssBackground1">
+            <span class="cssLibel almarai-ExtraBold">عدد البائعين :</span>
+            <span class="tajawal-Medium cssNumber">22</span>
+          </div>
+        </ion-col>
+
+        <ion-col class="ion-no-padding">
+          <div class="cssCol cssBackground2">
+            <span class="cssLibel almarai-ExtraBold">اليوم :</span>
+            <span class="cssValue tajawal-Medium">{{data.jour}}</span>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row *ngIf="!user">
+        <ion-col class="ion-no-padding">
+          <div class="cssSelect">
+            <select name="vendeur" id="vendeur">
+              <option selected class="cssValue tajawal-Medium">--إختيار البائع--</option>
+              <option *ngFor="let d of data2" class="cssValue tajawal-Medium">{{d.vendeur}}</option>
+            </select>
+          </div>
+        </ion-col>
+
+        <ion-col class="ion-no-padding">
+          <div class="cssSelect cssMarging">
+            <span class="cssLibel almarai-ExtraBold">المنطقة :</span>
+            <span class="cssValue tajawal-Medium">حي عكاري</span>
+          </div>
+        </ion-col>
+      </ion-row>
+    </div> -->
+
+
+
+    <!-- row 2 , card 3-->
+    <ion-row>
+      <ion-col class="ion-no-padding">
+        <div class="cssCard3">
+          <div class="cssFlex">
+            <div>
+              <p class="cssLibel almarai-ExtraBold">نقط اليوم</p>
+              <p class="cssValue almarai-Regular">{{data.noteJour}}</p>
+            </div>
+            <div routerLink="/responsable-home">
+              <p class="cssLibel almarai-ExtraBold">عدد العملاء</p>
+              <p class="cssValue almarai-Regular">{{data.nbrTotalConso}}</p>
+            </div>
+          </div>
+
+          <div class="cssFlex cssFlexColumn">
+            <div class="cssSmallCard3">
+              <p class="cssLibel almarai-Bold">
+                <fa-icon icon="times"></fa-icon>
+                الذين رفضوا الطلب
+              </p>
+              <p class="cssValue almarai-Regular">{{data.consoRefuse}}</p>
+            </div>
+            <div class="cssSmallCard4">
+              <p class="cssLibel almarai-Bold">
+                <fa-icon icon="hourglass-half"></fa-icon>
+                الذين لم يقوموا بالطلب
+              </p>
+              <p class="cssValue almarai-Regular">{{data.consoAttente}}</p>
+            </div>
+            <div class="cssSmallCard5">
+              <p class="cssLibel almarai-Bold">
+                <fa-icon icon="check"></fa-icon>
+                الذين قاموا بالطلب
+              </p>
+              <p class="cssValue almarai-Regular">{{data.consoValide}}</p>
+            </div>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+
+    <!-- row 3 , cards 4-->
+    <ion-row *ngFor="let d of data.demande">
+      <ion-col class="ion-no-padding" routerLink="/vendeur-demande-conso">
+        <div class="cssSmallCard6">
+          <div class="cssName">
+            <span class="cssBgIcon1" *ngIf="d.etatDemande === 'R'">
+              <fa-icon icon="times"></fa-icon>
+            </span>
+            <span class="cssBgIcon2" *ngIf="d.etatDemande === 'A'">
+              <fa-icon icon="hourglass-half"></fa-icon>
+            </span>
+            <span class="cssBgIcon3" *ngIf="d.etatDemande === 'V'">
+              <fa-icon icon="check"></fa-icon>
+            </span>
+            <span class="almarai-Bold cssNameValue">{{d.nomConso}}</span>
+          </div>
+          <div class="cssNote">
+            <span *ngIf="d.etatDemande === 'V'" class="cssValue">{{d.noteDemande}}</span>
+            <span *ngIf="d.etatDemande === 'V'" class="almarai-Bold cssUnit">نقطة</span>
+          </div>
+          <div class="cssPrix">
+            <span *ngIf="d.etatDemande === 'V'" class="cssValue">{{d.prixDemande}}</span>
+            <span *ngIf="d.etatDemande === 'V'" class="almarai-Bold cssUnit">درهم</span>
+          </div>
+          <div class="cssMsg">
+            <span *ngIf="d.etatDemande === 'R'" class="almarai-bold cssRefuse">أكد رفض الطلبية</span>
+          </div>
+          <div class="cssBtn" *ngIf="d.etatDemande === 'A'">
+            <ion-button class="tajawal-Boldd" routerLink="/categories">تمرير الطلبية</ion-button>
+            <ion-button class="tajawal-Boldd">رفض الطلبية</ion-button>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+
+</ion-content>

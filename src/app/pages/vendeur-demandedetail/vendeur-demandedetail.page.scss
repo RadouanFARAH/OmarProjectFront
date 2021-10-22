@@ -1,0 +1,70 @@
+.cssHeight{
+    width: 100%;
+    // height: calc(100% - 200px) !important;
+    // height:400px;
+    // position: fixed;
+    // top: 55px !important;
+    // overflow-y: scroll;
+}
+// row 1
+.cssProduct{
+    height: 130px !important;
+    width: 100%;
+    border-bottom: 1px solid #F0344C;
+    display: flex;
+    align-items: center;
+    
+    // animation: fadeInTopLeft; 
+    // animation-duration: 2s; 
+}
+.cssProduct .cssImg{
+    width: 110px;
+    height: 110px;
+    background: #FFEDE7;
+    border-radius: 4px;
+    margin-right: 20px;
+}
+.cssProduct .cssImg img{
+    width: 100%;
+    height: auto;
+}
+.cssInfos {
+    margin-right: 20px;
+}
+.cssInfos p{
+    margin: 6px;
+    color: #964A4A;
+}
+.cssInfos .cssLibel{
+    font-size: 17px;
+    margin-left: 10px;
+}
+.cssInfos .cssValue{
+    font-size: 16px;
+}
+
+@media only screen and (max-width: 362px) {
+    .cssProduct{
+        height: 100px !important;
+    }
+
+    .cssProduct .cssImg{
+        width: 90px;
+        height: 90px;
+        margin-right: 16px;
+    }
+
+    .cssInfos {
+        margin-right: 12px;
+    }
+    .cssInfos p{
+        margin: 0px;
+    }
+    .cssInfos .cssLibel{
+        font-size: 13px;
+        margin-left: 10px;
+    }
+    .cssInfos .cssValue{
+        font-size: 14px;
+    }
+}
