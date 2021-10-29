@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CallNumberService } from 'src/app/services/call-number.service';
 
 @Component({
   selector: 'app-responsable-my-vend',
@@ -24,9 +25,11 @@ export class ResponsableMyVendPage implements OnInit {
     { vendeur: "عبد القادر مفتاح", zone: "حي الفتح" },
   ]
 
-  constructor() { }
+  constructor(private callNumber:CallNumberService) { }
 
   ngOnInit() {
   }
-
+  call(number){
+    this.callNumber.call(number)
+  }
 }

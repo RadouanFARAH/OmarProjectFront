@@ -105,6 +105,10 @@ const routes: Routes = [
     path: 'consommateur-demandehistorique',
     loadChildren: () => import('./pages/consommateur-demandehistorique/consommateur-demandehistorique.module').then(m => m.ConsommateurDemandehistoriquePageModule)
   },
+  {
+    path: 'vendeur-my-product',
+    loadChildren: () => import('./pages/vendeur-my-product/vendeur-my-product.module').then( m => m.VendeurMyProductPageModule)
+  },
 ];
 
 @NgModule({

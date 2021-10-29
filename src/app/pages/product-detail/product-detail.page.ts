@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { CallNumberService } from 'src/app/services/call-number.service';
 import { MyOrdersService } from 'src/app/services/my-orders.service';
 
 @Component({
@@ -22,7 +23,7 @@ export class ProductDetailPage implements OnInit {
     },
     vendeurInfos: {
       nom: "",
-      num: ""
+      tel: ""
     }
   }
 
@@ -38,7 +39,7 @@ export class ProductDetailPage implements OnInit {
   isProductExitsInOrder: boolean = false;
   product: any;
 
-  constructor(private activeRouter: ActivatedRoute, private orderService: MyOrdersService) {
+  constructor(private callNumber:CallNumberService,private activeRouter: ActivatedRoute, private orderService: MyOrdersService) {
     this.commandeNum = this.orderService.getNumberProductInOrder();
 
     this.activeRouter.params.subscribe(params => {
@@ -54,7 +55,7 @@ export class ProductDetailPage implements OnInit {
         },
         vendeurInfos: {
           nom: params.nomprenom,
-          num: params.tel
+          tel: params.tel
         }
       }
 
@@ -67,6 +68,9 @@ export class ProductDetailPage implements OnInit {
 
 
   ngOnInit() {
+  }
+  call(number){
+   this.callNumber.call(number);
   }
 
   minusQty() {

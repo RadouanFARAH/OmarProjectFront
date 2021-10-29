@@ -119,7 +119,7 @@
             <span class="cssValue tajawal-Medium">{{data.vendeurInfos.nom}}</span>
           </div>
           <div>
-            <ion-button class="ion-no-padding tajawal-Bold" routerLink="/product-detail">
+            <ion-button (click)="call(data.vendeurInfos.tel)" class="ion-no-padding tajawal-Bold">
               تواصل
               <fa-icon icon="phone-alt"></fa-icon>
             </ion-button>

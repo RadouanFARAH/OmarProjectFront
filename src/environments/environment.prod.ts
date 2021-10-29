@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  url:"https://daki-api.herokuapp.com"
+  url:"http://localhost:2022"
 };

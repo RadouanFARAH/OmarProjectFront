@@ -212,3 +212,20 @@ ion-badge{
     padding: 8px auto;
     margin-top: 16px; border-radius: 4px;
 }
+
+.successtoastclass{
+   
+        --color:#ffffff;
+        --border-radius:3px;
+        --background:#46df46;
+        --button-color:#ffffff;
+    
+}
+.failedtoastclass{
+    
+        --color:#ffffff;
+        --border-radius:3px;
+        --background:#d62d2d;
+        --button-color:#ffffff;
+    
+}

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuController } from '@ionic/angular';
+import { MenuController, ModalController } from '@ionic/angular';
+import { RejectComponent } from 'src/app/modals/reject/reject.component';
+import { ParametresService } from 'src/app/services/parametres.service';
 
 @Component({
   selector: 'app-vendeur-home',
@@ -10,47 +12,16 @@ export class VendeurHomePage implements OnInit {
   // etatDemande : V/Validé, A/Attente, R/Refusé
 
   data = {
-    jour: "الخميس",
-    zone: "حي رحمة 1",
-    responsable: "عمر",
-    vendeur: "عبد القادر",
-    noteJour: 1200,
-    nbrTotalConso: 500,
-    consoValide: 450,
-    consoAttente: 48,
-    consoRefuse: 2,
-    demande: [
-      {
-        nomConso: "محمد",
-        noteDemande: 40,
-        prixDemande: 500,
-        etatDemande: "V"
-      },
-      {
-        nomConso: "محسين",
-        noteDemande: 35,
-        prixDemande: 350.60,
-        etatDemande: "V"
-      },
-      {
-        nomConso: "عادل",
-        noteDemande: 0,
-        prixDemande: 0,
-        etatDemande: "A"
-      },
-      {
-        nomConso: "طارق",
-        noteDemande: 0,
-        prixDemande: 0,
-        etatDemande: "A"
-      },
-      {
-        nomConso: "معاد",
-        noteDemande: 0,
-        prixDemande: 0,
-        etatDemande: "R"
-      },
-    ]
+    jour: "",
+    zone: "",
+    responsable: "",
+    vendeur: "",
+    noteJour: 0,
+    nbrTotalConso: 0,
+    consoValide: 0,
+    consoAttente: 0,
+    consoRefuse: 0,
+    demande: []
   }
 
   data2 = [
@@ -59,17 +30,69 @@ export class VendeurHomePage implements OnInit {
     { vendeur: "مونية المنبهي", zone: "حي عكاري" }
   ]
 
-
-  role1 = "V";
-  role2 = "R";
-  user = this.role1 == "V" ? true : false;
-
   isShow: boolean = false;
   numClickMenu: number = 0;
 
-  constructor(private menu: MenuController) { }
-
+  constructor(public modalController: ModalController,private menu: MenuController, private paramService:ParametresService) { 
+    this.getDashboard()
+  }
+  async openRejectConsumerModal(id) {
+    console.log("modal ...");
+    
+    const modal = await this.modalController.create({
+      component: RejectComponent,
+      cssClass: 'my-custom-class',
+      componentProps: { 
+        idconsommateur: id
+      }
+    });
+    return await modal.present();
+  }
+  getDashboard(){
+    this.paramService.getVendeur_dashboard().subscribe((result:any)=>{
+      this.data.jour= new Date().toLocaleDateString('ar-EG-u-nu-latn',{weekday: 'long'})
+      this.data.zone= result[0].zone
+      this.data.responsable= result[0].responsable
+      this.data.vendeur= result[0].vendeur
+      this.data.noteJour= result[0].noteJour
+      this.data.nbrTotalConso= result[0].nbrTotalConso
+      this.data.consoValide= result[0].consoValide
+      this.data.consoAttente= result[0].consoAttente
+      this.data.consoRefuse= result[0].consoRefuse
+      console.log("refuse",result[0].consoRefuse);
+      
+    })
+    this.paramService.getconsovalide().subscribe((result:any)=>{
+      result.forEach((row)=>{
+        this.data.demande.push(row)
+      })
+    })
+    this.paramService.getconsoAttente().subscribe((result:any)=>{
+      result.forEach((row)=>{
+        this.data.demande.push(row)
+      })
+    })
+    this.paramService.consoRefuse().subscribe((result:any)=>{
+      result.forEach((row)=>{
+        this.data.demande.push(row)
+      })
+    })
+    
+    this.paramService.getconsoGlobal().subscribe((result:any)=>{
+      
+    })
+  }
   ngOnInit() {
+  }
+
+  doRefresh(event) {
+    console.log('Begin async operation');
+    this.data.demande = []
+    this.getDashboard()
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      event.target.complete();
+    }, 2000);
   }
 
   ionViewWillEnter() {

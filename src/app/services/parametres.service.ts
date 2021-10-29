@@ -10,7 +10,28 @@ export class ParametresService {
 
   Url = environment.url;
   constructor(private storage: Storage, public http: HttpClient) { }
-
+   getVendeur_dashboard(){
+    return this.http.get(this.Url + "/vendeur_dashboard")
+   }
+   getconsovalide(){
+    return this.http.get(this.Url + "/vendeur_dashboard/consoValide")
+   }
+   
+   getconsoAttente(){
+    return this.http.get(this.Url + "/vendeur_dashboard/consoAttente")
+   }
+   consoRefuse(){
+    return this.http.get(this.Url + "/vendeur_dashboard/consoRefuse")
+   }
+   getConsoGlobalByQuartier(quartier){
+    return this.http.post(this.Url + "/vendeur_dashboard/getConsoGlobalByQuartier", {idquartier:quartier})
+   }
+   getconsoGlobal(){
+    return this.http.get(this.Url + "/vendeur_dashboard/getConsoGlobal")
+   }
+   sendMofitRejectOreder(data){
+    return this.http.post(this.Url + "/vendeur_dashboard/sendMofitRejectOreder", data)
+   }
   getCategories() {
     return this.http.get(this.Url + "/category" + "/getCategories")
   }

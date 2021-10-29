@@ -20,10 +20,10 @@
             <span class="tajawal-Bold">معلومات حول العميل</span>
           </div>
           <div class="cssContentCard">
-            <div>
+            <!-- <div>
               <span class="cssLibel tajawal-Bold">رقم العميل :</span>
               <span class="cssValue tajawal-Medium">{{data1.id}}</span>
-            </div>
+            </div> -->
             <div>
               <span class="cssLibel tajawal-Bold">إسم العميل :</span>
               <span class="cssValue tajawal-Medium">{{data1.nom}}</span>
@@ -37,7 +37,7 @@
                 <span class="cssLibel tajawal-Bold">الهاتف :</span>
                 <span class="cssValue tajawal-Medium">{{data1.numPhone}}</span>
               </div>
-              <ion-button class="tajawal-Boldd cssBtn">
+              <ion-button (click)="call(data1.numPhone)" class="tajawal-Boldd cssBtn">
                 تواصل
                 <img src="../../../assets/images/vendeurConsoDtail/phone1.png" alt="@youb">
               </ion-button>
@@ -47,7 +47,7 @@
                 <span class="cssLibel tajawal-Bold">الواتساب :</span>
                 <span class="cssValue tajawal-Medium">{{data1.numWhatsapp}}</span>
               </div>
-              <ion-button class="tajawal-Boldd cssBtn">
+              <ion-button [href]="'whatsapp://send?phone='+data1.numWhatsapp" class="tajawal-Boldd cssBtn">
                 تواصل
                 <img src="../../../assets/images/vendeurConsoDtail/whatsapp1.png" alt="@youb">
               </ion-button>
@@ -79,7 +79,7 @@
           </div>
           <div class="cssContentCard">
             <div>
-              <span class="cssDate">{{data2.date}}</span>
+              <span class="cssDate">{{data2.date | date: "dd/MM/yyyy"}}</span>
             </div>
             <div class="cssCard2Infos">
               <div>

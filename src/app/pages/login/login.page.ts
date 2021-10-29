@@ -55,7 +55,13 @@ export class LoginPage implements OnInit {
       console.log('token________ : ', res.token);
       // localStorage.setItem('token', res.token);
       await this.storage.set('token', res.token)
-      this.route.navigate(["categories"])
+      if (res.role=="C") {
+        this.route.navigate(["categories"])
+      }else if (res.role=="V") {
+        this.route.navigate(["vendeur-home"])
+      }else if (res.role=="R") {
+        this.route.navigate(["responsable-home"])
+      }
       console.log("login successed");
     })
   }

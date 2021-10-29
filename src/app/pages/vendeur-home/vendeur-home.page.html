@@ -27,6 +27,12 @@
 </ion-header>
 
 <ion-content class="bgInterface2">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      refreshingSpinner="bubbles"
+      refreshingText="rechargement...">
+    </ion-refresher-content>
+  </ion-refresher>
   <ion-grid class="ion-no-padding">
     <!-- Menu -->
     <!-- <div class="cssMenu animate__animated animate__fadeInDown animate__delay-0s" *ngIf="isShow">
@@ -124,7 +130,7 @@
           <div class="cssFlex">
             <div>
               <p class="cssLibel almarai-ExtraBold">نقط اليوم</p>
-              <p class="cssValue almarai-Regular">{{data.noteJour}}</p>
+              <p class="cssValue almarai-Regular">{{data.noteJour?data.noteJour:0}}</p>
             </div>
             <div routerLink="/responsable-home">
               <p class="cssLibel almarai-ExtraBold">عدد العملاء</p>
@@ -161,7 +167,7 @@
 
     <!-- row 3 , cards 4-->
     <ion-row *ngFor="let d of data.demande">
-      <ion-col class="ion-no-padding" routerLink="/vendeur-demande-conso">
+      <ion-col class="ion-no-padding" [skipLocationChange]="d.etatDemande==='V'?false:true" [routerLink]="d.etatDemande==='V'?['/vendeur-demande-conso', d]:['/vendeur-home']">
         <div class="cssSmallCard6">
           <div class="cssName">
             <span class="cssBgIcon1" *ngIf="d.etatDemande === 'R'">
@@ -173,14 +179,14 @@
             <span class="cssBgIcon3" *ngIf="d.etatDemande === 'V'">
               <fa-icon icon="check"></fa-icon>
             </span>
-            <span class="almarai-Bold cssNameValue">{{d.nomConso}}</span>
+            <span class="almarai-Bold cssNameValue">{{d.nomprenom}}</span>
           </div>
           <div class="cssNote">
-            <span *ngIf="d.etatDemande === 'V'" class="cssValue">{{d.noteDemande}}</span>
+            <span *ngIf="d.etatDemande === 'V'" class="cssValue">{{d.pointtotal}}</span>
             <span *ngIf="d.etatDemande === 'V'" class="almarai-Bold cssUnit">نقطة</span>
           </div>
           <div class="cssPrix">
-            <span *ngIf="d.etatDemande === 'V'" class="cssValue">{{d.prixDemande}}</span>
+            <span *ngIf="d.etatDemande === 'V'" class="cssValue">{{d.prixtotal}}</span>
             <span *ngIf="d.etatDemande === 'V'" class="almarai-Bold cssUnit">درهم</span>
           </div>
           <div class="cssMsg">
@@ -188,7 +194,7 @@
           </div>
           <div class="cssBtn" *ngIf="d.etatDemande === 'A'">
             <ion-button class="tajawal-Boldd" routerLink="/categories">تمرير الطلبية</ion-button>
-            <ion-button class="tajawal-Boldd">رفض الطلبية</ion-button>
+            <ion-button (click)="openRejectConsumerModal(d.id)" class="tajawal-Boldd">رفض الطلبية</ion-button>
           </div>
         </div>
       </ion-col>
