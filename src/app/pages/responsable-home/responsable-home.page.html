@@ -4,7 +4,7 @@
       <ion-menu-button menu="responsable-menu" style="color: #fff;"></ion-menu-button>
     </ion-buttons>
     <ion-title class="tajawal-Bold cssTitleHead">
-      <span class="cssBtnHeader" (click)="showVendeur()" *ngIf="detail">
+      <span class="cssBtnHeader">
         <fa-icon icon="sync"></fa-icon>
       </span>
       واجهة المسؤول
@@ -17,12 +17,12 @@
 
     <!-- row 1 , card 1 & cared 2 : responsable -->
     <div class="cssResponsable">
-      <ng-container *ngIf="!detail">
+      <ng-container>
         <ion-row>
           <ion-col class="ion-no-padding">
             <div class="cssCol cssBackground1">
               <span class="cssLibel almarai-ExtraBold">عدد البائعين :</span>
-              <span class="tajawal-Medium cssNumber">5</span>
+              <span class="tajawal-Medium cssNumber">{{this.data2.length}}</span>
             </div>
           </ion-col>
 
@@ -34,128 +34,25 @@
           </ion-col>
         </ion-row>
       </ng-container>
-
-      <ng-container *ngIf="detail">
-        <ion-row>
-          <ion-col class="ion-no-padding">
-            <div class="cssCol cssBackground1">
-              <span class="cssLibel almarai-ExtraBold">البائع : </span>
-              <span class="tajawal-Medium cssValue">إيمان أوفقير</span>
-            </div>
-            <!-- <div class="cssSelect">
-              <select name="vendeur" id="vendeur">
-                <option selected class="cssValue tajawal-Medium">--إختيار البائع--</option>
-                <option *ngFor="let d of data2" class="cssValue tajawal-Medium">{{d.vendeur}}</option>
-              </select>
-            </div> -->
-          </ion-col>
-
-          <ion-col class="ion-no-padding">
-            <div class="cssSelect cssMarging">
-              <span class="cssLibel almarai-ExtraBold">المنطقة :</span>
-              <span class="cssValue tajawal-Medium">حي عكاري</span>
-            </div>
-          </ion-col>
-        </ion-row>
-      </ng-container>
     </div>
 
     <!-- row 2 -->
-    <div class="cssContainer" (click)="showDetail()" *ngIf="!detail">
+    <div class="cssContainer" >
       <ion-row>
         <ion-col size="6" *ngFor="let d of data2" class="ion-no-padding">
-          <div class="cssCardVendeur">
+          <div class="cssCardVendeur" (click)="showDetail(d)">
             <div class="cssAvatar">
               <img src="./../../../assets/images/register/user1.png" *ngIf="d.genre == 'H'">
               <img src="./../../../assets/images/register/user3.png" *ngIf="d.genre == 'F'">
             </div>
             <div class="cssInfos">
-              <div class="cssName Tajawal-Boldd">{{d.vendeur}}</div>
-              <div class="cssZone Tajawal-Medium">{{d.zone}}</div>
+              <div class="cssName Tajawal-Boldd">{{d.nomprenom}}</div>
+              <div class="cssZone Tajawal-Medium">{{d.vquartier}}</div>
             </div>
           </div>
         </ion-col>
       </ion-row>
     </div>
-
-    <ng-container *ngIf="detail">
-      <!-- row 2 , card 3-->
-      <ion-row>
-        <ion-col class="ion-no-padding">
-          <div class="cssCard3">
-            <div class="cssFlex">
-              <div routerLink="/vendeur-home">
-                <p class="cssLibel almarai-ExtraBold">نقط اليوم</p>
-                <p class="cssValue almarai-Regular">{{data.noteJour}}</p>
-              </div>
-              <div>
-                <p class="cssLibel almarai-ExtraBold">عدد العملاء</p>
-                <p class="cssValue almarai-Regular">{{data.nbrTotalConso}}</p>
-              </div>
-            </div>
-
-            <div class="cssFlex cssFlexColumn">
-              <div class="cssSmallCard3">
-                <p class="cssLibel almarai-Bold">
-                  <fa-icon icon="times"></fa-icon>
-                  الذين رفضوا الطلب
-                </p>
-                <p class="cssValue almarai-Regular">{{data.consoRefuse}}</p>
-              </div>
-              <div class="cssSmallCard4">
-                <p class="cssLibel almarai-Bold">
-                  <fa-icon icon="hourglass-half"></fa-icon>
-                  الذين لم يقوموا بالطلب
-                </p>
-                <p class="cssValue almarai-Regular">{{data.consoAttente}}</p>
-              </div>
-              <div class="cssSmallCard5">
-                <p class="cssLibel almarai-Bold">
-                  <fa-icon icon="check"></fa-icon>
-                  الذين قاموا بالطلب
-                </p>
-                <p class="cssValue almarai-Regular">{{data.consoValide}}</p>
-              </div>
-            </div>
-          </div>
-        </ion-col>
-      </ion-row>
-
-      <!-- row 3 , cards 4-->
-      <ion-row *ngFor="let d of data.demande">
-        <ion-col class="ion-no-padding" routerLink="/vendeur-demande-conso">
-          <div class="cssSmallCard6">
-            <div class="cssName">
-              <span class="cssBgIcon1" *ngIf="d.etatDemande === 'R'">
-                <fa-icon icon="times"></fa-icon>
-              </span>
-              <span class="cssBgIcon2" *ngIf="d.etatDemande === 'A'">
-                <fa-icon icon="hourglass-half"></fa-icon>
-              </span>
-              <span class="cssBgIcon3" *ngIf="d.etatDemande === 'V'">
-                <fa-icon icon="check"></fa-icon>
-              </span>
-              <span class="almarai-Bold cssNameValue">{{d.nomConso}}</span>
-            </div>
-            <div class="cssNote">
-              <span *ngIf="d.etatDemande === 'V'" class="cssValue">{{d.noteDemande}}</span>
-              <span *ngIf="d.etatDemande === 'V'" class="almarai-Bold cssUnit">نقطة</span>
-            </div>
-            <div class="cssPrix">
-              <span *ngIf="d.etatDemande === 'V'" class="cssValue">{{d.prixDemande}}</span>
-              <span *ngIf="d.etatDemande === 'V'" class="almarai-Bold cssUnit">درهم</span>
-            </div>
-            <div class="cssMsg">
-              <span *ngIf="d.etatDemande === 'R'" class="almarai-bold cssRefuse">أكد رفض الطلبية</span>
-            </div>
-            <div class="cssBtn" *ngIf="d.etatDemande === 'A'">
-              <ion-button class="tajawal-Boldd" routerLink="/categories">تمرير الطلبية</ion-button>
-              <ion-button class="tajawal-Boldd">رفض الطلبية</ion-button>
-            </div>
-          </div>
-        </ion-col>
-      </ion-row>
-    </ng-container>
 
   </ion-grid>
 

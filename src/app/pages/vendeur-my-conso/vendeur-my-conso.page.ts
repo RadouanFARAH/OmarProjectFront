@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { VendeurMyConsoService } from 'src/app/services/vendeur-my-conso.service';
+
 
 @Component({
   selector: 'app-vendeur-my-conso',
@@ -6,34 +9,47 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./vendeur-my-conso.page.scss'],
 })
 export class VendeurMyConsoPage implements OnInit {
+  quartier:string="";
+  day=new Date().getDay();
+  nbrConsomateurTotal = 0;
+  data:any[]=[] ;
+  data2 = []
+  userID: any;
+  constructor(private vendeur: VendeurMyConsoService, private router:ActivatedRoute) {
+    let data={day:1}
+    this.router.params.subscribe((params)=>{
+      if (params) this.userID = params.id
+      else this.userID= null
+    })
+    // this.vendeur.getConsoTotal(data)
+    this.vendeur.getConsoByZone({day:this.day, byzone:false, userID:this.userID}).subscribe((res:any) => {
+      this.nbrConsomateurTotal = res.length
+     })
 
-  nbrConsomateurTotal = 674;
-  data = [
-    { jour: "الأثنين", zone: "حي أكدال" },
-    { jour: "الثلاثاء", zone: "حي الرياض" },
-    { jour: "الأربعاء", zone: "حي السويسي" },
-    { jour: "الخميس", zone: "قصبة الأوداية حي" },
-    { jour: "الجمعة", zone: "حي يعقوب المنصور" },
-    { jour: "السبت", zone: "حي الفتح" },
-    { jour: "الأحد", zone: "حي عكاري" },
-  ];
+    this.vendeur.getZones().subscribe((res:any) => {
+      let days = ["الأحد","الاثنين", "الثلاثاء","الأربعاء", "الخميس","الجمعة", "السبت"]
+      this.data=res
+      for (let i = 0 ; i<this.data.length; i++){
+          this.data[i].jour = days[i]
+      }
+      // console.log(data);
+      this.quartier =  this.data[days.indexOf(new Date().toLocaleDateString('ar-EG-u-nu-latn',{weekday: 'long'}))].quartier
 
-  data2 = [
-    { nom: "حمزة عفافي", dateInscription: "2021-09-05", id: "c_r_19961600" },
-    { nom: "حمزة شتيتي", dateInscription: "2021-08-15", id: "c_r_19961601" },
-    { nom: "معاذ", dateInscription: "2021-09-08", id: "c_r_19961602" },
-    { nom: "معاذ حيدور", dateInscription: "2021-10-18", id: "c_r_19961603" },
-    { nom: "خالد زيدوح", dateInscription: "2021-07-09", id: "c_r_19961604" },
-    { nom: "حمزة عفافي", dateInscription: "2021-08-15", id: "c_r_19961605" },
-    { nom: "حمزة عفافي", dateInscription: "2021-08-15", id: "c_r_19961606" },
-    { nom: "حمزة عفافي", dateInscription: "2021-08-15", id: "c_r_19961607" },
-    { nom: "حمزة عفافي", dateInscription: "2021-08-15", id: "c_r_19961608" },
-    { nom: "حمزة عفافي", dateInscription: "2021-08-15", id: "c_r_19961609" },
-    { nom: "حمزة عفافي", dateInscription: "2021-08-15", id: "c_r_19961610" },
-  ]
-  constructor() { }
+    })
+  }
 
   ngOnInit() {
+    this.day = new Date().getDay()
+  }
+  ionViewWillEnter(){
+    this.day = new Date().getDay()
+  }
+  dayChanged(){
+    // console.log(this.day);
+    this.quartier = this.data[this.day].quartier
+    this.vendeur.getConsoByZone({day:this.day, byzone:true, userID:this.userID}).subscribe((res:any) => {
+     this.data2 = res
+    })
   }
 
 

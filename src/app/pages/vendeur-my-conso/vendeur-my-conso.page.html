@@ -28,8 +28,8 @@
           <ion-col class="ion-no-padding">
             <div class="cssContainer cssSelect">
               <ion-label class="cssLibel tajawal-Bold">اليوم :</ion-label>
-              <ion-select class="cssLibel tajawal-Boldd">
-                <ion-select-option *ngFor="let d of data" [value]="d.jour">
+              <ion-select (ionChange)="dayChanged()" [(ngModel)]="day" class="cssLibel tajawal-Boldd">
+                <ion-select-option  *ngFor="let d of data" [value]="d.day" >
                   {{d.jour}}
                 </ion-select-option>
               </ion-select>
@@ -41,14 +41,14 @@
           <ion-col size="8" class="ion-no-padding" style="margin-left: 10px !important;">
             <div class="cssContainer cssZone">
               <span class="cssLibel tajawal-Bold">المنطقة</span>
-              <span class="cssValue tajawal-Boldd">حي يعقوب المنصور</span>
+              <span class="cssValue tajawal-Boldd">{{quartier}}</span>
             </div>
           </ion-col>
 
           <ion-col class="ion-no-padding">
             <div class="cssContainer cssNbrConsomateur">
               <span class="cssLibel tajawal-Bold">عدد العملاء</span>
-              <span class="cssValue">234</span>
+              <span class="cssValue">{{data2.length}}</span>
             </div>
           </ion-col>
         </ion-row>
@@ -60,12 +60,12 @@
             <div class="cssNom">
               <!-- <span class="cssLibel tajawal-Bold">الإسم :</span>
               <span class="cssLibel tajawal-Medium">{{d.nom}}</span> -->
-              <div class="cssValue1">{{d.nom}}</div>
+              <div class="cssValue1">{{d.nomprenom}}</div>
               <div class="cssValue2">{{d.id}}</div>
             </div>
             <div class="cssdate">
               <div class="cssLibel tajawal-Boldd">تاريخ التسجيل</div>
-              <div class="cssValue">{{d.dateInscription}}</div>
+              <div class="cssValue">{{d.dateinscription}}</div>
             </div>
           </div>
         </ion-col>

@@ -14,30 +14,30 @@
   <ion-grid class="ion-no-padding">
 
     <div class="cssHeight">
-      <!-- <ion-row *ngFor="let d of data;  index as i"> -->
-      <ion-row>
+      <ion-row *ngFor="let d of data;  index as i">
+      <!-- <ion-row> -->
         <ion-col class="ion-no-padding">
           <div class="cssProduct">
             <div class="cssImg">
-              <!-- <img [src]="d.urls.split(',')[0]" alt="@youb"> -->
-              <img src="./../../../assets/images/product/prod2.jpg" alt="@youb">
+              <img [src]="'http://localhost:2022/images/image_'+d.code+'.png'" alt="@youb">
+              <!-- <img src="./../../../assets/images/product/prod2.jpg" alt="@youb"> -->
             </div>
             <div class="cssInfos">
-              <!-- <div class="cssName tajawal-Medium">{{d.nom}}</div> -->
-              <div class="cssName tajawal-Medium">شاي لوبان الأخضر</div>
+              <div class="cssName tajawal-Medium">{{d.nom}}</div>
+              <!-- <div class="cssName tajawal-Medium">شاي لوبان الأخضر</div> -->
               <div class="cssPrixT">
                 <div class="cssPrix">
-                  <span>117,30</span> درهم
-                  <!-- <span>{{d.prixfinal}}</span> درهم -->
+                  <!-- <span>117,30</span> درهم -->
+                  <span>{{d.prixfinal}}</span> درهم
                 </div>
                 <div class="cssPrix">
-                  <span>24</span> نقطة
-                  <!-- <span>{{d.point}}</span> نقطة -->
+                  <!-- <span>24</span> نقطة -->
+                  <span>{{d.point}}</span> نقطة
                 </div>
 
-                <div class="btnToggle">
+                <!-- <div class="btnToggle">
                   <ion-toggle [(ngModel)]="selectedToggle"></ion-toggle>
-                </div>
+                </div> -->
               </div>
 
             </div>

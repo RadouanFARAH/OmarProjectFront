@@ -35,12 +35,18 @@ export class ParametresService {
   getCategories() {
     return this.http.get(this.Url + "/category" + "/getCategories")
   }
+  getAllCategories() {
+    return this.http.get(this.Url + "/category" + "/getAllCategories")
+  }
 
   getProductByCategory(id) {
     return this.http.post(this.Url + "/product" + "/getProductByCategory", { id })
   }
   setProduct(data) {
     return this.http.post(this.Url + "/product" + "/putProduct", data)
+  }
+  setProductImage(formData){
+    return this.http.post(this.Url + "/product" + "/putProductImage", formData)
   }
 
   getHistoryOrdersConso() {
@@ -51,7 +57,6 @@ export class ParametresService {
   async getToken() {
     return await this.storage.get('token');
   }
-
 
 
 }

@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
+import { ResponsableService } from 'src/app/services/responsable.service';
+import { UserService } from 'src/app/services/user.service';
+import { Storage } from '@ionic/storage-angular';
 
 @Component({
   selector: 'app-responsable-home',
@@ -53,13 +57,7 @@ export class ResponsableHomePage implements OnInit {
     ]
   }
 
-  data2 = [
-    { vendeur: "إيمان أوفقير", zone: "حي أكدال", genre: "F" },
-    { vendeur: "عبد الفتاح ارقياق", zone: "حي الفتح", genre: "H" },
-    { vendeur: "معاد المنبهي", zone: "حي الفتح", genre: "H" },
-    { vendeur: "مونية المنبهي", zone: "حي عكاري", genre: "F" },
-    { vendeur: "يونس الشتيتي", zone: "حي الرياض", genre: "H" }
-  ]
+  data2 = []
 
 
   // role1 = "V";
@@ -70,7 +68,17 @@ export class ResponsableHomePage implements OnInit {
   numClickMenu: number = 0;
   detail: boolean = false;
 
-  constructor(private menu: MenuController) { }
+  constructor(private route:Router,private storage:Storage,private userService:UserService,private menu: MenuController, private responsableService:ResponsableService, private router:Router ) {
+    this.data.jour= new Date().toLocaleDateString('ar-EG-u-nu-latn',{weekday: 'long'});
+    this.responsableService.getVendeurByReponsableByDay().then((res:any)=>{
+      res.subscribe((r)=>{
+        this.data2 = r
+      })
+    }, err=>{ 
+      console.log(err);
+      
+    })
+   }
 
   ngOnInit() {
   }
@@ -82,11 +90,27 @@ export class ResponsableHomePage implements OnInit {
     this.menu.enable(false, 'responsable-menu')
   }
 
-  showDetail() {
-    this.detail = true;
-  }
-  showVendeur() {
-    this.detail = false;
+  showDetail(vendeur) {
+    console.log("vendeur :",vendeur );
+    //  authenticate vendeur
+    this.storage.set('responsable', true)
+    this.userService.login({...vendeur, responsable:true}).subscribe(async (res:any)=>{
+      console.log('login result 2________ : ', res);
+      // localStorage.setItem('token', res.token);
+      await this.storage.set('token', res.token)
+      await this.storage.set('username', res['name'])
+      await this.userService.name.next(res['name'])
+      if (res.role=="C") {
+        this.route.navigate(["categories"])
+      }else if (res.role=="V") {
+        console.log("this.route.navigate(['vendeur-home'])");
+
+        this.route.navigate(["vendeur-home"])
+      }else if (res.role=="R") {
+        this.route.navigate(["responsable-home"])
+      }
+    
+    }, (err)=>{})
   }
 
 }

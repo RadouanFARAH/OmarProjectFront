@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { VendeurStatisticsService } from 'src/app/services/vendeur-statistics.service';
 
 @Component({
   selector: 'app-vendeur-statistique-vente',
@@ -7,17 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VendeurStatistiqueVentePage implements OnInit {
 
-  dataDay = [
-    { nom: "ليبتون 25 كيس", serial: 20254611000, qte: 1200, note: 500, prix: (15000.60).toFixed(2) },
-    { nom: "شاي لوبان الأخضر ", serial: 20254611569, qte: 500, note: 230, prix: (7900.00).toFixed(2) },
-    { nom: "الاتقان الشاي الأخضر", serial: 20254683520, qte: 180, note: 120, prix: (820.30).toFixed(2) },
-    { nom: "شاي الزعتر الزعيترة", serial: 20254652906, qte: 320, note: 190, prix: (1790.50).toFixed(2) },
-    { nom: "شاي الزعتر الزعيترة", serial: 20254652906, qte: 320, note: 190, prix: (1790.50).toFixed(2) },
-    { nom: "شاي الزعتر الزعيترة", serial: 20254652906, qte: 320, note: 190, prix: (1790.50).toFixed(2) },
-    { nom: "شاي الزعتر الزعيترة", serial: 20254652906, qte: 320, note: 190, prix: (1790.50).toFixed(2) },
-    { nom: "شاي الزعتر الزعيترة", serial: 20254652906, qte: 320, note: 190, prix: (1790.50).toFixed(2) },
-    { nom: "شاي الزعتر الزعيترة", serial: 20254652906, qte: 320, note: 190, prix: (1790.50).toFixed(2) },
-  ]
+  dataDay = []
   sommeDataDay = {
     qtes: 2300,
     nbrFacture: 450,
@@ -45,11 +36,69 @@ export class VendeurStatistiqueVentePage implements OnInit {
     { date: "2021-07", facture: 2320, note: 23572, prix: (20352).toFixed(2) }
   ];
 
-  selectedSegment = "day";
+  selectedSegment = "today";
+  orders: any;
+  prixtotal: number;
+  pointtotal: number;
 
-  constructor() { }
+  constructor(private stats:VendeurStatisticsService) { 
+    let orders = [];
+    let prixtotal=0
+    let pointtotal=0
+    this.stats.getOrdersByDay({today:this.selectedSegment=="today", yesterday:this.selectedSegment=="yesterday"}).subscribe((res:any)=>{
+      console.log(res);
+      this.dataDay = res
+      for (let i = 0 ; i <res.length; i++){
+        console.log(orders,res[i].codecommande);
+        if (!orders.includes(res[i].codecommande)){
+          orders.push(res[i].codecommande)
+          prixtotal +=res[i].prixtotal
+          pointtotal +=res[i].pointtotal
+        }
+      }
+      console.log(orders);
+      this.orders = orders.length
+      console.log(this.orders);
+      this.prixtotal = prixtotal
+      this.pointtotal = pointtotal
+    })
+  }
 
   ngOnInit() {
+  }
+
+  segmentChanged(){
+    console.log("segment changed");
+    let orders = [];
+    let products = [];
+    let productIDs = [];
+    let prixtotal=0
+    let pointtotal=0
+    this.stats.getOrdersByDay({today:this.selectedSegment=="today", yesterday:this.selectedSegment=="yesterday"}).subscribe((res:any)=>{
+      console.log(res);
+      
+      for (let i = 0 ; i <res.length; i++){
+        console.log(orders,res[i].codecommande);
+        if (!productIDs.includes(res[i].idproduct)){
+          productIDs.push(res[i].idproduct)
+          products.push(res[i])
+        }else{
+          let index = productIDs.indexOf(res[i].idproduct)
+          products[index].quantite += res[i].quantite
+        }
+        if (!orders.includes(res[i].codecommande)){
+          orders.push(res[i].codecommande)
+          prixtotal +=res[i].prixtotal
+          pointtotal +=res[i].pointtotal
+        }
+      }
+      this.dataDay = products
+      console.log(orders);
+      this.orders = orders.length
+      console.log(this.orders);
+      this.prixtotal = prixtotal
+      this.pointtotal = pointtotal
+    })
   }
 
 }

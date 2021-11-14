@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { MenuController, ModalController } from '@ionic/angular';
 import { RejectComponent } from 'src/app/modals/reject/reject.component';
 import { ParametresService } from 'src/app/services/parametres.service';
@@ -32,9 +33,13 @@ export class VendeurHomePage implements OnInit {
 
   isShow: boolean = false;
   numClickMenu: number = 0;
+  userID: any;
 
-  constructor(public modalController: ModalController,private menu: MenuController, private paramService:ParametresService) { 
+  constructor(private router:ActivatedRoute,public modalController: ModalController,private menu: MenuController, private paramService:ParametresService) { 
+    console.log("vendeur page");
+        
     this.getDashboard()
+
   }
   async openRejectConsumerModal(id) {
     console.log("modal ...");
@@ -49,6 +54,8 @@ export class VendeurHomePage implements OnInit {
     return await modal.present();
   }
   getDashboard(){
+    console.log("vendeur page ....");
+
     this.paramService.getVendeur_dashboard().subscribe((result:any)=>{
       this.data.jour= new Date().toLocaleDateString('ar-EG-u-nu-latn',{weekday: 'long'})
       this.data.zone= result[0].zone
@@ -78,9 +85,6 @@ export class VendeurHomePage implements OnInit {
       })
     })
     
-    this.paramService.getconsoGlobal().subscribe((result:any)=>{
-      
-    })
   }
   ngOnInit() {
   }

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { ProductsService } from 'src/app/services/products.service';
 
 @Component({
   selector: 'app-vendeur-my-product',
@@ -8,10 +10,20 @@ import { Component, OnInit } from '@angular/core';
 export class VendeurMyProductPage implements OnInit {
 
   selectedToggle: boolean = false;
+  data: any;
 
-  constructor() { }
+  constructor(private productService: ProductsService, private router: ActivatedRoute) {
+
+  }
 
   ngOnInit() {
+  }
+
+  getProductsBySeller() {
+    this.productService.getProductsBySeller().subscribe((res: any) => {
+      console.log(res);
+      this.data = res
+    })
   }
 
 }

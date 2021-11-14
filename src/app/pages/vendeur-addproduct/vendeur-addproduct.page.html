@@ -50,18 +50,19 @@
         <ion-col class="ion-no-padding">
           <div>
             <ion-label class="cssLabel tajawal-Bold">الفئات</ion-label>
-            <ion-input placeholder="إختر الفئة" type="text" class="cssInput tajawal-Medium" formControlName="category">
-            </ion-input>
+            <ion-select placeholder="إختر الفئة" class="cssInput tajawal-Medium" formControlName="category" okText="OK"
+              cancelText="Annuler">
+              <ion-select-option *ngFor="let c of categories" [value]="c.id">{{c.nom}}</ion-select-option>
+            </ion-select>
           </div>
         </ion-col>
-
-        <ion-col class="ion-no-padding">
+        <!--   <ion-col class="ion-no-padding">
           <div>
             <ion-label class="cssLabel tajawal-Bold">المدن</ion-label>
             <ion-input value="الرباط" type="text" class="cssInput tajawal-Medium" formControlName="ville">
             </ion-input>
           </div>
-        </ion-col>
+        </ion-col> -->
       </ion-row>
 
       <ion-row>
@@ -79,16 +80,15 @@
 
       <ion-row>
         <ion-col class="ion-no-padding">
-          <ion-label class="cssLabel tajawal-Bold">صور المنتج</ion-label>
-          <div class="cssImgages">
-            <div class="cssbtnImg">
-              <img src="../../../assets/images/cam2.png" alt="@youb">
-              <p>أضف صورة</p>
+          <label class="fileLabel cssLabel tajawal-Bold">صور المنتج
+            <input type="file" (change)="onChange($event)" accept=".jpg, .jpeg, .png" class="file">
+            <div class="cssImgages">
+              <div class="cssbtnImg">
+                <img src="../../../assets/images/cam2.png" alt="@youb">
+                <p>أضف صورة</p>
+              </div>
             </div>
-            <div class="cssImg"></div>
-            <div class="cssImg"></div>
-            <div class="cssImg"></div>
-          </div>
+          </label>
         </ion-col>
       </ion-row>
 

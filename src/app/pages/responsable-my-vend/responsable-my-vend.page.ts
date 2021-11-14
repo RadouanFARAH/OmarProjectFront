@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { CallNumberService } from 'src/app/services/call-number.service';
+import { ResponsableService } from 'src/app/services/responsable.service';
 
 @Component({
   selector: 'app-responsable-my-vend',
@@ -18,18 +20,33 @@ export class ResponsableMyVendPage implements OnInit {
     email: "---"
   }
 
-  data2 = [
-    { vendeur: "إيمان أوفقير", zone: "حي أكدال" },
-    { vendeur: "عبد الفتاح ارقياق", zone: "حي الفتح" },
-    { vendeur: "مونية المنبهي", zone: "حي عكاري" },
-    { vendeur: "عبد القادر مفتاح", zone: "حي الفتح" },
-  ]
+  data2 = []
+  jour: string;
+  d: any={};
 
-  constructor(private callNumber:CallNumberService) { }
+  constructor(private router:Router,private callNumber:CallNumberService, private responsableService:ResponsableService) { 
+    this.jour= new Date().toLocaleDateString('ar-EG-u-nu-latn',{weekday: 'long'});
+    this.responsableService.getVendeurByReponsableByDay().then((res:any)=>{
+      res.subscribe((r)=>{
+        this.data2 = r
+      })
+  
+    }, err=>{ 
+      console.log(err);
+      
+    })
+
+  }
 
   ngOnInit() {
   }
   call(number){
     this.callNumber.call(number)
+  }
+  vendeurChanged(){
+    console.log(this.d);
+  }
+  addproduct(){
+    this.router.navigate(['/vendeur-addproduct'])
   }
 }

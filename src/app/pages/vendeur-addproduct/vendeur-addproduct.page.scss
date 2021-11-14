@@ -1,48 +1,50 @@
-.cssForm{
+.cssForm {
     width: 96%;
     margin: 0px auto;
     margin-top: 20px;
 }
 
-.cssLabel{
+.cssLabel {
     font-size: 15px;
     color: #444;
 }
 
-.cssInput, .cssTextAera{
+.cssInput,
+.cssTextAera {
     margin: 6px 0px 16px 0px;
     --background: #fff !important;
     border: 1px solid #aaa;
     border-radius: 6px;
     font-size: 15px;
 }
-.cssInput{
+.cssInput {
     height: 50px;
 }
-ion-col{
+ion-col {
     margin-left: 12px;
     margin-right: 12px;
 }
 
 // imgs
-.cssImgages{
+.cssImgages {
     margin-top: 6px;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
 }
-.cssbtnImg{
-    width: 90px; height: 90px;
+.cssbtnImg {
+    width: 90px;
+    height: 90px;
     padding: 10px 5px;
-    background: #F0344C;
+    background: #f0344c;
     border-radius: 10px;
     text-align: center;
     cursor: pointer;
 }
-.cssbtnImg img{
+.cssbtnImg img {
     width: 80%;
     height: auto;
 }
-.cssbtnImg p{
+.cssbtnImg p {
     margin: 0px;
     margin-top: 4px;
     font-size: 14px;
@@ -50,8 +52,9 @@ ion-col{
     color: #fff;
 }
 
-.cssImg{
-    width: 88px; height: 88px;
+.cssImg {
+    width: 88px;
+    height: 88px;
     padding: 10px 5px;
     background: #fff;
     border: 2px #aaa dashed;
@@ -59,61 +62,75 @@ ion-col{
 }
 
 // btn submit
-ion-button{
+ion-button {
     width: 100%;
     height: 60px;
     margin: 3px !important;
-    --background: #F0344C;
+    --background: #f0344c;
     color: #fff !important;
     font-size: 20px;
     border-radius: 10px;
 }
 
-
 @media only screen and (max-width: 362px) {
-    .cssForm{
+    .cssForm {
         margin-top: 14px !important;
     }
-    
-    .cssLabel{
+
+    .cssLabel {
         font-size: 12px !important;
     }
 
-    .cssInput, .cssTextAera{
+    .cssInput,
+    .cssTextAera {
         margin: 0px 0px 6px 0px;
         padding: 10px 0px;
         padding-right: 6px !important;
         border-radius: 4px;
         font-size: 11px;
     }
-    .cssInput{
+    .cssInput {
         height: 44px;
     }
 
-    
     // imgs
-    .cssbtnImg{
-        width: 70px; height: 70px;
+    .cssbtnImg {
+        width: 70px;
+        height: 70px;
         padding: 10px 5px;
         border-radius: 4px;
     }
-    .cssbtnImg img{
+    .cssbtnImg img {
         width: 70%;
         height: auto;
     }
-    .cssbtnImg p{
+    .cssbtnImg p {
         margin: 0px;
         font-size: 10px;
     }
-    .cssImg{
-        width: 68px; height: 68px;
+    .cssImg {
+        width: 68px;
+        height: 68px;
         border-radius: 4px;
     }
 
     // btn submit
-    ion-button{
+    ion-button {
         height: 50px;
         font-size: 17px;
         --border-radius: 4px !important;
     }
+}
+
+.file {
+    opacity: 0;
+    width: 0.1px;
+    height: 0.1px;
+    position: absolute;
+}
+
+.fileLabel {
+    display: block;
+    position: relative;
+    text-align: center;
 }

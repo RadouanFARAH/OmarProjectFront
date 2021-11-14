@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ParametresService } from 'src/app/services/parametres.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-vendeur-addproduct',
@@ -13,25 +14,56 @@ export class VendeurAddproductPage implements OnInit {
   dataForm: FormGroup;
   showErrorAlerte: boolean = false;
   showSuccessAlerte: boolean = false;
+  categories: any;
+  image: any;
 
-  constructor(public alertIonic: AlertController, private fb: FormBuilder, private paramService: ParametresService) { }
+  constructor(private router:ActivatedRoute,public alertIonic: AlertController, private fb: FormBuilder, private paramService: ParametresService) {
+    this.paramService.getAllCategories().subscribe((res: any) => {
+      this.categories = res
+    })
+  }
 
   ngOnInit() {
+
     this.dataForm = this.fb.group({
       nom: [""],
       prixInitial: [""],
       prixFinal: [""],
       category: [""],
       ville: [""],
-      description: [""],
+      description: [""]
     })
   }
 
   setProduct() {
-    let data = this.dataForm.value;
+    console.log(this.image);
+    let code = "P"+Date.now();
+    // this.image.name = code+ this.image.name.split('.')[1];
+    const formData = new FormData(); 
+    formData.append('image', this.image, code + '.'+this.image.name.split('.')[1]);
+    let data = {
+      ...this.dataForm.value,
+      code
+    }
     this.paramService.setProduct(data).subscribe((res: any) => {
-      this.showSuccessAlerte = true;
+      // this.showSuccessAlerte = true;
+      this.paramService.setProductImage(formData).subscribe((res: any) => {
+        this.showSuccessAlerte = true;
+        this.dataForm.reset();
+        this.image = null;
+        setTimeout(() => {
+          this.showSuccessAlerte = false;
+        }, 3000);
+      })
     })
+  }
+  ionViewWillEnter(){
+    this.showErrorAlerte = false
+    this.showSuccessAlerte = false
+  }
+
+  onChange(e){
+    this.image = e.target.files[0]
   }
 
 
@@ -58,6 +90,5 @@ export class VendeurAddproductPage implements OnInit {
     const { role } = await alert.onDidDismiss();
     console.log('onDidDismiss resolved with role', role);
   }
-
 
 }
