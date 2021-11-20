@@ -13,7 +13,7 @@ export class VendeurMyProductPage implements OnInit {
   data: any;
 
   constructor(private productService: ProductsService, private router: ActivatedRoute) {
-
+    this.getProductsBySeller()
   }
 
   ngOnInit() {

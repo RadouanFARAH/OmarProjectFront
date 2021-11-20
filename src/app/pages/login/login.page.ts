@@ -56,6 +56,7 @@ export class LoginPage implements OnInit {
       // localStorage.setItem('token', res.token);
       await this.storage.set('token', res.token)
       await this.storage.set('username', res['name'])
+      await this.storage.set('role', res['role'])
       await this.userService.name.next(res['name'])
       
       if (res.role=="C") {

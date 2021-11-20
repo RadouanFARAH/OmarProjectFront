@@ -26,7 +26,7 @@
           </span>
           <ion-label class="almarai-bold cssItemMenu">حصيلة نقاطي</ion-label>
         </ion-item>
-        <ion-item routerLink="login">
+        <ion-item (click)="logout('C')">
           <span class="cssIconMenu">
             <fa-icon icon="sign-out-alt"></fa-icon>
           </span>
@@ -64,7 +64,7 @@
           </span>
           <ion-label class="almarai-bold cssItemMenu">قائمة البائعين</ion-label>
         </ion-item>
-        <ion-item (click)="logout()">
+        <ion-item (click)="logout('R')">
           <span class="cssIconMenu">
             <fa-icon icon="sign-out-alt"></fa-icon>
           </span>
@@ -122,7 +122,7 @@
           </span>
           <ion-label class="almarai-bold cssItemMenu">حصيلة المبيعات</ion-label>
         </ion-item>
-        <ion-item (click)="logout()">
+        <ion-item (click)="logout('V')">
           <span class="cssIconMenu">
             <fa-icon icon="sign-out-alt"></fa-icon>
           </span>
