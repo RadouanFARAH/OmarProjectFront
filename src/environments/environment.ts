@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  url: "http://localhost:2022"
+  url: "https://daki-api.herokuapp.com"
 };
 
 /*
