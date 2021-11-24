@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, ToastController } from '@ionic/angular';
 import { ParametresService } from 'src/app/services/parametres.service';
-import { ToastController } from '@ionic/angular';
+
 @Component({
-  selector: 'app-reject',
-  templateUrl: './reject.component.html',
-  styleUrls: ['./reject.component.scss'],
+  selector: 'app-rejets',
+  templateUrl: './rejets.page.html',
+  styleUrls: ['./rejets.page.scss'],
 })
-export class RejectComponent implements OnInit {
+export class RejetsPage implements OnInit {
   motif;
   constructor(public modalController: ModalController, private paramService: ParametresService, public toastController: ToastController) { }
   idconsommateur;

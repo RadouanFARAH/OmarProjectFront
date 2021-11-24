@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MenuController, ModalController } from '@ionic/angular';
-import { RejectComponent } from 'src/app/modals/reject/reject.component';
+// import { RejectComponent } from 'src/app/modals/reject/reject.component';
+import { RejetsPage } from 'src/app/modals/rejets/rejets.page';
 import { ParametresService } from 'src/app/services/parametres.service';
 
 @Component({
@@ -45,7 +46,7 @@ export class VendeurHomePage implements OnInit {
     console.log("modal ...");
     
     const modal = await this.modalController.create({
-      component: RejectComponent,
+      component: RejetsPage,
       cssClass: 'my-custom-class',
       componentProps: { 
         idconsommateur: id

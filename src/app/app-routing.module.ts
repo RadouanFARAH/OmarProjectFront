@@ -113,6 +113,10 @@ const routes: Routes = [
     path: 'add-user',
     loadChildren: () => import('./pages/add-user/add-user.module').then( m => m.AddUserPageModule)
   },
+  {
+    path: 'rejets',
+    loadChildren: () => import('./modals/rejets/rejets.module').then( m => m.RejetsPageModule)
+  },
 ];
 
 @NgModule({

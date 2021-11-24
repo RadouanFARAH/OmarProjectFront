@@ -21,6 +21,7 @@ import { IonicStorageModule, Storage } from '@ionic/storage-angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { CallNumber } from '@ionic-native/call-number/ngx';
+import { RejetsPipe } from './modals/rejets.pipe';
 
 export function jwtOptionsFactory(storage) {
   return {
@@ -31,7 +32,7 @@ export function jwtOptionsFactory(storage) {
 }
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, RejetsPipe],
   entryComponents: [],
   imports: [BrowserModule, IonicStorageModule.forRoot(), JwtModule.forRoot({
     jwtOptionsProvider: {
