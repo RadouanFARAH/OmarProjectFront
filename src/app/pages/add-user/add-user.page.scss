@@ -1,0 +1,120 @@
+ion-slides {
+    height: 100vh;
+    overflow-y: hidden !important;
+}
+
+ion-grid{
+    height: 100%; width: 100%;
+    padding: 0px 8px;
+    overflow-y: hidden !important;
+}
+
+// logo + title
+.cssLogo{
+    width: 100px; height: auto;
+    display: block;
+    margin: 0px auto;
+    margin-top: 10px;
+}
+.cssTitle{
+    margin: 0px;
+    font-size: 16px;
+    text-align: center;
+    color: #fff;
+    font-weight: 600;
+    position: relative;
+    top: -10px;
+}
+
+// label + inputs
+.cssForm{
+    width: 300px;
+    margin: 30px auto;
+    margin-top: 20px;
+}
+
+.cssGender{
+ width: 80px;
+ border-radius: 10px;
+ margin-bottom: 8px;
+ position: relative;
+ left: -30px;
+ cursor: pointer;
+}
+.cssGender img{
+    width: 100%; height: auto;
+}
+
+ion-col{
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+}
+
+.cssToRight{
+    text-align: start;
+}
+.cssLabel{
+    font-size: 16px;
+    color: #c32032;
+    text-align: right !important;
+}
+
+.cssInput{
+    height: 40px; width: 300px;
+    margin: 6px 0px;
+    font-size: 16px !important;
+    --background: #ffc3ca !important;
+    border-radius: 6px;
+}
+
+// btn de connexion
+.cssBtn{
+    height: 40px; width: 300px;
+    font-size: 20px;
+    --background: #c32032 !important;
+    color: #fff !important;
+    border-radius: 6px;
+    border: none;
+    position: relative; left: 3px;
+}
+
+
+
+@media only screen and (max-width: 362px) {
+    //--- slide 2
+    .cssLogo{
+        width: 80px;
+    }
+    .cssTitle{
+        font-size: 12px;
+        position: relative;
+        top: -8px;
+    }
+
+    .cssForm{
+        width: 96%;
+        margin: 20px auto;
+    }
+    .cssGender{
+        width: 70px; height: 70px;
+    }
+
+    .cssLabel{
+        font-size: 14px;
+    }
+    .cssInput{
+        height: 40px; width: 100%;
+        margin: 5px 0px;
+        padding-right: 10px !important;
+        font-size: 14px !important;
+        border-radius: 4px;
+    }
+
+    .cssBtn{
+        height: 40px; width: 100%;
+        font-size: 18px;
+        --border-radius: 4px !important;
+        margin-top: 25px;
+    }
+
+}

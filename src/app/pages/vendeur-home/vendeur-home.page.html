@@ -28,9 +28,7 @@
 
 <ion-content class="bgInterface2">
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content
-      refreshingSpinner="bubbles"
-      refreshingText="rechargement...">
+    <ion-refresher-content refreshingSpinner="bubbles" refreshingText="rechargement...">
     </ion-refresher-content>
   </ion-refresher>
   <ion-grid class="ion-no-padding">
@@ -57,7 +55,7 @@
 
     <!-- row 1 , card 1 & cared 2 : vendeur -->
     <ion-row>
-      <ion-col class="ion-no-padding">
+      <!-- <ion-col class="ion-no-padding">
         <div class="cssSmallCard1">
           <div>
             <span class="cssLibel almarai-ExtraBold">المسؤول :</span>
@@ -68,7 +66,7 @@
             <span class="cssValue almarai-Regular">{{data.vendeur}}</span>
           </div>
         </div>
-      </ion-col>
+      </ion-col> -->
 
       <ion-col class="ion-no-padding">
         <div class="cssSmallCard2">
@@ -167,7 +165,8 @@
 
     <!-- row 3 , cards 4-->
     <ion-row *ngFor="let d of data.demande">
-      <ion-col class="ion-no-padding" [skipLocationChange]="d.etatDemande === 'V'|| d.etatDemande === 'R'?false:true" [routerLink]="d.etatDemande === 'V'|| d.etatDemande === 'R'?['/vendeur-demande-conso', d]:['/vendeur-home']">
+      <ion-col class="ion-no-padding" [skipLocationChange]="d.etatDemande === 'V'|| d.etatDemande === 'R'?false:true"
+        [routerLink]="d.etatDemande === 'V'|| d.etatDemande === 'R'?['/vendeur-demande-conso', d]:['/vendeur-home']">
         <div class="cssSmallCard6">
           <div class="cssName">
             <span class="cssBgIcon1" *ngIf="d.etatDemande === 'R'">

@@ -23,7 +23,7 @@
   <ion-grid class="cssContainer">
 
     <!-- time down -->
-    <ion-row>
+    <!-- <ion-row>
       <ion-col size="12">
         <div class="cssClock">
           <div>
@@ -37,6 +37,30 @@
           <div>
             <div class="cssValue">03</div>
             <div class="cssLibel">ساعات</div>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row> -->
+
+    <ion-row style="margin-bottom: 4px !important;">
+      <ion-col size="12" [routerLink]="['/products', {id:2}]">
+        <div class="cssOffre">
+          <div class="cssContentOffre">
+            <div class="cssTitle tajawal-Bold">عروض اليوم</div>
+            <div class="cssClock">
+              <div>
+                <div class="cssValue">17</div>
+                <div class="cssLibel">ثواني</div>
+              </div>
+              <div>
+                <div class="cssValue">46</div>
+                <div class="cssLibel">دقائق</div>
+              </div>
+              <div>
+                <div class="cssValue">03</div>
+                <div class="cssLibel">ساعات</div>
+              </div>
+            </div>
           </div>
         </div>
       </ion-col>

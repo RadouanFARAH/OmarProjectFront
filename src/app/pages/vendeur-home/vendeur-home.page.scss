@@ -42,8 +42,19 @@ ion-item {
 
 .cssSmallCard2{
     background: #22B8B8;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
 }
-
+.cssSmallCard2 .cssLibel{
+    font-size: 15px;
+    font-weight: 500;
+}
+.cssSmallCard2 .cssValue{
+    margin-right: 10px;
+    font-size: 17px;
+    font-weight: 600;
+}
 // ------------------- row 2
 .cssCard3{
     margin: 0px 10px;
@@ -181,7 +192,6 @@ ion-item {
     text-align: left;
 }
 ion-button{
-    // width: 40%;
     margin: 3px !important;
     --color: #ffffff;
     font-size: 13px;
@@ -271,6 +281,14 @@ ion-button{
         font-size: 13px;
     }
 
+
+    .cssSmallCard2 .cssLibel{
+        font-size: 13px;
+    }
+    .cssSmallCard2 .cssValue{
+        margin-right: 8px;
+        font-size: 14px;
+    }
 // ------------------- row 1 : Vendeur
     .cssResponsable{
         margin: 10px;
@@ -392,7 +410,6 @@ ion-button{
         text-align: left;
     }
     ion-button{
-        // width: 40%;
         padding: 0px 2px;
         font-size: 11px;
         --border-radius: 4px !important;

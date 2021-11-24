@@ -79,28 +79,50 @@
     cursor: pointer;
 }
 
-.cssCard .cssImg{
+.cssOffre{
     width: 100%;
-    height: 140px;
+    height: 100px;
     display: block;
-    margin: 6px auto;
+    margin: 0px auto;
+    background-image: url('./../../../assets/images/category/offre.png');
     background-position: center; 
     background-repeat: no-repeat; 
-    background-size: contain; 
+    background-size: cover;
+    border-radius: 6px; 
 }
-
-.cssCard .cssHeaderCard{
-    // height: 20%; width: 100%;
-    padding: 6px 0px;
-    background-color: #F55C47 !important;
+.cssContentOffre{
+    width: 60%;
+    position: fixed;
+    left: 0px;
+}
+.cssContentOffre .cssTitle{
+    margin-top: 5px;
+    font-size: 20px;
     text-align: center;
+    color: #e12c13;
 }
-.cssCard .cssTitleCrd{
-    margin-top: 4px;
-    font-size: 18px !important;
-    color: #fff !important;
-    height: 36px;
-}
+// .cssCard .cssImg{
+//     width: 100%;
+//     height: 140px;
+//     display: block;
+//     margin: 6px auto;
+//     background-position: center; 
+//     background-repeat: no-repeat; 
+//     background-size: contain; 
+// }
+
+// .cssCard .cssHeaderCard{
+//     // height: 20%; width: 100%;
+//     padding: 6px 0px;
+//     background-color: #F55C47 !important;
+//     text-align: center;
+// }
+// .cssCard .cssTitleCrd{
+//     margin-top: 4px;
+//     font-size: 18px !important;
+//     color: #fff !important;
+//     height: 36px;
+// }
 
 // menu
 .cssMenu .cssIconMenu{

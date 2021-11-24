@@ -109,6 +109,10 @@ const routes: Routes = [
     path: 'vendeur-my-product',
     loadChildren: () => import('./pages/vendeur-my-product/vendeur-my-product.module').then( m => m.VendeurMyProductPageModule)
   },
+  {
+    path: 'add-user',
+    loadChildren: () => import('./pages/add-user/add-user.module').then( m => m.AddUserPageModule)
+  },
 ];
 
 @NgModule({
