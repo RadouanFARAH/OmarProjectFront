@@ -5,8 +5,10 @@
 }
 
 .cssLabel {
+    width: 19%;
     font-size: 15px;
     color: #444;
+    min-width: 100px;
 }
 
 .cssInput,
@@ -34,15 +36,15 @@ ion-col {
 .cssbtnImg {
     width: 90px;
     height: 90px;
-    padding: 10px 5px;
     background: #f0344c;
     border-radius: 10px;
     text-align: center;
     cursor: pointer;
 }
 .cssbtnImg img {
-    width: 80%;
-    height: auto;
+    width: 100%;
+    height: 100%;
+    border: 1px solid #f0344c;
 }
 .cssbtnImg p {
     margin: 0px;
@@ -131,6 +133,10 @@ ion-button {
 
 .fileLabel {
     display: block;
+    position: relative;
+    text-align: center;
+}
+.fileLabelB{
     position: relative;
     text-align: center;
 }

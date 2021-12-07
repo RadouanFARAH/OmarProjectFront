@@ -2,7 +2,7 @@
   <ion-toolbar class="cssHeader bgheader">
 
     <ion-title class="tajawal-Bold cssTitleHead">
-      <span class="cssBtnHeaderLeft" routerLink="/vendeur-home">
+      <span class="cssBtnHeaderLeft" [routerLink]="role==='V'?'/vendeur-home':'/responsable-home'">
         <fa-icon icon="arrow-left"></fa-icon>
       </span>
       منتوجاتي
@@ -19,7 +19,7 @@
         <ion-col class="ion-no-padding">
           <div class="cssProduct">
             <div class="cssImg">
-              <img [src]="'http://localhost:2022/images/image_'+d.code+'.png'" alt="@youb">
+              <img [src]="url+'/images/image_'+d.code+'.png'" alt="image">
               <!-- <img src="./../../../assets/images/product/prod2.jpg" alt="@youb"> -->
             </div>
             <div class="cssInfos">
@@ -35,9 +35,10 @@
                   <span>{{d.point}}</span> نقطة
                 </div>
 
-                <!-- <div class="btnToggle">
-                  <ion-toggle [(ngModel)]="selectedToggle"></ion-toggle>
-                </div> -->
+                <div class="btnToggle">
+                  <p style="font-size: 0.8rem;">{{d.appear==1? 'ظاهر للعملاء' : 'غير ظاهر للعملاء'}}</p>
+                  <ion-toggle [checked]="d.toggel" (ionChange)="toggelappear(d)"></ion-toggle>
+                </div>
               </div>
 
             </div>

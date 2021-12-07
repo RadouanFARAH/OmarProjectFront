@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MenuController, ModalController } from '@ionic/angular';
 // import { RejectComponent } from 'src/app/modals/reject/reject.component';
 import { RejetsPage } from 'src/app/modals/rejets/rejets.page';
@@ -36,8 +36,7 @@ export class VendeurHomePage implements OnInit {
   numClickMenu: number = 0;
   userID: any;
 
-  constructor(private router:ActivatedRoute,public modalController: ModalController,private menu: MenuController, private paramService:ParametresService) { 
-    console.log("vendeur page");
+  constructor(private router:ActivatedRoute,private route:Router,public modalController: ModalController,private menu: MenuController, private paramService:ParametresService) { 
         
     this.getDashboard()
 
@@ -55,7 +54,6 @@ export class VendeurHomePage implements OnInit {
     return await modal.present();
   }
   getDashboard(){
-    console.log("vendeur page ....");
 
     this.paramService.getVendeur_dashboard().subscribe((result:any)=>{
       this.data.jour= new Date().toLocaleDateString('ar-EG-u-nu-latn',{weekday: 'long'})
@@ -88,6 +86,10 @@ export class VendeurHomePage implements OnInit {
     
   }
   ngOnInit() {
+    console.log("vendeur page ....");
+    this.getDashboard()
+
+
   }
 
   doRefresh(event) {
@@ -100,7 +102,13 @@ export class VendeurHomePage implements OnInit {
     }, 2000);
   }
 
+  passOrder(){
+    this.route.navigate(["categories"])
+  }
+
+
   ionViewWillEnter() {
+
     this.menu.enable(true, 'vendeur-menu')
   }
   ionViewWillLeave() {

@@ -16,13 +16,13 @@
         <ion-card-content>
           <div class="cssTiers">
 
-            <div class="cssBtn cssBtn1"  [routerLink]="['/logregister', {role:'V', ville: d.name}]">
+            <div class="cssBtn cssBtn1"  [routerLink]="['/logregister', {role:'V', ville: d.name, responsable:'N'}]">
               <img src="../../../assets/images/register/vendeur1.png" alt="@ayoub">
               <h5 class="almarai-Regular">{{d.vendeur}} بائع</h5>
               <h3 class="almarai-bold">إنضم إلى البائعين</h3>
             </div>
 
-            <div class="cssBtn" [routerLink]="['/logregister', {role:'C', ville: d.name}]">
+            <div class="cssBtn" [routerLink]="['/logregister', {role:'C', ville: d.name, responsable:'N'}]">
               <img src="../../../assets/images/register/clients1.png" alt="@ayoub">
               <h5 class="almarai-Regular">{{d.consomateur}} عميل</h5>
               <h3 class="almarai-bold">إنضم إلى العملاء</h3>

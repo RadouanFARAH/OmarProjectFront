@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
+import { VilleQuartierService } from 'src/app/services/ville-quartier.service';
 
 @Component({
   selector: 'app-logregister',
@@ -27,58 +28,66 @@ export class LogregisterPage implements OnInit {
   role: any = "";
   manChecked: boolean = false;
   womanChecked: boolean = false;
+  quartiers: any;
+  responsable: any;
 
-  constructor(private fb: FormBuilder, private userService: UserService, private activeRoute: ActivatedRoute) {
+  constructor(private locationService:VilleQuartierService ,private fb: FormBuilder, private userService: UserService, private activeRoute: ActivatedRoute) {
     this.activeRoute.params.subscribe((params) => {
       console.log(params);
 
       this.ville = params.ville;
-      this.role = params.role;
-    })
-  }
+      this.responsable = params.responsable;
+      let data = {
+        ville: params.ville
+      }
+      this.locationService.getQuartierByVille(data).subscribe((res: any) => { this.quartiers = res }, err => console.log(err))
 
-  ngOnInit() {
-    this.data1 = this.fb.group({
-      nomprenom: [""],
-      ville: [this.ville],
-      adresselogement: [""],
-      adresseentreprise: [""]
-    })
+    this.role = params.role;
+  })
+}
 
-    this.data2 = this.fb.group({
-      tel: [""],
-      whatsapp: [""],
-      email: [""],
-      password: [""]
-    })
-  }
+ngOnInit() {
+  this.data1 = this.fb.group({
+    nomprenom: [""],
+    ville: [this.ville],
+    adresselogement: [""],
+    adresseentreprise: [""]
+  })
 
-  nextSlide(slide, index) {
-    slide.slideTo(index)
-  }
+  this.data2 = this.fb.group({
+    tel: [""],
+    whatsapp: [""],
+    email: [""],
+    password: [""]
+  })
+}
 
-  checkMan() {
-    this.manChecked = true;
-    this.womanChecked = false;
-    this.genre = 'H';
-    console.log(this.genre);
+nextSlide(slide, index) {
+  slide.slideTo(index)
+}
 
-  }
-  checkWoman() {
-    this.womanChecked = true;
-    this.manChecked = false;
-    this.genre = 'F';
-    console.log(this.genre);
-  }
+checkMan() {
+  this.manChecked = true;
+  this.womanChecked = false;
+  this.genre = 'H';
+  console.log(this.genre);
 
-  register() {
-    let data = { ...this.data1.value, ...this.data2.value, genre: this.genre, role: this.role }
-    console.log(data);
+}
+checkWoman() {
+  this.womanChecked = true;
+  this.manChecked = false;
+  this.genre = 'F';
+  console.log(this.genre);
+}
 
-    this.userService.register(data).subscribe((res) => {
-      this.showSuccessAlerte = true;
-      console.log("register successed");
-    })
-  }
+register() {
+  let data = { ...this.data1.value, ...this.data2.value, genre: this.genre, role: this.role }
+  console.log(data);
+
+  this.userService.register(data).subscribe((res) => {
+    this.showSuccessAlerte = true;
+    console.log("register successed");
+  })
+}
 
 }

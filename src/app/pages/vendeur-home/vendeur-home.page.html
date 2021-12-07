@@ -165,8 +165,10 @@
 
     <!-- row 3 , cards 4-->
     <ion-row *ngFor="let d of data.demande">
-      <ion-col class="ion-no-padding" [skipLocationChange]="d.etatDemande === 'V'|| d.etatDemande === 'R'?false:true"
-        [routerLink]="d.etatDemande === 'V'|| d.etatDemande === 'R'?['/vendeur-demande-conso', d]:['/vendeur-home']">
+      <!-- <ion-col class="ion-no-padding" [skipLocationChange]="d.etatDemande === 'V'|| d.etatDemande === 'R'?false:true"
+        [routerLink]="d.etatDemande === 'V'|| d.etatDemande === 'R'?['/vendeur-demande-conso', d]:['/vendeur-home']"> -->
+        <ion-col class="ion-no-padding" 
+        [routerLink]="['/vendeur-demande-conso', d]">
         <div class="cssSmallCard6">
           <div class="cssName">
             <span class="cssBgIcon1" *ngIf="d.etatDemande === 'R'">
@@ -175,7 +177,7 @@
             <span class="cssBgIcon2" *ngIf="d.etatDemande === 'A'">
               <fa-icon icon="hourglass-half"></fa-icon>
             </span>
-            <span class="cssBgIcon3" *ngIf="d.etatDemande === 'V'|| d.etatDemande === 'R'">
+            <span class="cssBgIcon3" *ngIf="d.etatDemande === 'V'">
               <fa-icon icon="check"></fa-icon>
             </span>
             <span class="almarai-Bold cssNameValue">{{d.nomprenom}}</span>
@@ -191,10 +193,10 @@
           <div class="cssMsg">
             <span *ngIf="d.etatDemande === 'R'" class="almarai-bold cssRefuse">أكد رفض الطلبية</span>
           </div>
-          <div class="cssBtn" *ngIf="d.etatDemande === 'A'">
-            <!-- <ion-button class="tajawal-Boldd" routerLink="/categories">تمرير الطلبية</ion-button> -->
+          <!-- <div class="cssBtn" *ngIf="d.etatDemande === 'A'">
+            <ion-button class="tajawal-Boldd" (click)="passOrder()">تمرير الطلبية</ion-button>
             <ion-button (click)="openRejectConsumerModal(d.id)" class="tajawal-Boldd">رفض الطلبية</ion-button>
-          </div>
+          </div> -->
         </div>
       </ion-col>
     </ion-row>

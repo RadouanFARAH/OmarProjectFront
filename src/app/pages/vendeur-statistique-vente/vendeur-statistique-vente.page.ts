@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Storage } from '@ionic/storage';
 import { VendeurStatisticsService } from 'src/app/services/vendeur-statistics.service';
 
 @Component({
@@ -9,95 +10,99 @@ import { VendeurStatisticsService } from 'src/app/services/vendeur-statistics.se
 export class VendeurStatistiqueVentePage implements OnInit {
 
   dataDay = []
-  sommeDataDay = {
-    qtes: 2300,
-    nbrFacture: 450,
-    notes: 1040,
-    prixs: (25511.40).toFixed(2)
-  }
-
-  dataDays = [
-    { date: "2021-08-19", qte: 1850, note: 410, prix: (11100.60).toFixed(2) },
-    { date: "2021-08-20", qte: 1470, note: 380, prix: (10220.60).toFixed(2) },
-    { date: "2021-08-21", qte: 3453, note: 930, prix: (24105.60).toFixed(2) },
-    { date: "2021-08-22", qte: 2320, note: 720, prix: (18500.60).toFixed(2) }
-  ];
-  sommeDataMount = {
-    qtes: 9093,
-    nbrFacture: 480,
-    notes: 2440,
-    prixs: (63927.4).toFixed(2)
-  }
-
-  dataMounts = [
-    { date: "2021-04", facture: 1850, note: 122680, prix: (14430).toFixed(2) },
-    { date: "2021-05", facture: 1470, note: 56290, prix: (23340).toFixed(2) },
-    { date: "2021-06", facture: 3453, note: 43550, prix: (18903).toFixed(2) },
-    { date: "2021-07", facture: 2320, note: 23572, prix: (20352).toFixed(2) }
-  ];
-
   selectedSegment = "today";
   orders: any;
   prixtotal: number;
   pointtotal: number;
-
-  constructor(private stats:VendeurStatisticsService) { 
-    let orders = [];
-    let prixtotal=0
-    let pointtotal=0
-    this.stats.getOrdersByDay({today:this.selectedSegment=="today", yesterday:this.selectedSegment=="yesterday"}).subscribe((res:any)=>{
-      console.log(res);
-      this.dataDay = res
-      for (let i = 0 ; i <res.length; i++){
-        console.log(orders,res[i].codecommande);
-        if (!orders.includes(res[i].codecommande)){
-          orders.push(res[i].codecommande)
-          prixtotal +=res[i].prixtotal
-          pointtotal +=res[i].pointtotal
-        }
+  role: string
+  dataDays: any[];
+  constructor(private stats: VendeurStatisticsService, private storage: Storage) {
+    this.storage.get('role').then((role) => {
+      if (role) {
+        this.role = role
       }
-      console.log(orders);
-      this.orders = orders.length
-      console.log(this.orders);
-      this.prixtotal = prixtotal
-      this.pointtotal = pointtotal
     })
+
   }
 
   ngOnInit() {
   }
-
-  segmentChanged(){
-    console.log("segment changed");
+  ionViewDidEnter() {
+    this.segmentChanged()
+  }
+  segmentChanged() {
     let orders = [];
     let products = [];
     let productIDs = [];
-    let prixtotal=0
-    let pointtotal=0
-    this.stats.getOrdersByDay({today:this.selectedSegment=="today", yesterday:this.selectedSegment=="yesterday"}).subscribe((res:any)=>{
-      console.log(res);
+    let prixtotal = 0
+    let pointtotal = 0
+    this.stats.getOrdersByDay({ today: this.selectedSegment == "today", yesterday: this.selectedSegment == "yesterday" }).subscribe((res: any) => {
+      console.log(res.result);
+      console.log(prixtotal);
+      console.log(pointtotal);
       
-      for (let i = 0 ; i <res.length; i++){
-        console.log(orders,res[i].codecommande);
-        if (!productIDs.includes(res[i].idproduct)){
-          productIDs.push(res[i].idproduct)
-          products.push(res[i])
-        }else{
-          let index = productIDs.indexOf(res[i].idproduct)
-          products[index].quantite += res[i].quantite
+      for (let i = 0; i < res.result.length; i++) {
+        if (!orders.includes(res.result[i].codecommande)) {
+          orders.push(res.result[i].codecommande)
         }
-        if (!orders.includes(res[i].codecommande)){
-          orders.push(res[i].codecommande)
-          prixtotal +=res[i].prixtotal
-          pointtotal +=res[i].pointtotal
+        if (this.selectedSegment == "today") {
+
+          if (!productIDs.includes(res.result[i].idproduct)) {
+            productIDs.push(res.result[i].idproduct)
+            products.push(res.result[i])
+          } else {
+            let index = productIDs.indexOf(res.result[i].idproduct)
+            products[index].quantite += res.result[i].quantite
+          }
+        }else if (this.selectedSegment == "yesterday") {
+
+          if (!productIDs.includes(res.result[i].datecommande)) {
+            productIDs.push(res.result[i].datecommande)
+            res.result[i].point = res.result[i].point * res.result[i].quantite
+            res.result[i].prixfinal = parseFloat((res.result[i].quantite * parseFloat(res.result[i].prixfinal)).toFixed(2))
+            products.push(res.result[i])  
+          } else {
+            let index = productIDs.indexOf(res.result[i].datecommande)
+            products[index].point += res.result[i].point * res.result[i].quantite
+            products[index].prixfinal += parseFloat((res.result[i].quantite * parseFloat(res.result[i].prixfinal)).toFixed(2))
+          }
+        }else{
+
+          if (!productIDs.includes(new Date(res.result[i].datecommande).toLocaleDateString('ar-EG-u-nu-latn',{month: 'long'}))) {
+
+            productIDs.push(new Date(res.result[i].datecommande).toLocaleDateString('ar-EG-u-nu-latn',{month: 'long'}))
+            res.result[i].point = res.result[i].point * res.result[i].quantite
+            res.result[i].prixfinal = parseFloat((res.result[i].quantite * parseFloat(res.result[i].prixfinal)).toFixed(2))
+            
+            products.push(res.result[i])
+
+          } else {
+
+            let index = productIDs.indexOf(new Date(res.result[i].datecommande).toLocaleDateString('ar-EG-u-nu-latn',{month: 'long'}))
+            products[index].point += res.result[i].point * res.result[i].quantite
+            products[index].prixfinal = parseFloat((products[index].prixfinal+(res.result[i].quantite * parseFloat(res.result[i].prixfinal))).toFixed(2))
+            
+          
+          }
         }
       }
+      
+      
+      for (let i = 0; i < products.length; i++) {
+        if (this.selectedSegment == "today") {
+          prixtotal += products[i].quantite * parseFloat(products[i].prixfinal)
+          pointtotal += products[i].quantite * products[i].point
+        }else{
+          prixtotal += products[i].prixfinal
+          pointtotal += products[i].point
+        }
+      }
+
       this.dataDay = products
-      console.log(orders);
-      this.orders = orders.length
-      console.log(this.orders);
-      this.prixtotal = prixtotal
-      this.pointtotal = pointtotal
+      this.dataDays = productIDs
+      this.orders = orders.length      
+      this.prixtotal = parseFloat(prixtotal.toFixed(2))
+      this.pointtotal = parseFloat(pointtotal.toFixed(2))
     })
   }
 

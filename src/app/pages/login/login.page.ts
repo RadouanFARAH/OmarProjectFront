@@ -2,7 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MenuController } from "@ionic/angular";
+import { MenuController, ToastController } from "@ionic/angular";
 import { UserService } from 'src/app/services/user.service';
 import { Storage } from '@ionic/storage-angular';
 
@@ -20,8 +20,9 @@ export class LoginPage implements OnInit {
   showErrorAlerte: boolean = false;
   password: any = "";
   identifant: any = "";
+  spinner: boolean;
 
-  constructor(private route: Router, private storage: Storage, private menu: MenuController, private userService: UserService, private fb: FormBuilder,) { }
+  constructor(private toast:ToastController,private route: Router, private storage: Storage, private menu: MenuController, private userService: UserService, private fb: FormBuilder,) { }
 
   ngOnInit() {
     this.dataForm = this.fb.group({
@@ -50,8 +51,10 @@ export class LoginPage implements OnInit {
   }
 
   login() {
+    this.spinner = true
     let data = this.dataForm.value;
     this.userService.login(data).subscribe(async (res: any) => {
+      this.spinner = false
       console.log('token________ : ', res.token);
       // localStorage.setItem('token', res.token);
       await this.storage.set('token', res.token)
@@ -68,6 +71,15 @@ export class LoginPage implements OnInit {
         this.route.navigate(["responsable-home"])
       }
       console.log("login successed");
+    }, async (err)=>{
+      this.spinner = false
+      const toast = await this.toast.create({
+        message: 'حدث خطأ المرجو إعادة المحاولة',
+        duration: 2000,
+        position: 'top',
+        cssClass:"failedtoastclass"
+      });
+      toast.present();
     })
   }
 

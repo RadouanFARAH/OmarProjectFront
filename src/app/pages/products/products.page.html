@@ -5,7 +5,7 @@
       <span class="cssBtnHeaderLeft" routerLink="/categories">
         <fa-icon icon="arrow-left"></fa-icon>
       </span>
-      <span class="cssBtnHeader" [routerLink]="['/my-cart', {id}]">
+      <span class="cssBtnHeader" [routerLink]="['/my-cart', {id:id, idconsumer:idconsumer}]">
         <fa-icon icon="shopping-basket"></fa-icon>
         <ion-badge *ngIf="commandeNum > 0">{{commandeNum}}</ion-badge>
       </span>

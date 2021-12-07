@@ -27,6 +27,7 @@ export class MyCartPage implements OnInit {
   id: any;
   totalPoints: number = 0;
   totalPrice: number = 0;
+  idconsumer: any;
 
   constructor(private ref: ChangeDetectorRef, public alertIonic: AlertController, private orderService: MyOrdersService, private activeRouter: ActivatedRoute) {
     console.log("hiiiiiiiiiii");
@@ -34,6 +35,8 @@ export class MyCartPage implements OnInit {
 
     this.activeRouter.params.subscribe((params) => {
       this.id = params.id
+      this.idconsumer = params.idconsumer
+
     })
   }
 

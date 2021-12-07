@@ -2,7 +2,7 @@
   <ion-toolbar class="cssHeader bgheader">
 
     <ion-title class="tajawal-Bold cssTitleHead">
-      <span class="cssBtnHeaderLeft" routerLink="/vendeur-home">
+      <span class="cssBtnHeaderLeft" [routerLink]="role==='V'?'/vendeur-home':'/responsable-home'">
         <fa-icon icon="arrow-left"></fa-icon>
       </span>
       حصيلة المبيعات
@@ -34,7 +34,7 @@
         <ion-row>
           <ion-col class="ion-no-padding">
             <div class="cssContainer cssSectionTtile tajawal-Bold">
-              مبيعات اليوم
+              أرباح اليوم
             </div>
           </ion-col>
         </ion-row>
@@ -44,7 +44,7 @@
             <div class="cssContainer cssVenteDay">
               <div class="cssinfos">
                 <div class="cssName tajawal-Boldd">{{d.nom}}</div>
-                <div class="cssSerial">{{d.codecommande}}</div>
+                <!-- <div class="cssSerial">{{d.codecommande}}</div> -->
               </div>
               <div class="cssCount">
                 <div class="cssValue"><span>{{d.quantite}}</span><span class="tajawal-Medium">وحدة</span></div>
@@ -58,7 +58,7 @@
         <ion-row>
           <ion-col class="ion-no-padding">
             <div class="cssContainer cssTotalDay" style="margin-bottom: 12px;">
-              <div class="cssTitleCard tajawal-Boldd">مجموع اليوم</div>
+              <div class="cssTitleCard tajawal-Boldd"> المجموع</div>
 
               <div class="cssCard">
                 <div class="cssCol">
@@ -138,7 +138,7 @@
         <ion-row>
           <ion-col class="ion-no-padding">
             <div class="cssContainer cssSectionTtile tajawal-Bold">
-              مبيعات البارحة
+              أرباح الايام السابقة
             </div>
           </ion-col>
         </ion-row>
@@ -147,13 +147,13 @@
           <ion-col class="ion-no-padding">
             <div class="cssContainer cssVenteDay">
               <div class="cssinfos">
-                <div class="cssName tajawal-Boldd">{{d.nom}}</div>
-                <div class="cssSerial">{{d.codecommande}}</div>
+                <div class="cssName tajawal-Boldd">{{d.datecommande.split('T')[0]}}</div>
+                <!-- <div class="cssSerial">{{d.codecommande}}</div> -->
               </div>
               <div class="cssCount">
-                <div class="cssValue"><span>{{d.quantite}}</span><span class="tajawal-Medium">وحدة</span></div>
-                <div class="cssValue"><span>{{d.point * d.quantite}}</span><span class="tajawal-Medium">نقطة</span></div>
-                <div class="cssValue"><span>{{(d.prixfinal * d.quantite).toFixed(2)}}</span><span class="tajawal-Medium">درهم</span></div>
+                <!-- <div class="cssValue"><span>{{d.quantite}}</span><span class="tajawal-Medium">وحدة</span></div> -->
+                <div class="cssValue"><span>{{d.point}}</span><span class="tajawal-Medium">نقطة</span></div>
+                <div class="cssValue"><span>{{d.prixfinal}}</span><span class="tajawal-Medium">درهم</span></div>
               </div>
             </div>
           </ion-col>
@@ -162,7 +162,7 @@
         <ion-row>
           <ion-col class="ion-no-padding">
             <div class="cssContainer cssTotalDay" style="margin-bottom: 12px;">
-              <div class="cssTitleCard tajawal-Boldd"> مجموع البارحة </div>
+              <div class="cssTitleCard tajawal-Boldd"> المجموع    </div>
 
               <div class="cssCard">
                 <div class="cssCol">
@@ -242,22 +242,22 @@
         <ion-row>
           <ion-col class="ion-no-padding">
             <div class="cssContainer cssSectionTtile tajawal-Bold">
-              المبيعات
+              ارباح  الاشهر السابقة
             </div>
           </ion-col>
         </ion-row>
 
-        <ion-row *ngFor="let d of dataDay" style="margin: 6px 0px;">
+        <ion-row *ngFor="let d of dataDay; let i=index" style="margin: 6px 0px;">
           <ion-col class="ion-no-padding">
             <div class="cssContainer cssVenteDay">
               <div class="cssinfos">
-                <div class="cssName tajawal-Boldd">{{d.nom}}</div>
-                <div class="cssSerial">{{d.codecommande}}</div>
+                <div class="cssName tajawal-Boldd">{{dataDays[i]}}</div>
+                <!-- <div class="cssSerial">{{d.codecommande}}</div> -->
               </div>
               <div class="cssCount">
-                <div class="cssValue"><span>{{d.quantite}}</span><span class="tajawal-Medium">وحدة</span></div>
-                <div class="cssValue"><span>{{d.point * d.quantite}}</span><span class="tajawal-Medium">نقطة</span></div>
-                <div class="cssValue"><span>{{(d.prixfinal * d.quantite).toFixed(2)}}</span><span class="tajawal-Medium">درهم</span></div>
+                <!-- <div class="cssValue"><span>{{d.quantite}}</span><span class="tajawal-Medium">وحدة</span></div> -->
+                <div class="cssValue"><span>{{d.point}}</span><span class="tajawal-Medium">نقطة</span></div>
+                <div class="cssValue"><span>{{d.prixfinal}}</span><span class="tajawal-Medium">درهم</span></div>
               </div>
             </div>
           </ion-col>
@@ -270,10 +270,10 @@
 
               <div class="cssCard">
                 <div class="cssCol">
-                  <div class="cssRow">
+                  <!-- <div class="cssRow">
                     <span class="cssLibel tajawal-Boldd">عدد المنتوجات :</span>
                     <span class="cssValue">{{dataDay.length}}</span>
-                  </div>
+                  </div> -->
 
                   <div class="cssRow">
                     <span class="cssLibel tajawal-Boldd">عدد الفاتورات :</span>

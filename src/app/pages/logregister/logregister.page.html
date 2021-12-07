@@ -59,7 +59,7 @@
             </ion-col>
           </ion-row>
 
-          <ion-row>
+          <ion-row *ngIf="responsable!=='O' && role!=='V' ">
             <ion-col class="ion-no-padding">
               <div class="cssToRight">
                 <ion-label class="cssLabel tajawal-Medium">أدخل الرمز السري</ion-label>
@@ -140,10 +140,10 @@
           <ion-row>
             <ion-col class="ion-no-padding">
               <div class="cssToRight">
-                <ion-label class="cssLabel tajawal-Medium">العنوان 1</ion-label>
-                <ion-input placeholder="عنوان السكن" formControlName="adresselogement" type="text"
-                  class="cssInput tajawal-Medium">
-                </ion-input>
+                <ion-label class="cssLabel tajawal-Medium">الحي</ion-label>
+                <ion-select formControlName="adresselogement" class="cssInput tajawal-Medium">
+                  <ion-select-option *ngFor="let quartier of quartiers" [value]="quartier.id">{{quartier.name}}</ion-select-option>
+                </ion-select>
               </div>
             </ion-col>
           </ion-row>
@@ -151,8 +151,8 @@
           <ion-row>
             <ion-col class="ion-no-padding">
               <div class="cssToRight">
-                <ion-label class="cssLabel tajawal-Medium">العنوان 2</ion-label>
-                <ion-input placeholder="عنوان المحل التجاري" formControlName="adresseentreprise" type="text"
+                <ion-label class="cssLabel tajawal-Medium">العنوان</ion-label>
+                <ion-input placeholder="عنوان المحل" formControlName="adresseentreprise" type="text"
                   class="cssInput tajawal-Medium">
                 </ion-input>
               </div>

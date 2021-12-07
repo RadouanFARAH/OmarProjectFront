@@ -12,6 +12,7 @@ export class ProductsPage implements OnInit {
 
   commandeNum: number = 0;
   id: any;
+  idconsumer: any;
 
   // categories = [
   //   { category: "الخضر", ref: "../../../assets/images/category/cat1.png" },
@@ -37,6 +38,7 @@ export class ProductsPage implements OnInit {
     this.activeRouter.params.subscribe(params => {
       this.commandeNum = this.orderService.getNumberProductInOrder()
       this.id = params.id
+      this.idconsumer = params.idconsumer
       this.getProductByCategory(params.id);
     })
 

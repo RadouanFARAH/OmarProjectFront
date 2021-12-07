@@ -11,33 +11,33 @@ const routes: Routes = [
   {
     path: 'home',
     loadChildren: () => import('./pages/home/home.module').then(m => m.HomePageModule),
-    canActivate: [AuthGardService]
+    // canActivate: [AuthGardService]
   },
   {
     path: 'categories',
     loadChildren: () => import('./pages/categories/categories.module').then(m => m.CategoriesPageModule),
-    canActivate: [AuthGardService]
+    // canActivate: [AuthGardService]
   },
   {
     path: 'products',
     loadChildren: () => import('./pages/products/products.module').then(m => m.ProductsPageModule),
-    canActivate: [AuthGardService]
+    // canActivate: [AuthGardService]
   },
   {
     path: 'product-detail',
     loadChildren: () => import('./pages/product-detail/product-detail.module').then(m => m.ProductDetailPageModule),
-    canActivate: [AuthGardService]
+    // canActivate: [AuthGardService]
   },
   {
     path: 'my-cart',
     loadChildren: () => import('./pages/my-cart/my-cart.module').then(m => m.MyCartPageModule),
-    canActivate: [AuthGardService],
+    // canActivate: [AuthGardService],
     runGuardsAndResolvers: 'always'
   },
   {
     path: 'logaccount',
     loadChildren: () => import('./pages/logaccount/logaccount.module').then(m => m.LogaccountPageModule),
-    // canActivate: [AuthGardService]
+    canActivate: [AuthGardService]
   },
   {
     path: 'login',
@@ -54,52 +54,52 @@ const routes: Routes = [
   {
     path: 'vendeur-home',
     loadChildren: () => import('./pages/vendeur-home/vendeur-home.module').then(m => m.VendeurHomePageModule),
-    canActivate: [AuthGardService]
+    // canActivate: [AuthGardService]
   },
   {
     path: 'vendeur-addproduct',
     loadChildren: () => import('./pages/vendeur-addproduct/vendeur-addproduct.module').then(m => m.VendeurAddproductPageModule),
-    canActivate: [AuthGardService]
+    // canActivate: [AuthGardService]
   },
   {
     path: 'vendeur-demande-conso',
     loadChildren: () => import('./pages/vendeur-demande-conso/vendeur-demande-conso.module').then(m => m.VendeurDemandeConsoPageModule),
-    canActivate: [AuthGardService]
+    // canActivate: [AuthGardService]
   },
   {
     path: 'vendeur-demandedetail',
     loadChildren: () => import('./pages/vendeur-demandedetail/vendeur-demandedetail.module').then(m => m.VendeurDemandedetailPageModule),
-    canActivate: [AuthGardService]
+    // canActivate: [AuthGardService]
   },
   {
     path: 'vendeur-demandehistorique',
     loadChildren: () => import('./pages/vendeur-demandehistorique/vendeur-demandehistorique.module').then(m => m.VendeurDemandehistoriquePageModule),
-    canActivate: [AuthGardService]
+    // canActivate: [AuthGardService]
   },
   {
     path: 'vendeur-my-conso',
     loadChildren: () => import('./pages/vendeur-my-conso/vendeur-my-conso.module').then(m => m.VendeurMyConsoPageModule),
-    canActivate: [AuthGardService]
+    // canActivate: [AuthGardService]
   },
   {
     path: 'vendeur-statistique-vente',
     loadChildren: () => import('./pages/vendeur-statistique-vente/vendeur-statistique-vente.module').then(m => m.VendeurStatistiqueVentePageModule),
-    canActivate: [AuthGardService]
+    // canActivate: [AuthGardService]
   },
   {
     path: 'responsable-my-vend',
     loadChildren: () => import('./pages/responsable-my-vend/responsable-my-vend.module').then(m => m.ResponsableMyVendPageModule),
-    canActivate: [AuthGardService]
+    // canActivate: [AuthGardService]
   },
   {
     path: 'responsable-home',
     loadChildren: () => import('./pages/responsable-home/responsable-home.module').then(m => m.ResponsableHomePageModule),
-    canActivate: [AuthGardService]
+    // canActivate: [AuthGardService]
   },
   {
     path: 'consommateur-points',
     loadChildren: () => import('./pages/consommateur-points/consommateur-points.module').then(m => m.ConsommateurPointsPageModule),
-    canActivate: [AuthGardService]
+    // canActivate: [AuthGardService]
   },
   {
     path: 'consommateur-demandehistorique',

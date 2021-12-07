@@ -11,4 +11,7 @@ export class VendeurStatisticsService {
   getOrdersByDay(data){
     return this.http.post(this.url+"/orders/getOrdersByDay", data)
   }
+  getVendeurByResponsable(){
+    return this.http.post(this.url+"/orders/getVendeurByResponsable",{})
+  }
 }

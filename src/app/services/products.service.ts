@@ -12,4 +12,7 @@ export class ProductsService {
   getProductsBySeller(){
     return this.http.get(this.url+"/product/getProductsBySeller")
   }
+  toggelappear(data){
+    return this.http.post(this.url+"/product/toggelappear",data)
+  }
 }

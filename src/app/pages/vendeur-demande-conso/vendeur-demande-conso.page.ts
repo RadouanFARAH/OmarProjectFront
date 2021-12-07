@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ModalController } from '@ionic/angular';
+import { RejetsPage } from 'src/app/modals/rejets/rejets.page';
 import { CallNumberService } from 'src/app/services/call-number.service';
 @Component({
   selector: 'app-vendeur-demande-conso',
@@ -23,8 +25,9 @@ export class VendeurDemandeConsoPage implements OnInit {
     note: 0,
     prix: 0
   }
+  d: any;
 
-  constructor(private callNumber:CallNumberService, private activeRoute:ActivatedRoute) {
+  constructor(private router:ActivatedRoute,private callNumber:CallNumberService,private modalController:ModalController, private activeRoute:ActivatedRoute) {
     this.activeRoute.params.subscribe((params)=>{
       this.data1.nom=params.nomprenom;
       this.data1.adresse=params.adresselogement;
@@ -39,6 +42,11 @@ export class VendeurDemandeConsoPage implements OnInit {
    }
 
   ngOnInit() {
+    this.router.params.subscribe((params)=>{
+      console.log(params);
+      
+      if (params) this.d = params
+    })
   }
 
   call(number){
@@ -46,5 +54,16 @@ export class VendeurDemandeConsoPage implements OnInit {
   }
 
 
-  
+  async openRejectConsumerModal(id) {
+    console.log("modal ...");
+    
+    const modal = await this.modalController.create({
+      component: RejetsPage,
+      cssClass: 'my-custom-class',
+      componentProps: { 
+        idconsommateur: id
+      }
+    });
+    return await modal.present();
+  }
 }

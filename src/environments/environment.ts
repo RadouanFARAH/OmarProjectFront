@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  url: "https://daki-api.herokuapp.com"
+  url: "http://blooming.dreamhost.com:2022",
+  // url: "http://localhost:2022"
+  // url: "https://daki-api.herokuapp.com"
 };
 
 /*

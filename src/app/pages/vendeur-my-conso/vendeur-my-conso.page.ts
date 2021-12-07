@@ -15,11 +15,12 @@ export class VendeurMyConsoPage implements OnInit {
   data:any[]=[] ;
   data2 = []
   userID: any;
+  d: any;
   constructor(private vendeur: VendeurMyConsoService, private router:ActivatedRoute) {
     let data={day:1}
     this.router.params.subscribe((params)=>{
-      if (params) this.userID = params.id
-      else this.userID= null
+      if (params) this.d = params
+
     })
     // this.vendeur.getConsoTotal(data)
     this.vendeur.getConsoByZone({day:this.day, byzone:false, userID:this.userID}).subscribe((res:any) => {
