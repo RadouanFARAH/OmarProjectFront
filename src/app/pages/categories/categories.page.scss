@@ -27,6 +27,44 @@
     background-repeat: no-repeat; 
     background-size: cover;
 }
+
+// ------- slide 2
+.cssSlider2{
+    border: 2px solid #F5EC32;
+    background: #F5EC32;
+    border-radius: 0px 0px 8px 8px;
+}
+.cssSlider2 ion-slides{
+    // width: 100%;
+    width: 94%;
+    height: 200px;
+    margin: 0px auto;
+    border-radius: 10px;
+}
+.cssSlider2 ion-slide{
+    width: 100%;
+    background-position: center; 
+    background-repeat: no-repeat; 
+    background-size: 80% 100%;
+}
+
+.cheveronRight, .cheveronLeft{
+    display: block;
+    width: 40px; height: 40px;
+    position: absolute;
+    top: 40%; 
+    text-align: center !important;
+}
+.cheveronRight{
+    right: 0%;
+}
+.cheveronLeft{
+    left: 0%;
+}
+.cheveronRight fa-icon, .cheveronLeft fa-icon{
+    color: #fff;
+    font-size: 30px;
+}
 // --- time down
 .cssClock{
     width: 100%;
@@ -79,50 +117,53 @@
     cursor: pointer;
 }
 
+// .cssOffre{
+//     width: 100%;
+//     height: 100px;
+//     display: block;
+//     margin: 0px auto;
+//     background-image: url('./../../../assets/images/category/offre.png');
+//     background-position: center; 
+//     background-repeat: no-repeat; 
+//     background-size: cover;
+//     border-radius: 6px; 
+// }
+// .cssContentOffre{
+//     width: 60%;
+//     position: relative;
+//     left: -40%;
+// }
+// .cssContentOffre .cssTitle{
+//     margin-top: 5px;
+//     font-size: 20px;
+//     text-align: center;
+//     color: #e12c13;
+// }
+
 .cssOffre{
     width: 100%;
-    height: 100px;
+    height: 60px;
     display: block;
     margin: 0px auto;
     background-image: url('./../../../assets/images/category/offre.png');
     background-position: center; 
     background-repeat: no-repeat; 
     background-size: cover;
-    border-radius: 6px; 
+    // border-radius: 6px; 
+    border-radius: 8px 8px 0px 0px;
 }
+
 .cssContentOffre{
     width: 60%;
-    position: fixed;
-    left: 0px;
+    position: relative;
+    left: -30%; top: 8%;
 }
 .cssContentOffre .cssTitle{
     margin-top: 5px;
-    font-size: 20px;
+    font-size: 30px;
     text-align: center;
-    color: #e12c13;
+    color: #e83816;
 }
-// .cssCard .cssImg{
-//     width: 100%;
-//     height: 140px;
-//     display: block;
-//     margin: 6px auto;
-//     background-position: center; 
-//     background-repeat: no-repeat; 
-//     background-size: contain; 
-// }
-
-// .cssCard .cssHeaderCard{
-//     // height: 20%; width: 100%;
-//     padding: 6px 0px;
-//     background-color: #F55C47 !important;
-//     text-align: center;
-// }
-// .cssCard .cssTitleCrd{
-//     margin-top: 4px;
-//     font-size: 18px !important;
-//     color: #fff !important;
-//     height: 36px;
-// }
 
 // menu
 .cssMenu .cssIconMenu{
@@ -271,4 +312,19 @@
     .bgColorProfi .profil h4{
         font-size: 14px;
     }
+
+    // -------------------
+    .cssOffre{
+        height: 50px; 
+    }
+    
+    .cssContentOffre{
+        width: 60%;
+        position: relative;
+        left: -30%; top: 16%;
+    }
+    .cssContentOffre .cssTitle{
+        font-size: 22px;
+    }
+    // -------------------
 }

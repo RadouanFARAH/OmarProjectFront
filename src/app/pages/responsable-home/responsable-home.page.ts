@@ -23,38 +23,7 @@ export class ResponsableHomePage implements OnInit {
     consoValide: 450,
     consoAttente: 48,
     consoRefuse: 2,
-    demande: [
-      {
-        nomConso: "محمد",
-        noteDemande: 40,
-        prixDemande: 500,
-        etatDemande: "V"
-      },
-      {
-        nomConso: "محسين",
-        noteDemande: 35,
-        prixDemande: 350.60,
-        etatDemande: "V"
-      },
-      {
-        nomConso: "عادل",
-        noteDemande: 0,
-        prixDemande: 0,
-        etatDemande: "A"
-      },
-      {
-        nomConso: "طارق",
-        noteDemande: 0,
-        prixDemande: 0,
-        etatDemande: "A"
-      },
-      {
-        nomConso: "معاد",
-        noteDemande: 0,
-        prixDemande: 0,
-        etatDemande: "R"
-      },
-    ]
+    demande: []
   }
 
   data2 = []
@@ -70,6 +39,19 @@ export class ResponsableHomePage implements OnInit {
 
   constructor(private route:Router,private storage:Storage,private userService:UserService,private menu: MenuController, private responsableService:ResponsableService, private router:Router ) {
     this.data.jour= new Date().toLocaleDateString('ar-EG-u-nu-latn',{weekday: 'long'});
+    this.getVendeurByResponsable()
+
+   }
+   doRefresh(event) {
+    this.getVendeurByResponsable()
+    setTimeout(() => {
+      event.target.complete();
+    }, 2000);
+  }
+  ngOnInit() {
+  }
+
+  getVendeurByResponsable(){
     this.responsableService.getVendeurByReponsableByDay().then((res:any)=>{
       res.subscribe((r)=>{
         this.data2 = r
@@ -78,11 +60,7 @@ export class ResponsableHomePage implements OnInit {
       console.log(err);
       
     })
-   }
-
-  ngOnInit() {
   }
-
   ionViewWillEnter() {
     this.menu.enable(true, 'responsable-menu')
   }
@@ -90,26 +68,10 @@ export class ResponsableHomePage implements OnInit {
     this.menu.enable(false, 'responsable-menu')
   }
 
-  showDetail(vendeur) {
-    console.log("vendeur :",vendeur );
-    //  authenticate vendeur
-    this.storage.set('responsable', true)
-    this.userService.login({...vendeur, responsable:true}).subscribe(async (res:any)=>{
-      console.log('login result 2________ : ', res);
-      // localStorage.setItem('token', res.token);
+  goTo(vendeur) {
+    this.userService.login({vendeur}).subscribe(async (res:any)=>{
       await this.storage.set('token', res.token)
-      await this.storage.set('username', res['name'])
-      await this.userService.name.next(res['name'])
-      if (res.role=="C") {
-        this.route.navigate(["categories"])
-      }else if (res.role=="V") {
-        console.log("this.route.navigate(['vendeur-home'])");
-
-        this.route.navigate(["vendeur-home"])
-      }else if (res.role=="R") {
-        this.route.navigate(["responsable-home"])
-      }
-    
+      this.route.navigate(["vendeur-home"])
     }, (err)=>{})
   }
 

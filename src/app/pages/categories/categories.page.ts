@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MenuController } from '@ionic/angular';
+import { MenuController, IonSlides } from '@ionic/angular';
 import { ParametresService } from 'src/app/services/parametres.service';
 import { Storage } from '@ionic/storage-angular';
 
@@ -35,25 +35,41 @@ export class CategoriesPage implements OnInit {
     speed: 400,
     autoplay: true
   };
+
+  imgsSlider2 = [
+    "../../../assets/images/product/prod5.jpg",
+    "../../../assets/images/product/prod6.jpg",
+    "../../../assets/images/product/prod7.jpg",
+  ].reverse();
+
+  slideOpts2 = {
+    grabCursor: true,
+    initialSlide: this.imgsSlider2.length - 1,
+    speed: 400,
+    autoplay: false
+  };
+
+  @ViewChild('mySlider2') slides: IonSlides;
+  next() {
+    this.slides.slideNext();
+  }
+  prev() {
+    this.slides.slidePrev();
+  }
+
   passingOrder: boolean = false;
   idconsumer: any;
 
-  constructor(private storage: Storage,private router:ActivatedRoute, private menu: MenuController, private route: Router, private paramService: ParametresService) {
+  constructor(private storage: Storage, private router: ActivatedRoute, private menu: MenuController, private route: Router, private paramService: ParametresService) {
     console.log('test');
-    
+
     this.getCategory();
-    this.router.params.subscribe((params)=>{
-      if (params.idconsumer) {
-        this.idconsumer = params.idconsumer
-        this.passingOrder = true
-      } 
-    })
   }
 
   ngOnInit() {
   }
   ionViewWillEnter() {
-    this.passingOrder? this.menu.enable(false, 'consommateur-menu'):this.menu.enable(true, 'consommateur-menu')
+    this.menu.enable(true, 'consommateur-menu')
   }
   ionViewWillLeave() {
     this.menu.enable(false, 'consommateur-menu')
@@ -82,7 +98,7 @@ export class CategoriesPage implements OnInit {
 
   categories: any = []
   getCategory() {
-    this.paramService.getCategories({passingOrder:this.passingOrder}).subscribe((res) => {
+    this.paramService.getCategories().subscribe((res) => {
       console.log(res);
       this.categories = res;
     })

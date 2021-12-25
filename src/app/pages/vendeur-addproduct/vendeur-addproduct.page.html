@@ -2,7 +2,7 @@
   <ion-toolbar class="cssHeader bgheader">
 
     <ion-title class="tajawal-Bold cssTitleHead">
-      <span class="cssBtnHeaderLeft" [routerLink]="role==='V'?'/vendeur-home':'/responsable-home'">
+      <span class="cssBtnHeaderLeft" (click)="goBack()">
         <fa-icon icon="arrow-left"></fa-icon>
       </span>
       إضافة منتج
@@ -16,13 +16,24 @@
     <!-- Name -->
     <form class="cssForm" [formGroup]="dataForm">
 
-      <ion-row *ngIf="role!=='V'">
+      <ion-row *ngIf="role=='R'">
         <ion-col class="ion-no-padding">
           <div>
             <ion-label class="cssLabel tajawal-Bold">البائعين</ion-label>
             <ion-select multiple="true" placeholder="إختر البائع" class="cssInput tajawal-Medium"
-              formControlName="category" okText="OK" cancelText="Annuler">
+              formControlName="lvendeurs" okText="OK" cancelText="Annuler">
               <ion-select-option *ngFor="let v of vendeurs" [value]="v.id">{{v.nomprenom}}</ion-select-option>
+            </ion-select>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="role=='D'">
+        <ion-col class="ion-no-padding">
+          <div>
+            <ion-label class="cssLabel tajawal-Bold">المسؤولين</ion-label>
+            <ion-select multiple="true" placeholder="إختر المسؤول" class="cssInput tajawal-Medium"
+              formControlName="lresponsables" okText="OK" cancelText="Annuler">
+              <ion-select-option *ngFor="let v of responsables" [value]="v.id">{{v.nomprenom}}</ion-select-option>
             </ion-select>
           </div>
         </ion-col>
@@ -44,16 +55,16 @@
         <ion-col class="ion-no-padding">
           <div>
             <ion-label class="cssLabel tajawal-Bold">الثمن الأصلي</ion-label>
-            <ion-input type="number" (keypress)="preventCaracters($event)" min="0" placeholder="ضع ثمن المنتوج"  class="cssInput tajawal-Medium"
-              formControlName="prixInitial">
+            <ion-input type="number" (keypress)="preventCaracters($event)" min="0" placeholder="ضع ثمن المنتوج"
+              class="cssInput tajawal-Medium" formControlName="prixInitial">
             </ion-input>
           </div>
         </ion-col>
         <ion-col class="ion-no-padding">
           <div>
             <ion-label class="cssLabel tajawal-Bold">ثمن التخفيض</ion-label>
-            <ion-input type="number" (keypress)="preventCaracters($event)" min="0" placeholder="ضع ثمن تخفيض المنتوج"  class="cssInput tajawal-Medium"
-              formControlName="prixFinal">
+            <ion-input type="number" (keypress)="preventCaracters($event)" min="0" placeholder="ضع ثمن تخفيض المنتوج"
+              class="cssInput tajawal-Medium" formControlName="prixFinal">
             </ion-input>
           </div>
         </ion-col>
@@ -95,55 +106,66 @@
         <ion-col class="ion-no-padding">
           <div>
             <ion-label class="cssLabel tajawal-Bold">ثمن التوصيل </ion-label>
-            <ion-input (keypress)="preventCaracters($event)" placeholder="ضع ثمن التوصيل " type="text" class="cssInput tajawal-Medium"
-              formControlName="deliveryPrice">
+            <ion-input (keypress)="preventCaracters($event)" placeholder="ضع ثمن التوصيل " type="text"
+              class="cssInput tajawal-Medium" formControlName="deliveryPrice">
             </ion-input>
           </div>
         </ion-col>
       </ion-row>
 
 
-    <!-- images -->
+      <!-- images -->
       <ion-row>
 
-        <label class="fileLabel cssLabel tajawal-Bold">صور المنتج
+        <label class="fileLabel cssLabel tajawal-Bold">الصورة الأمامية
           <input type="file" (change)="onChange($event)" accept=".jpg, .jpeg, .png" class="file">
           <div class="cssImgages">
             <div class="cssbtnImg">
-              <img [src]="imageURL">
-              <p>أضف صورة</p>
+              <img *ngIf="imageURL" [src]="imageURL"> 
+              <span *ngIf="!imageURL">
+                <fa-icon icon="camera"></fa-icon>
+              </span>
             </div>
           </div>
         </label>
         <!-- <div *ngIf="imageURL" style="width: 100px; height: 100px;border: 1px dashed black;">
           <img [src]="imageURL">
         </div> -->
-        <label class="fileLabel cssLabel tajawal-Bold">أضف صور
+        <label class="fileLabel cssLabel tajawal-Bold">باقي الصور
           <input multiple type="file" (change)="onChangeM($event)" accept=".jpg, .jpeg, .png" class="file">
           <div class="cssImgages">
             <div class="cssbtnImg">
-              <img src="../../../assets/images/add.png" alt="@youb">
+              <!-- <img src="../../../assets/images/add.png" alt="@youb"> -->
+              <span>
+                <fa-icon icon="plus-circle"></fa-icon>
+              </span>
             </div>
           </div>
         </label>
         <div style="display: contents;" *ngIf="imageURLs.length>0">
-          <label  *ngFor="let img of imageURLs; let i = index"  class="fileLabelB cssLabel tajawal-Bold"> صورة رقم {{i+1}}
-            <div  style="width: 100px; height: 100px;">
-              <div  class="cssImgages">
+          <label *ngFor="let img of imageURLs; let i = index" class="fileLabelB cssLabel tajawal-Bold"> صورة رقم {{i+1}}
+            <div style="width: 100px; height: 100px;">
+              <div class="cssImgages">
                 <div class="cssbtnImg">
                   <img [src]="img">
+                </div>
+                <div class="cssbtnImg2"> 
+                  delete
                 </div>
               </div>
             </div>
           </label>
         </div>
       </ion-row>
-
+      <ion-row>
+        <p class="tajawal-Bold" style="color: rgb(216, 31, 31);margin-right: 10px;">{{sizeError}}</p>
+      </ion-row>
       <!-- UPLOAD button -->
       <ion-row>
         <ion-col>
           <div style="margin: 16px 0px;">
-            <ion-button [disabled]="disabled" expand="block" class="tajawal-Bold" (click)="showAlert()">نشر المنتج</ion-button>
+            <ion-button [disabled]="disabled || dataForm.invalid" expand="block" class="tajawal-Bold" (click)="showAlert()">نشر المنتج
+            </ion-button>
           </div>
         </ion-col>
       </ion-row>
@@ -162,7 +184,7 @@
           عملية نشر المنتج قد تمت بنجاح، ستتم معالجة الطلبية ونشرها للعملاء.
         </p>
         <div class="message_btn">
-          <button routerLink="/vendeur-home" class="tajawal-Medium">رجوع</button>
+          <button (click)="goBack()" class="tajawal-Medium">رجوع</button>
         </div>
       </div>
     </div>

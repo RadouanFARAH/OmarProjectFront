@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { RejetsPage } from 'src/app/modals/rejets/rejets.page';
 import { CallNumberService } from 'src/app/services/call-number.service';
+import { UserService } from 'src/app/services/user.service';
 @Component({
   selector: 'app-vendeur-demande-conso',
   templateUrl: './vendeur-demande-conso.page.html',
@@ -27,7 +28,7 @@ export class VendeurDemandeConsoPage implements OnInit {
   }
   d: any;
 
-  constructor(private router:ActivatedRoute,private callNumber:CallNumberService,private modalController:ModalController, private activeRoute:ActivatedRoute) {
+  constructor(private route:Router,private storage:Storage,private userService:UserService,private router:ActivatedRoute,private callNumber:CallNumberService,private modalController:ModalController, private activeRoute:ActivatedRoute) {
     this.activeRoute.params.subscribe((params)=>{
       this.data1.nom=params.nomprenom;
       this.data1.adresse=params.adresselogement;
@@ -49,6 +50,13 @@ export class VendeurDemandeConsoPage implements OnInit {
     })
   }
 
+
+  goTo(consommateur) {
+    this.userService.login({consommateur}).subscribe(async (res:any)=>{
+      await this.storage.set('token', res.token)
+      this.route.navigate(["/categories"])
+    }, (err)=>{})
+  }
   call(number){
     this.callNumber.call(number)
   }

@@ -9,6 +9,7 @@
     display: block;
     margin: 0px auto;
     margin-top: 60px;
+    margin-bottom: 20px;
 }
 .cssTitle{
     margin: 0px;
@@ -67,6 +68,7 @@
         width: 160px; height: auto;
         display: block;
         margin: 0px auto;
+        margin-bottom: 22px;
         margin-top: 40px;
     }
     .cssTitle{
@@ -122,4 +124,9 @@
     .cssBtnContainer{
         margin-top: 20px;
     }
+}
+
+.link{
+    color: aliceblue;
+    cursor: pointer;
 }

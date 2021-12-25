@@ -14,95 +14,81 @@ export class VendeurHomePage implements OnInit {
   // etatDemande : V/Validé, A/Attente, R/Refusé
 
   data = {
-    jour: "",
+    jour: new Date().toLocaleDateString('ar-EG-u-nu-latn', { weekday: 'long' }),
     zone: "",
     responsable: "",
     vendeur: "",
-    noteJour: 0,
-    nbrTotalConso: 0,
-    consoValide: 0,
-    consoAttente: 0,
-    consoRefuse: 0,
-    demande: []
+    noteJour: null,
+    nbrTotalConso: null,
+    consoValide: null,
+    consoAttente: null,
+    consoRefuse: null,
+    demandeR: [],
+    demandeA: [],
+    demandeV: []
   }
 
-  data2 = [
-    { vendeur: "إيمان أوفقير", zone: "حي أكدال" },
-    { vendeur: "عبد الفتاح ارقياق", zone: "حي الفتح" },
-    { vendeur: "مونية المنبهي", zone: "حي عكاري" }
-  ]
 
   isShow: boolean = false;
   numClickMenu: number = 0;
   userID: any;
+  tapped: boolean;
+  demandeR: boolean;
+  demandeV: boolean;
+  demandeA: boolean;
+  dashboard: boolean;
 
-  constructor(private router:ActivatedRoute,private route:Router,public modalController: ModalController,private menu: MenuController, private paramService:ParametresService) { 
-        
-    this.getDashboard()
+  constructor(private router: ActivatedRoute, private route: Router, public modalController: ModalController, private menu: MenuController, private paramService: ParametresService) {
 
   }
   async openRejectConsumerModal(id) {
-    console.log("modal ...");
-    
+
     const modal = await this.modalController.create({
       component: RejetsPage,
       cssClass: 'my-custom-class',
-      componentProps: { 
+      componentProps: {
         idconsommateur: id
       }
     });
     return await modal.present();
   }
-  getDashboard(){
+  getDashboard() {
+    this.data.demandeR = []
+    this.data.demandeV = []
+    this.data.demandeA = []
+    this.paramService.getVendeur_dashboard().subscribe((result: any) => {
+      this.dashboard=true
+      this.data.zone = result[0].zone
+      this.data.responsable = result[0].responsable
+      this.data.vendeur = result[0].vendeur
+      this.data.noteJour = result[0].noteJour
+      this.data.nbrTotalConso = result[0].nbrTotalConso
+      this.data.consoValide = result[0].consoValide
+      this.data.consoAttente = result[0].consoAttente
+      this.data.consoRefuse = result[0].consoRefuse
+    })
+    this.getAll()
 
-    this.paramService.getVendeur_dashboard().subscribe((result:any)=>{
-      this.data.jour= new Date().toLocaleDateString('ar-EG-u-nu-latn',{weekday: 'long'})
-      this.data.zone= result[0].zone
-      this.data.responsable= result[0].responsable
-      this.data.vendeur= result[0].vendeur
-      this.data.noteJour= result[0].noteJour
-      this.data.nbrTotalConso= result[0].nbrTotalConso
-      this.data.consoValide= result[0].consoValide
-      this.data.consoAttente= result[0].consoAttente
-      this.data.consoRefuse= result[0].consoRefuse
-      console.log("refuse",result[0].consoRefuse);
-      
-    })
-    this.paramService.getconsovalide().subscribe((result:any)=>{
-      result.forEach((row)=>{
-        this.data.demande.push(row)
-      })
-    })
-    this.paramService.getconsoAttente().subscribe((result:any)=>{
-      result.forEach((row)=>{
-        this.data.demande.push(row)
-      })
-    })
-    this.paramService.consoRefuse().subscribe((result:any)=>{
-      result.forEach((row)=>{
-        this.data.demande.push(row)
-      })
-    })
-    
+
+
+
   }
   ngOnInit() {
-    console.log("vendeur page ....");
     this.getDashboard()
-
 
   }
 
   doRefresh(event) {
-    console.log('Begin async operation');
-    this.data.demande = []
+    this.data.demandeR = []
+    this.data.demandeV = []
+    this.data.demandeA = []
     this.getDashboard()
     setTimeout(() => {
-      console.log('Async operation has ended');
       event.target.complete();
     }, 2000);
   }
 
-  passOrder(){
+  passOrder() {
     this.route.navigate(["categories"])
   }
 
@@ -118,7 +104,49 @@ export class VendeurHomePage implements OnInit {
   showMenu() {
     this.numClickMenu++;
     this.isShow = this.numClickMenu % 2 == 0 ? false : true;
-    console.log(this.isShow, this.numClickMenu);
 
+  }
+
+
+  getAll() {
+    this.data.demandeR = []
+    this.data.demandeV = []
+    this.data.demandeA = []
+    this.demandeR = true
+    this.demandeV = true
+    this.demandeA = true
+    this.paramService.getconsoAttente().subscribe((result: any) => {
+      this.tapped = true
+      result.forEach((row) => {
+        this.data.demandeA.push(row)
+      })
+    })
+    this.paramService.consoRefuse().subscribe((result: any) => {
+      this.tapped = true
+      result.forEach((row) => {
+        this.data.demandeR.push(row)
+      })
+    })
+    this.paramService.getconsovalide().subscribe((result: any) => {
+      this.tapped = true
+      result.forEach((row) => {
+        this.data.demandeV.push(row)
+      })
+    })
+  }
+  waitingOrder() {
+    this.demandeR = false
+    this.demandeV = false
+    this.demandeA = true
+  }
+  refusedOrder() {
+    this.demandeR = true
+    this.demandeV = false
+    this.demandeA = false
+  }
+  didOrder() {
+    this.demandeR = false
+    this.demandeV = true
+    this.demandeA = false
   }
 }

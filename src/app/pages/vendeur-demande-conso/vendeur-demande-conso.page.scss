@@ -16,9 +16,9 @@
     position: relative;
     top: -20px; left: 14px;
 }
-.cssCard1{background: #FF7848;}
+.cssCard1{background: #EADEDE; color: #444;}
 .cssCard2{background: #0DAFAF;}
-.cssCard1 .cssTitleCard{background: #FF7848;}
+.cssCard1 .cssTitleCard{background: #EADEDE;color: #444;}
 .cssCard2 .cssTitleCard{background: #0DAFAF;}
 
 
@@ -43,12 +43,13 @@
 }
 
 .cssContentCard .cssNum .cssBtn{
-    height: 36px !important; 
+    margin-top: 8px !important;
+    height: 42px !important; 
     width: 100%;
-    font-size: 14px;
+    font-size: 13px;
     --background: #fff !important;
     color: #ffffff;
-    border-radius: 6px;
+    --border-radius: 21px !important;
     border: none;
 }
 .cssContentCard .cssNum .cssBtn img{
@@ -109,12 +110,28 @@
     padding: 0px 5px !important;
 }
 
+.cssBtn4, .cssBtn5{
+    margin-top: 12px;
+    height: 42px !important;
+    width: 90%;
+    font-size: 17px;
+    --background: #F0344C !important;
+    color: #fff;
+    --border-radius: 6px !important;
+    border: none;
+    padding: 0px 5px !important;
+}
+.cssBtn5{
+    --background: #EADEDE !important;
+    color: #F0344C;
+}
 
 @media only screen and (max-width: 362px) {
     .cssCard1, .cssCard2{
         margin-top: 20px;
         padding: 6px 10;
         border-radius: 5px;
+        padding-bottom: 0px;
     }
     .cssTitleCard{
         font-size: 12px;
@@ -150,14 +167,14 @@
     }
     
     .cssContentCard .cssNum .cssBtn{
-        height: 36px !important; 
+        height: 38px !important; 
         width: 100%;
-        font-size: 13px;
-        --border-radius: 4px !important;
+        font-size: 11px;
+        --border-radius: 19px !important;
         border: none;
     }
     .cssContentCard .cssNum .cssBtn img{
-        width: 22px; height: 22px;
+        width: 20px; height: 20px;
         margin-right: 8px;
     }
     // ------------- row 2

@@ -3,7 +3,7 @@
     <div class="cssContainer">
       <ion-row>
         <ion-col>
-          <img src="../../../assets/images/logo/logo3.png" alt="@youb" class="cssLogo" draggable="false">
+          <img src="../../../assets/images/logo/logo.png" alt="@youb" class="cssLogo" draggable="false">
         </ion-col>
       </ion-row>
       <ion-row>
@@ -27,7 +27,7 @@
         <ion-row>
           <ion-col>
             <div>
-              <ion-label class="cssLabel tajawal-Medium">  الرمز السري</ion-label>
+              <ion-label class="cssLabel tajawal-Medium"> الرمز السري</ion-label>
               <ion-input placeholder="&#11044; &#11044; &#11044; &#11044; &#11044; &#11044; &#11044; &#11044;"
                 [type]="!showPassword ? 'password' : 'text'" class="cssInput tajawal-Medium" [name]="password"
                 formControlName="pwd" autocomplete="off">
@@ -42,9 +42,20 @@
           <ion-col>
             <div class="cssBtnContainer">
               <ion-button expand="block" class="tajawal-Bold cssBtn color1" (click)="login()">
-                دخول   <ion-spinner style="color:#d22231; margin-right: 10px;" *ngIf="spinner"></ion-spinner>
+                دخول <ion-spinner style="color:#d22231; margin-right: 10px;" *ngIf="spinner"></ion-spinner>
               </ion-button>
+
             </div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <h3 (click)="changePassword()" class="tajawal-Bold link">تغيير كلمة السر؟</h3>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <h3 routerLink="/logcity"  class="tajawal-Bold link">  لازلت لا تملك حساب؟  <span style="color: rgb(88, 88, 223);cursor: pointer;">  إضغط هنا </span></h3>
           </ion-col>
         </ion-row>
       </form>

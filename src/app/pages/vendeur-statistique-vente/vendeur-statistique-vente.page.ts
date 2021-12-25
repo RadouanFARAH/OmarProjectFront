@@ -14,14 +14,8 @@ export class VendeurStatistiqueVentePage implements OnInit {
   orders: any;
   prixtotal: number;
   pointtotal: number;
-  role: string
   dataDays: any[];
   constructor(private stats: VendeurStatisticsService, private storage: Storage) {
-    this.storage.get('role').then((role) => {
-      if (role) {
-        this.role = role
-      }
-    })
 
   }
 

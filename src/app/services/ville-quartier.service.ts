@@ -18,4 +18,8 @@ export class VilleQuartierService {
     return this.http.post(this.Url + '/getQuartierByVille', data)
   }
 
+  getVille(){
+    return this.http.get(this.Url + '/getVille')
+  }
+
 }

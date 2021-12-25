@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
-import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { AlertController, NavController, ToastController } from '@ionic/angular';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ParametresService } from 'src/app/services/parametres.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { VendeurStatisticsService } from 'src/app/services/vendeur-statistics.service';
 import { Storage } from '@ionic/storage';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { DirecteurService } from 'src/app/services/directeur.service';
+import { ResponsableService } from 'src/app/services/responsable.service';
 
 @Component({
   selector: 'app-vendeur-addproduct',
@@ -22,15 +24,21 @@ export class VendeurAddproductPage implements OnInit {
   responsable: any;
   vendeurs: any;
   role: any;
-  images: any;
+  images: any = [];
   priceError: string;
-  imageURL: any = '../../../assets/images/cam2.png';
+  imageURL: any = '';
   imageURLs: any[] = [];
   categoryMessage: string;
   nomMessage: string;
   disabled: boolean = true;
+  spinner: boolean;
+  whoisadding: any;
+  responsables: any;
+  sizeError: string;
+  sizeErrorCount: number = 0;
+  sizeWord: string;
 
-  constructor(private sanitizer: DomSanitizer, private storage: Storage, private service: VendeurStatisticsService, private router: ActivatedRoute, public alertIonic: AlertController, private fb: FormBuilder, private paramService: ParametresService) {
+  constructor(private directeurService: DirecteurService, private navCtrl: NavController, private toast: ToastController, private sanitizer: DomSanitizer, private storage: Storage, private service: ResponsableService, private router: ActivatedRoute, public alertIonic: AlertController, private fb: FormBuilder, private paramService: ParametresService) {
     this.storage.get('role').then((role) => {
       console.log(role);
 
@@ -42,9 +50,12 @@ export class VendeurAddproductPage implements OnInit {
       this.categories = res
     })
     this.router.params.subscribe((params) => {
-      this.responsable = params.responsable
-      if (this.responsable) {
+      this.whoisadding = params.role
+      if (this.whoisadding == 'R') {
         this.getVendeurByResponsable()
+      }
+      if (this.whoisadding == 'D') {
+        this.getResponsableByDirecteur()
       }
     })
   }
@@ -54,25 +65,40 @@ export class VendeurAddproductPage implements OnInit {
   ngOnInit() {
 
     this.dataForm = this.fb.group({
-      nom: [""],
-      prixInitial: [0],
+      nom: ["", Validators.required],
+      prixInitial: [0, Validators.required],
       prixFinal: [0],
-      category: [""],
-      ville: [""],
+      category: ["", Validators.required],
+      lvendeurs: [null],
+      lresponsables: [null],
       description: [""],
       deliveryPrice: [0]
     })
 
+    if (this.whoisadding == 'R') {
+      console.log('is R');
+
+      this.dataForm.patchValue({
+        lvendeurs: [null, Validators.required]
+      })
+    }
+    if (this.whoisadding == 'D') {
+      this.dataForm.patchValue({
+        lresponsables: [null, Validators.required]
+      })
+    }
+
     this.dataForm.valueChanges.subscribe(() => {
+      console.log(this.dataForm.errors, this.dataForm.invalid);
 
       // prices check
-      if ((this.dataForm.get('prixFinal').value > this.dataForm.get('prixInitial').value) || (this.dataForm.get('category').value.length===0) || (this.dataForm.get('nom').value === '') ){
+      if ((this.dataForm.get('prixFinal').value > this.dataForm.get('prixInitial').value) || (this.dataForm.get('category').value.length === 0) || (this.dataForm.get('nom').value === '' || (this.whoisadding == 'R' && !this.dataForm.get('lvendeurs').value) || (this.whoisadding == 'D' && !this.dataForm.get('lresponsables').value))) {
         this.disabled = true
       } else {
         // console.log(this.dataForm.get('category').value);
         this.disabled = false
       }
-      if (this.dataForm.get('prixFinal').value > this.dataForm.get('prixInitial').value){
+      if (this.dataForm.get('prixFinal').value > this.dataForm.get('prixInitial').value) {
         this.priceError = "لا يمكن ان يكون ثمن التخفيض أكبر من الثمن الاصلي";
       } else {
         this.priceError = ''
@@ -81,14 +107,14 @@ export class VendeurAddproductPage implements OnInit {
       // category check
       if (this.dataForm.get('category').dirty && this.dataForm.get('category').value === '') {
         this.categoryMessage = 'المرجو إختيار الفئة';
-      }else{
+      } else {
         this.categoryMessage = ''
       }
 
       // name check
       if (this.dataForm.get('nom').dirty && this.dataForm.get('nom').value === '') {
         this.nomMessage = 'المرجو إختيار الاسم';
-      } else{
+      } else {
         this.nomMessage = ''
       }
 
@@ -102,7 +128,9 @@ export class VendeurAddproductPage implements OnInit {
     k = event.key;  //         k = event.keyCode;  (Both can be used)
     return regex.test(k);
   }
-
+  goBack() {
+    this.navCtrl.back();
+  }
 
   // priceValidator(control: AbstractControl) {
   //   let FinalPrice = this.dataForm.get('prixFinal')
@@ -128,53 +156,104 @@ export class VendeurAddproductPage implements OnInit {
 
     }, err => console.log(err))
   }
+  getResponsableByDirecteur() {
+    this.directeurService.getResponsableByDirecteur().subscribe((res: any) => {
+      console.log(res);
+      this.responsables = res
+      console.log(this.responsables);
+
+    }, err => console.log(err))
+  }
   setProduct() {
-    console.log(this.image);
+    if (this.sizeErrorCount > 0) { 
+      this.sizeError = `المرجو تغيير الصورة ${this.sizeWord} لصورة حجمها اقل`
+      return 
+    }
+
+    console.log('set product triggred');
     let code = "P" + Date.now();
     // this.image.name = code+ this.image.name.split('.')[1];
     const formData = new FormData();
     formData.append('image', this.image, code + '.' + this.image.name.split('.')[1]);
     let data = {
       ...this.dataForm.value,
-      code
+      code,
+      role: this.role
     }
     if (this.images.length > 0) {
       for (let i = 0; i < this.images.length; i++) {
         formData.append('image', this.images[i], code + "A" + '.' + this.image.name.split('.')[1]);
       }
     }
-    console.log(data);
+    console.log(data, this.image);
 
     this.paramService.setProduct(data).subscribe((res: any) => {
       // this.showSuccessAlerte = true;
       this.paramService.setProductImage(formData).subscribe((res: any) => {
         this.showSuccessAlerte = true;
-        this.dataForm.reset();
-        this.imageURL = '../../../assets/images/cam2.png' ;
+        this.imageURL = '';
         this.imageURLs = [];
         setTimeout(() => {
+          this.goBack();
           this.showSuccessAlerte = false;
         }, 3000);
-      })
+      }, async (err) => {
+        this.spinner = false
+        const toast = await this.toast.create({
+          message: 'حدث خطأ المرجو إعادة المحاولة',
+          duration: 2000,
+          position: 'middle',
+          cssClass: "failedtoastclass"
+        });
+        toast.present();
+      }
+      )
+    }, async (err) => {
+      this.spinner = false
+      const toast = await this.toast.create({
+        message: 'حدث خطأ المرجو إعادة المحاولة',
+        duration: 2000,
+        position: 'middle',
+        cssClass: "failedtoastclass"
+      });
+      toast.present();
     })
 
   }
   ionViewWillEnter() {
     this.showErrorAlerte = false
     this.showSuccessAlerte = false
-    this.imageURL = '../../../assets/images/cam2.png';
+    this.imageURL = '';
     this.imageURLs = [];
   }
 
   onChange(e) {
     this.imageURL = this.sanitizeImageUrl(URL.createObjectURL(e.target.files[0]))
     this.image = e.target.files[0]
+    if (this.image.size > 1000000) {
+      this.sizeErrorCount=0
+      this.sizeError = 'حجم الصورة كبير جدا'
+      this.sizeWord = `${this.sizeWord!=''?'و':''} الرئيسية`
+      this.sizeErrorCount++
+      return
+    } else {
+      this.sizeError = ''
+    }
+
   }
   onChangeM(e) {
     this.images = e.target.files
     for (let i = 0; i < e.target.files.length; i++) {
       console.log(this.imageURLs);
+      if (e.target.files[i].size > 1000000) {
+        this.sizeError = 'حجم الصورة كبير جدا'
+        this.sizeErrorCount++
 
+        this.sizeWord += `${this.sizeWord!=''?'و':''} رقم ${i+1}`
+        return
+      } else {
+        this.sizeError = ''
+      }
       this.imageURLs.push(this.sanitizeImageUrl(URL.createObjectURL(e.target.files[i])))
     }
   }
@@ -182,6 +261,7 @@ export class VendeurAddproductPage implements OnInit {
   // modelMsg = "تم إرسال المنتج إلى الإدارة، سيتم نشره إلى عملائك  بعد التأكيد."
   msg = "هل أنت متأكد من صحة المعلومات التي قمت بإدخالها لنشر المنتج ؟"
   async showAlert() {
+    console.log("alert triggred");
 
     const alert = await this.alertIonic.create({
       cssClass: 'my-custom-class',
@@ -192,16 +272,12 @@ export class VendeurAddproductPage implements OnInit {
         text: 'تأكيد',
         handler: () => {
           this.setProduct();
-          console.log("confirmé");
         }
       }
       ]
     });
 
     await alert.present();
-
-    const { role } = await alert.onDidDismiss();
-    console.log('onDidDismiss resolved with role', role);
   }
 
 }

@@ -32,8 +32,8 @@ export class ParametresService {
    sendMofitRejectOreder(data){
     return this.http.post(this.Url + "/vendeur_dashboard/sendMofitRejectOreder", data)
    }
-  getCategories(data) {
-    return this.http.post(this.Url + "/category" + "/getCategories", data)
+  getCategories() {
+    return this.http.get(this.Url + "/category" + "/getCategories")
   }
   getAllCategories() {
     return this.http.get(this.Url + "/category" + "/getAllCategories")

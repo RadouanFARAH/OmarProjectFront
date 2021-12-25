@@ -17,4 +17,10 @@ export class VendeurMyConsoService {
   getConsoByZone(data){
     return this.http.post(this.url+'/vendeur_dashboard/getConsoByZone',data)
   }
+  setVendeurDayZone(data){
+    return this.http.post(this.url+'/vendeur_dashboard/setVendeurDayZone',data)
+  }
+  getVendeurDayZone(data){
+    return this.http.post(this.url+'/vendeur_dashboard/getVendeurDayZone',data)
+  }
 }

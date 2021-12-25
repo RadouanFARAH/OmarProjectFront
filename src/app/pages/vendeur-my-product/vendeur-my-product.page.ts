@@ -13,16 +13,10 @@ export class VendeurMyProductPage implements OnInit {
 
   selectedToggle: boolean = false;
   data: any;
-  role: any;
   phrase: string='';
   url=environment.url
   constructor(private storage:Storage,private productService: ProductsService, private router: ActivatedRoute) {
     console.log("hola");
-    this.storage.get('role').then((role)=>{
-      if (role){
-        this.role = role
-      }
-    })
     this.getProductsBySeller()
   }
 

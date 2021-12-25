@@ -8,26 +8,12 @@ import { environment } from 'src/environments/environment';
 })
 export class ResponsableService {
   url = environment.url
-  constructor(private http: HttpClient, private storage: Storage) {
-  }
-
+  constructor(private http: HttpClient, private storage: Storage) {} 
   async getVendeurByReponsableByDay() {
-    console.log("triggred");
-
-    return new Promise((resolve, reject) => {
-      this.storage.get('tokenR').then((token) => {
-        console.log("triggred");
-
-        if (token) {
-          console.log("triggred");
-
-          this.storage.set('token', token).then(() => {
-            console.log("triggred");
-
-            resolve(this.http.get(this.url + '/responsable/getVendeurByReponsableByDay'))
-          })
-        }
-      })
-    })
+    return this.http.get(this.url + '/responsable/getVendeurByReponsableByDay')
+  }
+  
+  getVendeurByResponsable(){
+    return this.http.post(this.url+"/vendeur_dashboard/getVendeurByResponsable",{})
   }
 }

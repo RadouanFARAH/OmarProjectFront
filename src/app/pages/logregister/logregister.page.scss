@@ -15,6 +15,7 @@ ion-grid{
     display: block;
     margin: 0px auto;
     margin-top: 10px;
+    margin-top: 20px;
 }
 .cssTitle{
     margin: 0px;
@@ -84,6 +85,7 @@ ion-col{
     //--- slide 2
     .cssLogo{
         width: 80px;
+        margin-top: 20px;
     }
     .cssTitle{
         font-size: 12px;
@@ -117,4 +119,15 @@ ion-col{
         margin-top: 25px;
     }
 
+}
+
+#goback{
+    display: flex;
+    justify-content: center;
+    width: 100px;
+    height: 50px;
+    margin: 10px;
+    align-items: center;
+    background-color: rgba(0,0,0,0.3);
+    border-radius: 6px;
 }
