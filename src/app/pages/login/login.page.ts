@@ -1,5 +1,5 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MenuController, ModalController, ToastController } from "@ionic/angular";
@@ -7,7 +7,6 @@ import { UserService } from 'src/app/services/user.service';
 import { Storage } from '@ionic/storage-angular';
 import jwtDecode from 'jwt-decode';
 import { ForgotPasswordPage } from 'src/app/modals/forgot-password/forgot-password.page';
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -23,7 +22,6 @@ export class LoginPage implements OnInit {
   password: any = "";
   identifant: any = "";
   spinner: boolean;
-
   constructor(private modalController:ModalController,private toast:ToastController,private route: Router, private storage: Storage, private menu: MenuController, private userService: UserService, private fb: FormBuilder,) { }
 
   ngOnInit() {
@@ -65,6 +63,9 @@ export class LoginPage implements OnInit {
       await this.storage.set('username', res['name'])
       await this.storage.set('id', decodedToken.id)
       await this.storage.set('role', res['role'])
+      
+    this.userService.role.next(res['role'])
+
       await this.userService.name.next(res['name'])
       
       if (res.role=="C") {

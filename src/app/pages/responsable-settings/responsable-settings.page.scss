@@ -16,10 +16,8 @@
     width: max-content;
 }
 .space-arround{
-    display: grid;
     justify-content: space-between;
-    grid-template-columns: 25% 25% 25%;
     gap: 5%;
-    margin: 0 5%;
+    margin: 10px 5%;
     place-content: center;
 }

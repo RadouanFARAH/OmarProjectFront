@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
 })
 export class VendeurStatisticsService {
   url = environment.url
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient) {}
   getOrdersByDay(data){
     return this.http.post(this.url+"/orders/getOrdersByDay", data)
   }

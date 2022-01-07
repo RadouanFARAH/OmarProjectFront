@@ -2,7 +2,7 @@
   <ion-toolbar class="cssHeader bgheader">
 
     <ion-title class="tajawal-Bold cssTitleHead">
-      <span class="cssBtnHeaderLeft" routerLink="/categories">
+      <span class="cssBtnHeaderLeft" (click)="goBack()">
         <fa-icon icon="arrow-left"></fa-icon>
       </span>
       طلبياتي
@@ -14,16 +14,16 @@
   <ion-grid class="ion-no-padding">
     <div class="cssTHead">
       <ion-row>
-        <ion-col size="6" class="cssCenter tajawal-Boldd cssLibel">رقم الطلبية</ion-col>
         <ion-col size="3" class="cssCenter tajawal-Boldd cssLibel">تاريخ</ion-col>
+        <ion-col size="6" class="cssCenter tajawal-Boldd cssLibel">رقم الطلبية</ion-col>
         <ion-col size="3" class="cssCenter tajawal-Boldd cssLibel">نقط</ion-col>
       </ion-row>
     </div>
     <div class="cssHeight">
-      <ion-row *ngFor="let d of data" class="cssTHead">
-        <ion-col size="6" class="ion-no-padding cssCenter cssValue">{{d.codecommande}}</ion-col>
+      <ion-row *ngFor="let d of data" class="cssTHead" [style.background]="d.rejet == 0? '#00A651' : '#DC4E41'" >
         <ion-col size="3" class="ion-no-padding cssCenter cssValue">{{d.datecommande}}</ion-col>
-        <ion-col size="3" class="ion-no-padding cssCenter cssValue cssPoints">{{d.pointtotal}}</ion-col>
+        <ion-col size="6" class="ion-no-padding cssCenter cssValue">{{d.codecommande}}</ion-col>
+        <ion-col size="3" class="ion-no-padding cssCenter cssValue cssPoints">{{d.rejet==0?d.pointtotal:''}}</ion-col>
       </ion-row>
     </div>
 

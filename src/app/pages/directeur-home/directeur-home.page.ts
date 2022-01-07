@@ -5,6 +5,7 @@ import { ResponsableService } from 'src/app/services/responsable.service';
 import { UserService } from 'src/app/services/user.service';
 import { Storage } from '@ionic/storage-angular';
 import { DirecteurService } from 'src/app/services/directeur.service';
+import { ToastService } from 'src/app/toasts/toast.service';
 
 @Component({
   selector: 'app-directeur-home',
@@ -66,40 +67,41 @@ export class DirecteurHomePage implements OnInit {
   isShow: boolean = false;
   numClickMenu: number = 0;
   detail: boolean = false;
-  constructor(private route: Router, private storage: Storage, private userService: UserService, private menu: MenuController, private directeurService: DirecteurService) {
+  constructor(private toast: ToastService, private route: Router, private storage: Storage, private userService: UserService, private menu: MenuController, private directeurService: DirecteurService) {
     this.data.jour = new Date().toLocaleDateString('ar-EG-u-nu-latn', { weekday: 'long' });
-    console.log("doing it");
+    this.getDashboard()
+  }
 
+  getDashboard() {
     this.directeurService.getResponsableByDirecteur().subscribe((res: any) => {
       this.data2 = res
     }, err => {
       console.log(err);
     })
-
   }
   doRefresh(event) {
+    this.getDashboard()
     setTimeout(() => {
       event.target.complete();
     }, 2000);
   }
 
-  ngOnInit() {
-
-  }
+  ngOnInit() {}
 
   ionViewWillEnter() {
     this.menu.enable(true, 'directeur-menu')
-
   }
   ionViewWillLeave() {
     this.menu.enable(false, 'directeur-menu')
   }
 
   goTo(responsable) {
-    this.userService.login({responsable}).subscribe(async (res: any) => {
+    this.userService.login({ responsable }).subscribe(async (res: any) => {
       await this.storage.set('token', res.token)
       this.route.navigate(["responsable-home"])
-    }, (err) => { })
+    }, (err) => {
+      this.toast.presentErrorToast('', 3000)
+    })
   }
 
 }

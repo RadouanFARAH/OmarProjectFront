@@ -4,6 +4,7 @@ import { MenuController } from '@ionic/angular';
 import { ResponsableService } from 'src/app/services/responsable.service';
 import { UserService } from 'src/app/services/user.service';
 import { Storage } from '@ionic/storage-angular';
+import { ToastService } from 'src/app/toasts/toast.service';
 
 @Component({
   selector: 'app-responsable-home',
@@ -36,11 +37,18 @@ export class ResponsableHomePage implements OnInit {
   isShow: boolean = false;
   numClickMenu: number = 0;
   detail: boolean = false;
+  role: string;
 
-  constructor(private route:Router,private storage:Storage,private userService:UserService,private menu: MenuController, private responsableService:ResponsableService, private router:Router ) {
+  constructor(private toast:ToastService,private route:Router,private storage:Storage,private userService:UserService,private menu: MenuController, private responsableService:ResponsableService, private router:Router ) {
     this.data.jour= new Date().toLocaleDateString('ar-EG-u-nu-latn',{weekday: 'long'});
     this.getVendeurByResponsable()
+    this.storage.get('role').then((role) => {
+      console.log(role);
 
+      if (role) {
+        this.role = role
+      }
+    })
    }
    doRefresh(event) {
     this.getVendeurByResponsable()
@@ -69,10 +77,12 @@ export class ResponsableHomePage implements OnInit {
   }
 
   goTo(vendeur) {
-    this.userService.login({vendeur}).subscribe(async (res:any)=>{
+    if (this.role =='R') this.userService.login({vendeur}).subscribe(async (res:any)=>{
       await this.storage.set('token', res.token)
       this.route.navigate(["vendeur-home"])
-    }, (err)=>{})
+    }, (err)=>{
+      this.toast.presentErrorToast('', 3000)
+    })
   }
 
 }

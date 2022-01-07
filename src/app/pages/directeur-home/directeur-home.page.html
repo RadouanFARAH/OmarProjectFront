@@ -45,14 +45,14 @@
     <div class="cssContainer" >
       <ion-row>
         <ion-col size="6" *ngFor="let d of data2" class="ion-no-padding">
-          <div class="cssCardVendeur" >
+          <div class="cssCardVendeur" (click)="goTo(d.id)">
             <div class="cssAvatar">
               <img src="./../../../assets/images/register/user1.png">
               <!-- <img src="./../../../assets/images/register/user3.png" *ngIf="d.genre == 'F'"> -->
             </div>
             <div class="cssInfos">
               <div class="cssName Tajawal-Boldd">{{d.nomprenom}}</div>
-              <div class="cssZone Tajawal-Medium">{{d.vquartier}}</div>
+              <div class="cssZone Tajawal-Medium">عدد البائعين: {{d.nombre}}</div>
             </div>
           </div>
         </ion-col>

@@ -12,20 +12,24 @@ import { ParametresService } from 'src/app/services/parametres.service';
 })
 export class VendeurHomePage implements OnInit {
   // etatDemande : V/Validé, A/Attente, R/Refusé
-
+other_places=false;
   data = {
     jour: new Date().toLocaleDateString('ar-EG-u-nu-latn', { weekday: 'long' }),
     zone: "",
     responsable: "",
     vendeur: "",
     noteJour: null,
+    noteJour_other_places: null,
     nbrTotalConso: null,
+    nbrTotalConso_other_places: null,
     consoValide: null,
+    consoValide_other_places: null,
     consoAttente: null,
     consoRefuse: null,
     demandeR: [],
     demandeA: [],
-    demandeV: []
+    demandeV: [],
+    demandeV_other_places:[]
   }
 
 
@@ -37,12 +41,12 @@ export class VendeurHomePage implements OnInit {
   demandeV: boolean;
   demandeA: boolean;
   dashboard: boolean;
+  demandeV_other_places: boolean;
 
-  constructor(private router: ActivatedRoute, private route: Router, public modalController: ModalController, private menu: MenuController, private paramService: ParametresService) {
+  constructor(private router: ActivatedRoute, private route: Router, public modalController: ModalController, private menu: MenuController, private paramService: ParametresService) {}
 
-  }
+
   async openRejectConsumerModal(id) {
-
     const modal = await this.modalController.create({
       component: RejetsPage,
       cssClass: 'my-custom-class',
@@ -52,11 +56,12 @@ export class VendeurHomePage implements OnInit {
     });
     return await modal.present();
   }
+
   getDashboard() {
     this.data.demandeR = []
     this.data.demandeV = []
     this.data.demandeA = []
-    this.paramService.getVendeur_dashboard().subscribe((result: any) => {
+    this.paramService.getVendeur_dashboard({other_places:false}).subscribe((result: any) => {
       this.dashboard=true
       this.data.zone = result[0].zone
       this.data.responsable = result[0].responsable
@@ -66,6 +71,10 @@ export class VendeurHomePage implements OnInit {
       this.data.consoValide = result[0].consoValide
       this.data.consoAttente = result[0].consoAttente
       this.data.consoRefuse = result[0].consoRefuse
+    }, err=>{
+      
+      this.dashboard=false
+
     })
     this.getAll()
 
@@ -73,9 +82,20 @@ export class VendeurHomePage implements OnInit {
 
 
   }
+  getDashboardOther_places() {
+    this.data.demandeV_other_places = []
+    this.paramService.getVendeur_dashboard({other_places:true}).subscribe((result: any) => {
+      
+      this.dashboard=true
+      this.data.noteJour_other_places = result[0].noteJour
+      this.data.nbrTotalConso_other_places = result[0].nbrTotalConso
+      this.data.consoValide_other_places= result[0].consoValide
+    })
+    this.getConsoValide(true)
+  }
   ngOnInit() {
     this.getDashboard()
-
+    this.getDashboardOther_places()
   }
 
   doRefresh(event) {
@@ -94,19 +114,11 @@ export class VendeurHomePage implements OnInit {
 
 
   ionViewWillEnter() {
-
     this.menu.enable(true, 'vendeur-menu')
   }
   ionViewWillLeave() {
     this.menu.enable(false, 'vendeur-menu')
   }
-
-  showMenu() {
-    this.numClickMenu++;
-    this.isShow = this.numClickMenu % 2 == 0 ? false : true;
-
-  }
-
 
   getAll() {
     this.data.demandeR = []
@@ -127,26 +139,37 @@ export class VendeurHomePage implements OnInit {
         this.data.demandeR.push(row)
       })
     })
-    this.paramService.getconsovalide().subscribe((result: any) => {
+    this.getConsoValide(false)
+  }
+  getConsoValide(other_places){
+    this.paramService.getconsovalide({other_places}).subscribe((result: any) => {
       this.tapped = true
       result.forEach((row) => {
-        this.data.demandeV.push(row)
+        other_places?this.data.demandeV_other_places.push(row):this.data.demandeV.push(row)
       })
     })
   }
+  
   waitingOrder() {
     this.demandeR = false
     this.demandeV = false
     this.demandeA = true
   }
+
   refusedOrder() {
     this.demandeR = true
     this.demandeV = false
     this.demandeA = false
   }
+
   didOrder() {
     this.demandeR = false
     this.demandeV = true
     this.demandeA = false
   }
+
+  didOrder_other_places(){
+    this.demandeV_other_places = true
+  }
+
 }

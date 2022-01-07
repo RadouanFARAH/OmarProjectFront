@@ -1,8 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MenuController, IonSlides } from '@ionic/angular';
+import { MenuController, IonSlides, NavController } from '@ionic/angular';
 import { ParametresService } from 'src/app/services/parametres.service';
 import { Storage } from '@ionic/storage-angular';
+import { environment } from 'src/environments/environment';
+import { MyOrdersService } from 'src/app/services/my-orders.service';
 
 @Component({
   selector: 'app-categories',
@@ -43,13 +45,19 @@ export class CategoriesPage implements OnInit {
   ].reverse();
 
   slideOpts2 = {
-    grabCursor: true,
-    initialSlide: this.imgsSlider2.length - 1,
-    speed: 400,
-    autoplay: false
+    // grabCursor: true,
+    // initialSlide: this.imgsSlider2.length - 1,
+    // speed: 400,
+    // autoplay: false
+    slidesPerView: 1,
+    centeredSlides: true,
+    loop: true,
+    spaceBetween: 10,
+    // autoplay:true,
   };
 
   @ViewChild('mySlider2') slides: IonSlides;
+  commandeNum: any;
   next() {
     this.slides.slideNext();
   }
@@ -59,11 +67,14 @@ export class CategoriesPage implements OnInit {
 
   passingOrder: boolean = false;
   idconsumer: any;
-
-  constructor(private storage: Storage, private router: ActivatedRoute, private menu: MenuController, private route: Router, private paramService: ParametresService) {
-    console.log('test');
-
+  url:string = environment.url
+  constructor(private orderService: MyOrdersService,private navCtrl:NavController,private storage: Storage, private router: ActivatedRoute, private menu: MenuController, private route: Router, private paramService: ParametresService) {
+    this.commandeNum = this.orderService.cart_quantity.value
+    this.orderService.cart_quantity.subscribe((qte)=>{
+      this.commandeNum = qte
+    })
     this.getCategory();
+    this.specialOrders();
   }
 
   ngOnInit() {
@@ -89,9 +100,7 @@ export class CategoriesPage implements OnInit {
   async logOut() {
     // this.route.navigate(['login']);
     // localStorage.clear();
-
     await this.storage.clear()
-
     this.route.navigate(['/login'])
     console.log('test');
   }
@@ -101,6 +110,17 @@ export class CategoriesPage implements OnInit {
     this.paramService.getCategories().subscribe((res) => {
       console.log(res);
       this.categories = res;
+    })
+  }
+
+  goBack() {
+    this.navCtrl.back();
+  }
+
+  specialorders:any = []
+  specialOrders() {
+    this.paramService.specialOrders().subscribe((res) => {
+      this.specialorders = res;
     })
   }
 

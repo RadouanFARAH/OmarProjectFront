@@ -2,11 +2,11 @@
   <ion-toolbar class="cssHeader bgheader">
 
     <ion-title class="tajawal-Bold cssTitleHead">
-      <span class="cssBtnHeaderLeft" [routerLink]="['/products', {id:data.productInfos.category}]">
+      <span class="cssBtnHeaderLeft" (click)="goBack()">
         <fa-icon icon="arrow-left"></fa-icon>
       </span>
 
-      <span class="cssBtnHeader" [routerLink]="['/my-cart', {id:data.productInfos.category}]">
+      <span class="cssBtnHeader" [routerLink]="['/my-cart']">
         <fa-icon icon="shopping-basket"></fa-icon>
         <ion-badge *ngIf="commandeNum > 0">{{commandeNum}}</ion-badge>
       </span>
@@ -18,8 +18,8 @@
 <ion-content class="bgInterface2">
 
   <!-- Slide Image -->
-  <ion-slides pager="true" [options]="slideOpts">
-    <ion-slide *ngFor="let img of data.imgs">
+  <ion-slides>
+    <ion-slide *ngFor="let img of imgs">
       <img [src]="img" alt="@youb">
     </ion-slide>
   </ion-slides>
@@ -53,15 +53,14 @@
     </ion-row>
 
     <!-- row 1 -->
-    <ion-row *ngIf="!isProductExitsInOrder">
-      <ion-col>
+    <ion-row>
+      <ion-col *ngIf="qte!=0">
         <div class="cssQuantity">
           <div class="cssAddMinus" (click)="minusQty()">
             <fa-icon icon="minus"></fa-icon>
           </div>
-          <div class="cssQty" *ngIf="qte > 0? qte : 1">
+          <div class="cssQty">
             {{qte}}
-            <!-- <span *ngIf="qte > 0? qte : 1">{{qte}}</span> -->
           </div>
           <div class="cssAddMinus" (click)="addQty()">
             <fa-icon icon="plus"></fa-icon>
@@ -69,8 +68,8 @@
         </div>
       </ion-col>
 
-      <ion-col>
-        <ion-button class="tajawal-Boldd" (click)="addToCart()">أضف إلى السلة</ion-button>
+      <ion-col *ngIf="qte==0">
+        <ion-button class="tajawal-Boldd" (click)="addQty()">أضف إلى السلة</ion-button>
       </ion-col>
     </ion-row>
 
@@ -133,14 +132,14 @@
         </div>
       </ion-col>
     </ion-row>
-
+<!-- 
     <ion-row *ngFor="let d of data.imgs">
       <ion-col class="ion-no-padding">
         <div class="cssImages">
           <img [src]="d">
         </div>
       </ion-col>
-    </ion-row>
+    </ion-row> -->
 
   </ion-grid>
 

@@ -84,7 +84,7 @@
         <ion-col class="ion-no-padding">
           <div class="cssToRight">
             <ion-label class="cssLabel tajawal-Medium">رقم الهاتف المحمول</ion-label>
-            <ion-input (keypress)="preventCaracters($event)" placeholder="أدخل الرقم الخاص بالمكالمات"
+            <ion-input (keypress)="preventCaracters($event)" placeholder="&#8226;&#8226;  &#8226;&#8226;  &#8226;&#8226;  &#8226;&#8226; 06"
               formControlName="tel" type="text"  class="cssInput tajawal-Medium">
             </ion-input>
           </div>
@@ -95,7 +95,7 @@
         <ion-col class="ion-no-padding">
           <div class="cssToRight">
             <ion-label class="cssLabel tajawal-Medium">رقم الهاتف الواتساب</ion-label>
-            <ion-input (keypress)="preventCaracters($event)" placeholder="أدخل الرقم الخاص بالواتساب"
+            <ion-input (keypress)="preventCaracters($event)" placeholder="&#8226;&#8226;  &#8226;&#8226;  &#8226;&#8226;  &#8226;&#8226; 06"
               formControlName="whatsapp" type="text" class="cssInput tajawal-Medium">
             </ion-input>
           </div>
@@ -117,7 +117,7 @@
           <div class="cssToRight">
             <ion-label class="cssLabel tajawal-Medium">أدخل الرمز السري</ion-label>
             <ion-input formControlName="password"
-              placeholder="&#11044; &#11044; &#11044; &#11044; &#11044; &#11044; &#11044; &#11044;" type="password"
+              placeholder="&#8226; &#8226; &#8226; &#8226; &#8226; &#8226; &#8226; &#8226;" type="password"
               class="cssInput tajawal-Medium">
             </ion-input>
           </div>
@@ -127,7 +127,7 @@
         <ion-col class="ion-no-padding">
           <div style="margin-top: 16px;">
             <ion-button expand="block" class="tajawal-Bold cssBtn color1" (click)="register()"
-              [disabled]="data.invalid">تسجيل
+              [disabled]="data.invalid">تسجيل <ion-spinner style="color:#d22231; margin-right: 10px;" *ngIf="spinner"></ion-spinner>
             </ion-button>
           </div>
         </ion-col>

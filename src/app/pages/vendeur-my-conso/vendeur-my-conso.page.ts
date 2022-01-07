@@ -34,8 +34,9 @@ export class VendeurMyConsoPage implements OnInit {
         console.log(typeof(this.data[i].day))
       }
       console.log(this.data, this.day);
-      
-      this.quartier = this.data[days.indexOf(new Date().toLocaleDateString('ar-EG-u-nu-latn', { weekday: 'long' }))].quartier
+      this.dayChanged()
+
+      // this.quartier = this.data[days.indexOf(new Date().toLocaleDateString('ar-EG-u-nu-latn', { weekday: 'long' }))].quartier
 
     })
   }

@@ -6,6 +6,7 @@ import { Storage } from '@ionic/storage-angular';
 import { UserService } from 'src/app/services/user.service';
 import { VilleQuartierService } from 'src/app/services/ville-quartier.service';
 import jwtDecode from 'jwt-decode';
+import { ToastService } from 'src/app/toasts/toast.service';
 
 @Component({
   selector: 'app-logregister',
@@ -44,7 +45,8 @@ export class LogregisterPage implements OnInit {
   username: any;
   beingRegistred: boolean;
   genPwd: Object;
-  constructor(private toast: ToastController, private storage: Storage, private navCtrl: NavController, private locationService: VilleQuartierService, private fb: FormBuilder, private userService: UserService, private activeRoute: ActivatedRoute, private route: Router) {
+  spinner: boolean;
+  constructor(private toast: ToastService, private storage: Storage, private navCtrl: NavController, private locationService: VilleQuartierService, private fb: FormBuilder, private userService: UserService, private activeRoute: ActivatedRoute, private route: Router) {
     this.storage.get('id').then((id) => {
       this.id = id
     })
@@ -105,8 +107,8 @@ export class LogregisterPage implements OnInit {
       ville: [this.ville],
       adresselogement: ["", Validators.required],
       adresseentreprise: [""],
-      tel: [null, Validators.required],
-      whatsapp: [null, Validators.required],
+      tel: ["", Validators.required],
+      whatsapp: ["", Validators.required],
       email: ["", Validators.email],
       password: [""]
     })
@@ -114,10 +116,12 @@ export class LogregisterPage implements OnInit {
   }
 
   preventCaracters(event) {
+
     let regex = /[0-9]/g;
     var k;
     k = event.key;  //         k = event.keyCode;  (Both can be used)
-    return regex.test(k);
+    let isNumeric = regex.test(k);
+    return isNumeric
   }
   slideNext() {
     this.slides.slidePrev()
@@ -159,68 +163,76 @@ export class LogregisterPage implements OnInit {
   register() {
     this.showErrorAlerte = false
     this.showSuccessAlerte = false;
+    this.spinner=true
+    let tel:string = this.data.get('tel').value
+    let whatsapp = this.data.get('whatsapp').value
+    if (((!tel.startsWith('06') && !tel.startsWith('07')) || (tel.length !== 10))  || ((!whatsapp.startsWith('06') && !whatsapp.startsWith('07')) || (whatsapp.length !== 10))  ) {
+      this.toast.presentErrorToast('رقم الهاتف أو الواتس اب غير صحيح',5000);
+    }else{
 
-    let data = { ...this.data.value, genre: this.genre, role: this.role, host: this.id, generatePassword: this.generatePassword }
-    console.log(data);
-
-    this.userService.register(data).subscribe((res) => {
-
-      this.data.reset()
-      this.genPwd = res
-      if (this.beingRegistred) {
-        let listname = ''
-        if (this.role == 'C') listname = 'العملاء'
-        if (this.role == 'V') listname = 'البائعين'
-        if (this.role == 'R') listname = 'المسؤولين'
-        this.href = `whatsapp://send?phone=${data.whatsapp.replace('0', '212')}&text=مرحبا%2C%20لقد%20تمت%20إضافتك%20إلى%20لائحة%20${listname}%2C%20يمكنكم%20ولوج%20تطبيق%20إقتصد%20بأدخال%20رقم%20هاتفكم%20*${data.tel}*%20و%20رمزكم%20السري%20*${res}*`
-        this.showSuccessAlerte2 = true;
-      } else {
-        if (this.role == 'C') {
-          let dt = {
-            id: data.tel,
-            pwd: data.password
-          }
-          this.userService.login(dt).subscribe(async (res: any) => {
-
-            let decodedToken: any = jwtDecode(res.token)
-            console.log('token________ : ', res.token, "  ", decodedToken);
-            await this.storage.set('token', res.token)
-            await this.storage.set('username', res['name'])
-            await this.storage.set('id', decodedToken.id)
-            await this.storage.set('role', res['role'])
-            await this.userService.name.next(res['name'])
-            this.route.navigate(["categories"])
-
-            console.log("login successed");
-          }, async (err) => {
-            const toast = await this.toast.create({
-              message: 'حدث خطأ المرجو إعادة المحاولة',
-              duration: 2000,
-              position: 'middle',
-              cssClass: "failedtoastclass"
-            });
-            toast.present();
+      let data = { ...this.data.value, genre: this.genre, role: this.role, host: this.id, generatePassword: this.generatePassword }
+      console.log(data);
+  
+      this.userService.register(data).subscribe((res) => {
+        this.spinner=true
+  
+        this.data.reset()
+        this.genPwd = res
+        if (this.beingRegistred) {
+          let listname = ''
+          if (this.role == 'C') listname = 'العملاء'
+          if (this.role == 'V') listname = 'البائعين'
+          if (this.role == 'R') listname = 'المسؤولين'
+          this.href = `whatsapp://send?phone=${data.whatsapp.replace('0', '212')}&text=مرحبا%2C%20لقد%20تمت%20إضافتك%20إلى%0a%20لائحة%20${listname}%2C%20يمكنكم%20ولوج%20تطبيق%20إقتصد%20بأدخال%20رقم%20هاتفكم%0a%20*${data.tel}*%20و%20رمزكم%20السري%20*${res}*%20بعد%20تسجيلكم%20بهذا%20رمز%20يمكنكم%20تغييره%20برمز%20سري%20خاص%20بكم%0a%0a%0A%0A%0A.ملاحظه%3A%0A%20تطبيق%20إقتصد%20غير%20متاح%20لأن%20على%20متجر%20قوقل%20بلاي%20سيتم%20إصداره%20قريباً%20و%20سوف%20%20نخبركم%20فور%20نزوله.`
+          this.showSuccessAlerte2 = true;
+        } else {
+          if (this.role == 'C') {
+            let dt = {
+              id: data.tel,
+              pwd: data.password
+            }
+            this.userService.login(dt).subscribe(async (res: any) => {
+  
+              let decodedToken: any = jwtDecode(res.token)
+              console.log('token________ : ', res.token, "  ", decodedToken);
+              await this.storage.set('token', res.token)
+              await this.storage.set('username', res['name'])
+              await this.storage.set('id', decodedToken.id)
+              await this.storage.set('role', res['role'])
+              await this.userService.name.next(res['name'])
+              this.route.navigate(["categories"])
+  
+              console.log("login successed");
+            }, async (err) => {
+              this.toast.presentErrorToast('',3000);
+              this.showSuccessAlerte = true;
+  
+            })
+          }else{
             this.showSuccessAlerte = true;
-
-          })
+          }
         }
-      }
-      // send whatssapp message:
+        // send whatssapp message:
+  
+  
+  
+        console.log("register successed");
+      }, (err) => {
+        if (err.status == 409) {
+          this.message = 'المستخدم موجود بالفعل في نظامنا'
+        }
+        this.showErrorAlerte = true;
+        setTimeout(() => {
+          this.showErrorAlerte = false;
+        }, 3000);
+      })
+    }
 
-
-
-      console.log("register successed");
-    }, (err) => {
-      if (err.status == 409) {
-        this.message = 'المستخدم موجود بالفعل في نظامنا'
-      }
-      this.showErrorAlerte = true;
-      setTimeout(() => {
-        this.showErrorAlerte = false;
-      }, 3000);
-    })
   }
   dimissLoginAlert() {
     this.route.navigate(['login'])
   }
+
+
+
 }

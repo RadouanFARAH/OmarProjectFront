@@ -10,13 +10,29 @@ export class ParametresService {
 
   Url = environment.url;
   constructor(private storage: Storage, public http: HttpClient) { }
-   getVendeur_dashboard(){
-    return this.http.get(this.Url + "/vendeur_dashboard")
+   getVendeur_dashboard(data){
+    return this.http.post(this.Url + "/vendeur_dashboard", data)
    }
-   getconsovalide(){
-    return this.http.get(this.Url + "/vendeur_dashboard/consoValide")
+   getAppCost(){
+    return this.http.get(this.Url + "/user/getAppCost")
    }
-   
+   setGoal(data){
+    return this.http.post(this.Url + "/user/setGoal", data)
+   }
+   getOrderDetails(data){
+    return this.http.post(this.Url + "/orders/getOrderDetails", data)
+   }
+   getconsovalide(data){
+    return this.http.post(this.Url + "/vendeur_dashboard/consoValide",data)
+   }
+   updateSpecial(data){
+    return this.http.post(this.Url + "/product/updateSpecial", data)
+
+   }
+   updatePoint(data){
+    return this.http.post(this.Url + "/product/updatePoint", data)
+
+   }
    getconsoAttente(){
     return this.http.get(this.Url + "/vendeur_dashboard/consoAttente")
    }
@@ -35,12 +51,16 @@ export class ParametresService {
   getCategories() {
     return this.http.get(this.Url + "/category" + "/getCategories")
   }
+  specialOrders(){
+    return this.http.get(this.Url + "/product" + "/specialOrders")
+  }
   getAllCategories() {
+    console.log('getting categories');
     return this.http.get(this.Url + "/category" + "/getAllCategories")
   }
 
-  getProductByCategory(id) {
-    return this.http.post(this.Url + "/product" + "/getProductByCategory", { id })
+  getProductByCategory(id,special) {
+    return this.http.post(this.Url + "/product" + "/getProductByCategory", { id, special })
   }
   setProduct(data) {
     return this.http.post(this.Url + "/product" + "/putProduct", data)

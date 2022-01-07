@@ -89,10 +89,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/vendeur-my-product/vendeur-my-product.module').then(m => m.VendeurMyProductPageModule)
   },
   {
-    path: 'add-user',
-    loadChildren: () => import('./pages/add-user/add-user.module').then(m => m.AddUserPageModule)
-  },
-  {
     path: 'rejets',
     loadChildren: () => import('./modals/rejets/rejets.module').then(m => m.RejetsPageModule)
   },

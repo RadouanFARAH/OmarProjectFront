@@ -14,6 +14,7 @@ import { UserService } from './services/user.service';
 export class AppComponent {
   name: string = "";
   id: any;
+  role: any;
   constructor(
     private userService: UserService,
     private platform: Platform,
@@ -23,13 +24,29 @@ export class AppComponent {
     this.route.params.subscribe((params) => {
       this.id = params.id
     })
+
     this.userService.name.subscribe((n) => {
       console.log("name 0:", this.name);
 
       this.name = n
     })
+    this.userService.role.subscribe((n) => {
+      console.log("name 0:", this.role);
+
+      this.role = n
+    })
     this.storage.create();
     this.initializeApp();
+    this.storage.get('role').then((role) => {
+      if (role) {
+        this.role = role
+      }
+    })
+    this.storage.get('username').then((username) => {
+      if (username) {
+        this.name = username
+      }
+    })
   }
 
   async ngOnInit() {
@@ -51,7 +68,7 @@ export class AppComponent {
         if (tokenV) {
           this.storage.set('token', tokenV)
           this.router.navigate(['/vendeur-home'])
-        }else{
+        } else {
           this.storage.remove('tokenC')
           this.storage.remove('token')
           this.storage.remove('id')
@@ -60,13 +77,13 @@ export class AppComponent {
           this.router.navigate(['/login'])
         }
       })
-    } 
+    }
     else if (d == 'V') {
       this.storage.get('tokenR').then((tokenR) => {
         if (tokenR) {
           this.storage.set('token', tokenR)
           this.router.navigate(['/responsable-home'])
-        }else{
+        } else {
           this.storage.remove('tokenV')
           this.storage.remove('id')
           this.storage.remove('role')
@@ -80,7 +97,7 @@ export class AppComponent {
         if (tokenD) {
           this.storage.set('token', tokenD)
           this.router.navigate(['/directeur-home'])
-        }else{
+        } else {
           this.storage.remove('token')
           this.storage.remove('tokenR')
           this.storage.remove('id')
@@ -119,7 +136,7 @@ export class AppComponent {
       })
       this.storage.get('visited').then((isVisited) => {
         console.log('Visited :', isVisited);
-        
+
         if (!isVisited) {
           this.router.navigate(['/logaccount']).then(() => {
             this.storage.set('visited', true)

@@ -15,9 +15,17 @@ export class VendeurMyProductPage implements OnInit {
   data: any;
   phrase: string='';
   url=environment.url
+  role: any;
   constructor(private storage:Storage,private productService: ProductsService, private router: ActivatedRoute) {
     console.log("hola");
     this.getProductsBySeller()
+    this.storage.get('role').then((role) => {
+      console.log(role);
+
+      if (role) {
+        this.role = role
+      }
+    })
   }
 
   ngOnInit() {

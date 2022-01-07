@@ -4,6 +4,10 @@
       <ion-menu-button menu="consommateur-menu" style="color: #fff;"></ion-menu-button>
     </ion-buttons>
     <ion-title class="tajawal-Bold cssTitleHead">
+      <span class="cssBtnHeader" [routerLink]="['/my-cart']">
+        <fa-icon icon="shopping-basket"></fa-icon>
+        <ion-badge *ngIf="commandeNum > 0">{{commandeNum}}</ion-badge>
+      </span>
       الفئات
     </ion-title>
   </ion-toolbar>
@@ -74,16 +78,16 @@
       <ion-col size="12" class="ion-no-padding">
         <div class="cssSlider2">
           <ion-slides pager="false" [options]="slideOpts2" #mySlider2>
-            <ion-slide *ngFor="let img of imgsSlider2" [style.background-image]="'url('+ img +')'">
+            <ion-slide  [routerLink]="['/products', {id: 'special', nom:'عروض اليوم', special:true}]" *ngFor="let p of specialorders" [style.background-image]="'url('+ 'http://blooming.dreamhost.com:2022/images/image_'+p.code+'.png' +')'">
               <!-- <img src="./../../../assets/images/product/prod4.jpg" alt="@youb"> -->
             </ion-slide>
           </ion-slides>
 
           <span (click)="prev()" class="cheveronRight">
-            <fa-icon icon="chevron-right"></fa-icon>
+            <fa-icon style="color: #f5ec32;" icon="chevron-right"></fa-icon>
           </span>
           <span (click)="next()" class="cheveronLeft">
-            <fa-icon icon="chevron-left"></fa-icon>
+            <fa-icon style="color: #f5ec32;"  icon="chevron-left"></fa-icon>
           </span>
         </div>
       </ion-col>
@@ -121,12 +125,12 @@
       </ion-col>
     </ion-row> -->
 
-    <ion-row style="margin-bottom: 20px !important;">
+    <ion-row style="margin: 20px 10px !important;">
       <ion-col size="6" *ngFor="let cat of categories">
-        <ion-card class="cssCard" [routerLink]="['/products', {id: cat.id, idconsumer:idconsumer}]">
-          <div [style.background-image]="'url('+ cat.url +')'" class="cssImg"></div>
-          <ion-card-header class="cssHeaderCard">
-            <ion-card-title class="cssTitleCrd tajawal-Medium">{{cat.nom}}</ion-card-title>
+        <ion-card class="cssCard" [routerLink]="['/products', {id: cat.id, nom:cat.nom}]">
+          <img class="cssImg" [src]="cat.url" height="160" width="150">
+          <ion-card-header class="cssHeaderCard" style="padding: 5px;">
+            <ion-card-title class="cssTitleCrd tajawal-Medium" style="font-size: 16px;">{{cat.nom}}</ion-card-title>
           </ion-card-header>
         </ion-card>
       </ion-col>

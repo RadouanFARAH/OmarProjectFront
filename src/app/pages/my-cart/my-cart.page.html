@@ -2,7 +2,7 @@
   <ion-toolbar class="cssHeader bgheader">
 
     <ion-title class="tajawal-Bold cssTitleHead">
-      <span class="cssBtnHeaderLeft" [routerLink]="['/products',{id}]">
+      <span class="cssBtnHeaderLeft" (click)="goBack()">
         <fa-icon icon="arrow-left"></fa-icon>
       </span>
       طلبياتي
@@ -18,16 +18,16 @@
         <ion-col class="ion-no-padding">
           <div class="cssProduct">
             <div class="cssImg">
-              <img [src]="d.urls.split(',')[0]" alt="@youb">
+              <img [src]="url+'/images/image_'+d.code+'.png'" alt="@youb">
             </div>
             <div class="cssInfos">
               <div class="cssName tajawal-Medium">{{d.nom}}</div>
               <div class="cssPrixT">
                 <div class="cssPrix">
-                  <span>{{d.prixfinal}}</span> درهم
+                  <span>{{d.prixfinal*d.quantite}}</span> درهم
                 </div>
                 <div class="cssPrix">
-                  <span>{{d.point}}</span> نقطة
+                  <span>{{d.point_c*d.quantite}}</span> نقطة
                 </div>
               </div>
               <div class="cssPrixT">
@@ -65,7 +65,7 @@
           <div class="cssSome tajawal-Boldd">المجموع</div>
           <div class="cssSomeValue">
             <div class="cssDhs">
-              <p class="cssValue">{{(totalPrice).toFixed(2)}}</p>
+              <p class="cssValue">{{(totalPrice+app_cost).toFixed(2)}}</p>
               <p class="cssUnit">درهم</p>
             </div>
             <div class="cssDhs">
@@ -73,7 +73,7 @@
               <p class="cssUnit">نقطة</p>
             </div>
             <div class="cssDhs">
-              <p class="cssValue">2<span>درهم</span></p>
+              <p class="cssValue">{{app_cost}}<span>درهم</span></p>
               <p class="cssUnit">لمستحقات التطبيق</p>
             </div>
           </div>

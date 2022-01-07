@@ -1,28 +1,11 @@
 <ion-header class="ion-no-border">
   <ion-toolbar class="cssHeader bgheader">
-    <!-- <ng-container *ngIf="!user">
-      <ion-buttons slot="start">
-        <ion-menu-button menu="responsable-menu" style="color: #fff;"></ion-menu-button>
-      </ion-buttons>
-      <ion-title class="tajawal-Bold cssTitleHead">
-        <span class="cssBtnHeader" (click)="showMenu()">
-          <fa-icon icon="ellipsis-v"></fa-icon>
-        </span>
-        واجهة المسؤول
-      </ion-title>
-    </ng-container> -->
-
-    <!-- <ng-container *ngIf="user"> -->
     <ion-buttons slot="end">
       <ion-menu-button menu="vendeur-menu" style="color: #fff;"></ion-menu-button>
     </ion-buttons>
     <ion-title class="tajawal-Bold cssTitleHead">
-      <!-- <span class="cssBtnHeader" (click)="showMenu()">
-        <fa-icon icon="ellipsis-v"></fa-icon>
-      </span> -->
       واجهة البائع
     </ion-title>
-    <!-- </ng-container> -->
   </ion-toolbar>
 </ion-header>
 
@@ -32,42 +15,7 @@
     </ion-refresher-content>
   </ion-refresher>
   <ion-grid class="ion-no-padding">
-    <!-- Menu -->
-    <!-- <div class="cssMenu animate__animated animate__fadeInDown animate__delay-0s" *ngIf="isShow">
-      <ion-list class="ion-no-padding">
-        <ion-item lines="none" *ngIf="user">
-          <label class="almarai-bold" routerLink="/vendeur-addproduct">إضافة منتج جديد</label>
-        </ion-item>
-        <ion-item lines="none" *ngIf="!user">
-          <label class="almarai-bold" routerLink="/responsable-my-vend">قائمة البائعين</label>
-        </ion-item>
-        <ion-item lines="none" *ngIf="user">
-          <label class="almarai-bold" routerLink="/vendeur-my-conso">قائمة العملاء</label>
-        </ion-item>
-        <ion-item lines="none" *ngIf="user">
-          <label class="almarai-bold" routerLink="/vendeur-statistique-vente">حصيلة المبيعات</label>
-        </ion-item>
-        <ion-item lines="none">
-          <label class="almarai-bold" routerLink="/login">خروج</label>
-        </ion-item>
-      </ion-list>
-    </div> -->
-
-    <!-- row 1 , card 1 & cared 2 : vendeur -->
     <ion-row>
-      <!-- <ion-col class="ion-no-padding">
-        <div class="cssSmallCard1">
-          <div>
-            <span class="cssLibel almarai-ExtraBold">المسؤول :</span>
-            <span class="cssValue almarai-Regular">{{data.responsable}}</span>
-          </div>
-          <div>
-            <span class="cssLibel almarai-ExtraBold">البائع :</span>
-            <span class="cssValue almarai-Regular">{{data.vendeur}}</span>
-          </div>
-        </div>
-      </ion-col> -->
-
       <ion-col class="ion-no-padding">
         <div class="cssSmallCard2">
           <div>
@@ -81,51 +29,12 @@
         </div>
       </ion-col>
     </ion-row>
-
-    <!-- row 1 , card 1 & cared 2 : responsable -->
-    <!-- <div class="cssResponsable" *ngIf="!user">
-      <ion-row *ngIf="!user">
-        <ion-col class="ion-no-padding">
-          <div class="cssCol cssBackground1">
-            <span class="cssLibel almarai-ExtraBold">عدد البائعين :</span>
-            <span class="tajawal-Medium cssNumber">22</span>
-          </div>
-        </ion-col>
-
-        <ion-col class="ion-no-padding">
-          <div class="cssCol cssBackground2">
-            <span class="cssLibel almarai-ExtraBold">اليوم :</span>
-            <span class="cssValue tajawal-Medium">{{data.jour}}</span>
-          </div>
-        </ion-col>
-      </ion-row>
-
-      <ion-row *ngIf="!user">
-        <ion-col class="ion-no-padding">
-          <div class="cssSelect">
-            <select name="vendeur" id="vendeur">
-              <option selected class="cssValue tajawal-Medium">--إختيار البائع--</option>
-              <option *ngFor="let d of data2" class="cssValue tajawal-Medium">{{d.vendeur}}</option>
-            </select>
-          </div>
-        </ion-col>
-
-        <ion-col class="ion-no-padding">
-          <div class="cssSelect cssMarging">
-            <span class="cssLibel almarai-ExtraBold">المنطقة :</span>
-            <span class="cssValue tajawal-Medium">حي عكاري</span>
-          </div>
-        </ion-col>
-      </ion-row>
-    </div> -->
-
-    <!-- row 2 , card 3-->
     <ion-row>
       <ion-col class="ion-no-padding">
         <div class="cssCard3">
           <div class="cssFlex">
             <div>
-              <p class="cssLibel almarai-ExtraBold">نقط اليوم</p>
+              <p class="cssLibel almarai-ExtraBold"> عدد النقاط  </p>
               <p class="cssValue almarai-Regular"><ion-spinner *ngIf="!data.noteJour&&!dashboard"></ion-spinner>{{data.noteJour?data.noteJour:dashboard?0:data.noteJour}}</p>
             </div>
             <div>
@@ -133,7 +42,6 @@
               <p class="cssValue almarai-Regular"><ion-spinner *ngIf="!data.nbrTotalConso&&!dashboard"></ion-spinner>{{data.nbrTotalConso}}</p>
             </div>
           </div>
-
           <div class="cssFlex cssFlexColumn">
             <div (click)="refusedOrder()" class="cssSmallCard3 ion-activatable ripple-parent">
               <ion-ripple-effect></ion-ripple-effect>
@@ -167,7 +75,6 @@
     <ion-row style="display: flex; justify-content: center;">
       <ion-spinner *ngIf="!dashboard"></ion-spinner>
     </ion-row>
-    <!-- row 3 , cards 4-->
     <div *ngIf="demandeR">
       <ion-row *ngFor="let d of data.demandeR">
         <ion-col class="ion-no-padding" [routerLink]="['/vendeur-demande-conso', d]">
@@ -222,10 +129,72 @@
       </ion-row>
     </div>
 
+  </ion-grid>
 
-  
 
- 
+  <ion-grid class="ion-no-padding">
+    <ion-row (click)="other_places = !other_places">
+      <ion-col class="ion-no-padding">
+        <div class="cssSmallCard2">
+          <div >
+            <span class="cssLibel almarai-ExtraBold"> من مناطقك الأخرى</span>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="other_places">
+      <ion-col class="ion-no-padding">
+        <div class="cssCard3">
+          <div class="cssFlex">
+            <div>
+              <p class="cssLibel almarai-ExtraBold"> عدد النقاط  </p>
+              <p class="cssValue almarai-Regular"><ion-spinner *ngIf="!data.noteJour_other_places&&!dashboard"></ion-spinner>{{data.noteJour_other_places?data.noteJour_other_places:dashboard?0:data.noteJour_other_places}}</p>
+            </div>
+            <div>
+              <p class="cssLibel almarai-ExtraBold">عدد العملاء</p>
+              <p class="cssValue almarai-Regular"><ion-spinner *ngIf="!data.nbrTotalConso_other_places&&!dashboard"></ion-spinner>{{data.nbrTotalConso_other_places}}</p>
+            </div>
+          </div>
+          <div class="cssFlex cssFlexColumn">
+            <div (click)="didOrder_other_places()" class="cssSmallCard5 ion-activatable ripple-parent">
+              <ion-ripple-effect></ion-ripple-effect>
+              <p class="cssLibel almarai-Bold">
+                <fa-icon icon="check"></fa-icon>
+                الذين قاموا بالطلب
+              </p>
+              <p class="cssValue almarai-Regular"><ion-spinner *ngIf="!data.consoValide_other_places&&!dashboard"></ion-spinner>{{data.consoValide_other_places}}</p>
+            </div>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+
+    <ion-row style="display: flex; justify-content: center;">
+      <ion-spinner *ngIf="!dashboard"></ion-spinner>
+    </ion-row>
+
+    <div *ngIf="demandeV_other_places">
+      <ion-row *ngFor="let d of data.demandeV_other_places">
+        <ion-col class="ion-no-padding" [routerLink]="['/vendeur-demande-conso', d]">
+          <div class="cssSmallCard6">
+            <div class="cssName">
+              <span class="cssBgIcon3">
+                <fa-icon icon="check"></fa-icon>
+              </span>
+              <span class="almarai-Bold cssNameValue">{{d.nomprenom}}</span>
+            </div>
+            <div class="cssNote">
+              <span class="cssValue">{{d.pointtotal}}</span>
+              <span class="almarai-Bold cssUnit">نقطة</span>
+            </div>
+            <div class="cssPrix">
+              <span class="cssValue">{{d.prixtotal}}</span>
+              <span class="almarai-Bold cssUnit">درهم</span>
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+    </div>
 
   </ion-grid>
 

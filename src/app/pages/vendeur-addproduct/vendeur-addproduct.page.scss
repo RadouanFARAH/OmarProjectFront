@@ -35,11 +35,13 @@ ion-col {
     flex-direction: column;
 }
 .cssbtnImg {
-    img{
+    img {
         height: 90px;
     }
     width: 90px;
-    background: #f0344c;
+    height: 90px;
+
+    background: #fdfdfd;
     border-radius: 10px;
     text-align: center;
     display: flex;
@@ -47,6 +49,7 @@ ion-col {
     justify-content: center;
     cursor: pointer;
 }
+
 .cssbtnImg2 {
     width: 90px;
     background: #f0344c;
@@ -103,26 +106,26 @@ ion-button {
         height: 44px;
     }
 
-    // imgs
-    .cssbtnImg {
-      
-        width: 70px;
-        height: 70px;
-        padding: 10px 5px;
-        border-radius: 4px;
-    }
-    .cssbtnImg2 {
-       
-        width: 70px;
-        // height: 70px;
-        padding: 10px 5px;
-        border-radius: 4px;
-    }
-    .cssImg {
-        width: 68px;
-        height: 68px;
-        border-radius: 4px;
-    }
+    // // imgs
+    // .cssbtnImg {
+
+    //     width: 90px;
+    //     height: 70px;
+    //     padding: 10px 5px;
+    //     border-radius: 4px;
+    // }
+    // .cssbtnImg2 {
+
+    //     width: 70px;
+    //     // height: 70px;
+    //     padding: 10px 5px;
+    //     border-radius: 4px;
+    // // }
+    // .cssImg {
+    //     width: 68px;
+    //     height: 68px;
+    //     border-radius: 4px;
+    // }
 
     // btn submit
     ion-button {
@@ -144,7 +147,7 @@ ion-button {
     position: relative;
     text-align: center;
 }
-.fileLabelB{
+.fileLabelB {
     position: relative;
     text-align: center;
 }

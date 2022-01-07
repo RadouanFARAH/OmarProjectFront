@@ -2,7 +2,7 @@
   <ion-toolbar class="cssHeader bgheader">
 
     <ion-title class="tajawal-Bold cssTitleHead">
-      <span class="cssBtnHeaderLeft" routerLink="/vendeur-home">
+      <span class="cssBtnHeaderLeft" (click)="goBack()">
         <fa-icon icon="arrow-left"></fa-icon>
       </span>
       حصيلة المبيعات
@@ -15,9 +15,9 @@
         اليوم
       </ion-segment-button>
       <ion-segment-button value="yesterday" class="segmentBtn2">
-        الايام السابقة      </ion-segment-button>
+        الايام السابقة </ion-segment-button>
       <ion-segment-button value="monthsbefore" class="segmentBtn3">
-        الاشهر السابقة   
+        الاشهر السابقة
       </ion-segment-button>
     </ion-segment>
   </ion-toolbar>
@@ -25,9 +25,14 @@
 </ion-header>
 
 <ion-content class="bgInterface2 cssPosition">
+  <div>
+    <ion-spinner style="display: contents; place-content: center; margin: 0 auto;color: tomato;" *ngIf="spinner">
+    </ion-spinner>
+  </div>
+
 
   <!-- section one -->
-  <div class="cssSection" *ngIf="selectedSegment == 'today'">
+  <div class="cssSection" *ngIf="!spinner && selectedSegment == 'today'">
     <div class="cssHeight">
       <ion-grid class="ion-no-padding">
 
@@ -39,6 +44,7 @@
           </ion-col>
         </ion-row>
 
+
         <ion-row *ngFor="let d of dataDay" style="margin: 6px 0px;">
           <ion-col class="ion-no-padding">
             <div class="cssContainer cssVenteDay">
@@ -48,8 +54,10 @@
               </div>
               <div class="cssCount">
                 <div class="cssValue"><span>{{d.quantite}}</span><span class="tajawal-Medium">وحدة</span></div>
-                <div class="cssValue"><span>{{d.point * d.quantite}}</span><span class="tajawal-Medium">نقطة</span></div>
-                <div class="cssValue"><span>{{(d.prixfinal * d.quantite).toFixed(2)}}</span><span class="tajawal-Medium">درهم</span></div>
+                <div class="cssValue"><span>{{d.point_v * d.quantite}}</span><span class="tajawal-Medium">نقطة</span>
+                </div>
+                <div class="cssValue"><span>{{(d.prixfinal * d.quantite).toFixed(2)}}</span><span
+                    class="tajawal-Medium">درهم</span></div>
               </div>
             </div>
           </ion-col>
@@ -64,7 +72,7 @@
                 <div class="cssCol">
                   <div class="cssRow">
                     <span class="cssLibel tajawal-Boldd">عدد المنتوجات :</span>
-                    <span class="cssValue">{{dataDay.length}}</span>
+                    <span class="cssValue">{{productIDs.length}}</span>
                   </div>
 
                   <div class="cssRow">
@@ -89,8 +97,8 @@
             </div>
           </ion-col>
         </ion-row>
-
-        <ion-row>
+        <!-- 
+        <ion-row *ngIf="role=='V'">
           <ion-col class="ion-no-padding">
             <div class="cssContainer cssSommeMounth" style="margin-top: 12px; margin-bottom: 12px;">
 
@@ -112,11 +120,11 @@
                 <div class="cssRow">
                   <div class="cssLibel tajawal-Medium">الفاتورات</div>
                   <div class="cssBar">
-                    <span class="cssEnd">20</span>
+                    <span class="cssEnd">{{goal}}</span>
                     <span class="cssStart">{{orders}}</span>
                     <div class="progress">
-                      <div class="progress-bar cssColorBar" role="progressbar" [ngStyle]="{'width.%': (orders/20)*100}" 
-                        aria-valuemin="0" aria-valuemax="100">{{((orders/20)*100).toFixed(0)}}%</div>
+                      <div class="progress-bar cssColorBar" role="progressbar" [ngStyle]="{'width.%': (orders/goal)*100}" 
+                        aria-valuemin="0" aria-valuemax="100">{{((orders/goal)*100).toFixed(0)}}%</div>
                     </div>
                   </div>
                 </div>
@@ -124,14 +132,14 @@
 
             </div>
           </ion-col>
-        </ion-row>
+        </ion-row> -->
 
       </ion-grid>
     </div>
   </div>
 
   <!-- section two -->
-  <div class="cssSection2" *ngIf="selectedSegment == 'yesterday'">
+  <div class="cssSection2" *ngIf="!spinner && selectedSegment == 'yesterday'">
     <div class="cssHeight">
       <ion-grid class="ion-no-padding">
 
@@ -143,16 +151,16 @@
           </ion-col>
         </ion-row>
 
-        <ion-row *ngFor="let d of dataDay" style="margin: 6px 0px;">
+        <ion-row *ngFor="let d of dataDay; let i=index" style="margin: 6px 0px;">
           <ion-col class="ion-no-padding">
             <div class="cssContainer cssVenteDay">
               <div class="cssinfos">
-                <div class="cssName tajawal-Boldd">{{d.datecommande.split('T')[0]}}</div>
+                <div class="cssName tajawal-Boldd">{{arrdays[i]}}</div>
                 <!-- <div class="cssSerial">{{d.codecommande}}</div> -->
               </div>
               <div class="cssCount">
                 <!-- <div class="cssValue"><span>{{d.quantite}}</span><span class="tajawal-Medium">وحدة</span></div> -->
-                <div class="cssValue"><span>{{d.point}}</span><span class="tajawal-Medium">نقطة</span></div>
+                <div class="cssValue"><span>{{d.point_v}}</span><span class="tajawal-Medium">نقطة</span></div>
                 <div class="cssValue"><span>{{d.prixfinal}}</span><span class="tajawal-Medium">درهم</span></div>
               </div>
             </div>
@@ -162,13 +170,13 @@
         <ion-row>
           <ion-col class="ion-no-padding">
             <div class="cssContainer cssTotalDay" style="margin-bottom: 12px;">
-              <div class="cssTitleCard tajawal-Boldd"> المجموع    </div>
+              <div class="cssTitleCard tajawal-Boldd"> المجموع </div>
 
               <div class="cssCard">
                 <div class="cssCol">
                   <div class="cssRow">
                     <span class="cssLibel tajawal-Boldd">عدد المنتوجات :</span>
-                    <span class="cssValue">{{dataDay.length}}</span>
+                    <span class="cssValue">{{productIDs.length}}</span>
                   </div>
 
                   <div class="cssRow">
@@ -191,36 +199,39 @@
               </div>
 
             </div>
+
           </ion-col>
         </ion-row>
 
-        <ion-row>
+        <ion-row *ngIf="role=='V'">
           <ion-col class="ion-no-padding">
             <div class="cssContainer cssSommeMounth" style="margin-top: 12px; margin-bottom: 12px;">
 
               <div class="cssTitleCard tajawal-Boldd">الهدف</div>
 
               <div>
-                <div class="cssRow">
+                <!-- <div class="cssRow">
                   <div class="cssLibel tajawal-Medium">النقط</div>
                   <div class="cssBar">
                     <span class="cssEnd">60</span>
                     <span class="cssStart">{{pointtotal}}</span>
                     <div class="progress">
-                      <div class="progress-bar cssColorBar" role="progressbar" [ngStyle]="{'width.%': ((pointtotal/60)*100).toFixed(0)}" 
-                        aria-valuemin="0" aria-valuemax="100">{{((pointtotal/60)*100).toFixed(0)}}%</div>
+                      <div class="progress-bar cssColorBar" role="progressbar"
+                        [ngStyle]="{'width.%': ((pointtotal/60)*100).toFixed(0)}" aria-valuemin="0" aria-valuemax="100">
+                        {{((pointtotal/60)*100).toFixed(0)}}%</div>
                     </div>
                   </div>
-                </div>
+                </div> -->
 
                 <div class="cssRow">
                   <div class="cssLibel tajawal-Medium">الفاتورات</div>
                   <div class="cssBar">
-                    <span class="cssEnd">20</span>
+                    <span class="cssEnd">{{goal}}</span>
                     <span class="cssStart">{{orders}}</span>
                     <div class="progress">
-                      <div class="progress-bar cssColorBar" role="progressbar" [ngStyle]="{'width.%': (orders/20)*100}" 
-                        aria-valuemin="0" aria-valuemax="100">{{((orders/20)*100).toFixed(0)}}%</div>
+                      <div class="progress-bar cssColorBar" role="progressbar"
+                        [ngStyle]="{'width.%': (orders/goal)*100}" aria-valuemin="0" aria-valuemax="100">
+                        {{((orders/goal)*100).toFixed(0)}}%</div>
                     </div>
                   </div>
                 </div>
@@ -235,14 +246,14 @@
   </div>
 
   <!-- section three -->
-  <div class="cssSection3" *ngIf="selectedSegment == 'monthsbefore'">
+  <div class="cssSection3" *ngIf="!spinner && selectedSegment == 'monthsbefore'">
     <div class="cssHeight">
       <ion-grid class="ion-no-padding">
 
         <ion-row>
           <ion-col class="ion-no-padding">
             <div class="cssContainer cssSectionTtile tajawal-Bold">
-              ارباح  الاشهر السابقة
+              ارباح الاشهر السابقة
             </div>
           </ion-col>
         </ion-row>
@@ -251,18 +262,18 @@
           <ion-col class="ion-no-padding">
             <div class="cssContainer cssVenteDay">
               <div class="cssinfos">
-                <div class="cssName tajawal-Boldd">{{dataDays[i]}}</div>
+                <div class="cssName tajawal-Boldd">{{arrmonths2[i]}}</div>
                 <!-- <div class="cssSerial">{{d.codecommande}}</div> -->
               </div>
               <div class="cssCount">
                 <!-- <div class="cssValue"><span>{{d.quantite}}</span><span class="tajawal-Medium">وحدة</span></div> -->
-                <div class="cssValue"><span>{{d.point}}</span><span class="tajawal-Medium">نقطة</span></div>
+                <div class="cssValue"><span>{{d.point_v?d.point_v:0}}</span><span class="tajawal-Medium">نقطة</span></div>
                 <div class="cssValue"><span>{{d.prixfinal}}</span><span class="tajawal-Medium">درهم</span></div>
               </div>
             </div>
           </ion-col>
         </ion-row>
-        
+
         <ion-row>
           <ion-col class="ion-no-padding">
             <div class="cssContainer cssTotalDay" style="margin-bottom: 12px;">
@@ -298,7 +309,7 @@
           </ion-col>
         </ion-row>
 
-        <ion-row>
+        <!-- <ion-row *ngIf="role=='V'">
           <ion-col class="ion-no-padding">
             <div class="cssContainer cssSommeMounth" style="margin-top: 12px; margin-bottom: 12px;">
 
@@ -332,7 +343,7 @@
 
             </div>
           </ion-col>
-        </ion-row>
+        </ion-row> -->
       </ion-grid>
     </div>
   </div>

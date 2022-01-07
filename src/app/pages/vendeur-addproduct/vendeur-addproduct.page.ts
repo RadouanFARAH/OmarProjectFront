@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, NavController, ToastController } from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ParametresService } from 'src/app/services/parametres.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -8,6 +8,7 @@ import { Storage } from '@ionic/storage';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { DirecteurService } from 'src/app/services/directeur.service';
 import { ResponsableService } from 'src/app/services/responsable.service';
+import { ToastService } from 'src/app/toasts/toast.service';
 
 @Component({
   selector: 'app-vendeur-addproduct',
@@ -19,8 +20,9 @@ export class VendeurAddproductPage implements OnInit {
   dataForm: FormGroup;
   showErrorAlerte: boolean = false;
   showSuccessAlerte: boolean = false;
+  special: boolean = false;
   categories: any;
-  image: any;
+  image: any = null;
   responsable: any;
   vendeurs: any;
   role: any;
@@ -34,11 +36,8 @@ export class VendeurAddproductPage implements OnInit {
   spinner: boolean;
   whoisadding: any;
   responsables: any;
-  sizeError: string;
-  sizeErrorCount: number = 0;
-  sizeWord: string;
 
-  constructor(private directeurService: DirecteurService, private navCtrl: NavController, private toast: ToastController, private sanitizer: DomSanitizer, private storage: Storage, private service: ResponsableService, private router: ActivatedRoute, public alertIonic: AlertController, private fb: FormBuilder, private paramService: ParametresService) {
+  constructor(private toast:ToastService,private directeurService: DirecteurService, private navCtrl: NavController, private sanitizer: DomSanitizer, private storage: Storage, private service: ResponsableService, private router: ActivatedRoute, public alertIonic: AlertController, private fb: FormBuilder, private paramService: ParametresService) {
     this.storage.get('role').then((role) => {
       console.log(role);
 
@@ -61,6 +60,9 @@ export class VendeurAddproductPage implements OnInit {
   }
   sanitizeImageUrl(imageUrl: string): SafeUrl {
     return this.sanitizer.bypassSecurityTrustUrl(imageUrl);
+  }
+  toggelspecial(){
+    this.special=!this.special
   }
   ngOnInit() {
 
@@ -165,31 +167,31 @@ export class VendeurAddproductPage implements OnInit {
     }, err => console.log(err))
   }
   setProduct() {
-    if (this.sizeErrorCount > 0) { 
-      this.sizeError = `المرجو تغيير الصورة ${this.sizeWord} لصورة حجمها اقل`
-      return 
-    }
-
-    console.log('set product triggred');
     let code = "P" + Date.now();
-    // this.image.name = code+ this.image.name.split('.')[1];
-    const formData = new FormData();
-    formData.append('image', this.image, code + '.' + this.image.name.split('.')[1]);
     let data = {
       ...this.dataForm.value,
       code,
-      role: this.role
+      role: this.role,
+      special:this.special,
+      urls:this.images.length
     }
-    if (this.images.length > 0) {
-      for (let i = 0; i < this.images.length; i++) {
-        formData.append('image', this.images[i], code + "A" + '.' + this.image.name.split('.')[1]);
-      }
-    }
-    console.log(data, this.image);
-
     this.paramService.setProduct(data).subscribe((res: any) => {
-      // this.showSuccessAlerte = true;
+
+      const formData = new FormData();
+      console.log("formData", formData.has('image'));
+      
+      if (this.image) {
+        formData.append('image', this.image, code + '.' + this.image.name.split('.')[1]);
+      }
+      if (this.images.length > 0) {
+        for (let i = 0; i < this.images.length; i++) {
+          formData.append('image', this.images[i], code + "A"+i + '.' + this.image.name.split('.')[1]);
+        }
+      }
+      console.log("formData", formData.has('image'));
+
       this.paramService.setProductImage(formData).subscribe((res: any) => {
+      this.spinner = false
         this.showSuccessAlerte = true;
         this.imageURL = '';
         this.imageURLs = [];
@@ -198,25 +200,13 @@ export class VendeurAddproductPage implements OnInit {
           this.showSuccessAlerte = false;
         }, 3000);
       }, async (err) => {
-        this.spinner = false
-        const toast = await this.toast.create({
-          message: 'حدث خطأ المرجو إعادة المحاولة',
-          duration: 2000,
-          position: 'middle',
-          cssClass: "failedtoastclass"
-        });
-        toast.present();
+      this.spinner = false
+        this.toast.presentErrorToast('حدث خطأ المرجو إعادة المحاولة', 2000)
       }
       )
     }, async (err) => {
       this.spinner = false
-      const toast = await this.toast.create({
-        message: 'حدث خطأ المرجو إعادة المحاولة',
-        duration: 2000,
-        position: 'middle',
-        cssClass: "failedtoastclass"
-      });
-      toast.present();
+      this.toast.presentErrorToast('حدث خطأ المرجو إعادة المحاولة',2000)
     })
 
   }
@@ -228,33 +218,33 @@ export class VendeurAddproductPage implements OnInit {
   }
 
   onChange(e) {
-    this.imageURL = this.sanitizeImageUrl(URL.createObjectURL(e.target.files[0]))
-    this.image = e.target.files[0]
-    if (this.image.size > 1000000) {
-      this.sizeErrorCount=0
-      this.sizeError = 'حجم الصورة كبير جدا'
-      this.sizeWord = `${this.sizeWord!=''?'و':''} الرئيسية`
-      this.sizeErrorCount++
+
+    if (e.target.files[0].size > 1000000) {
+      this.toast.presentErrorToast('حجم الصورة كبير جدا', 5000)
       return
     } else {
-      this.sizeError = ''
+      this.imageURL = this.sanitizeImageUrl(URL.createObjectURL(e.target.files[0]))
+      this.image = e.target.files[0]
     }
 
   }
   onChangeM(e) {
-    this.images = e.target.files
     for (let i = 0; i < e.target.files.length; i++) {
-      console.log(this.imageURLs);
       if (e.target.files[i].size > 1000000) {
-        this.sizeError = 'حجم الصورة كبير جدا'
-        this.sizeErrorCount++
-
-        this.sizeWord += `${this.sizeWord!=''?'و':''} رقم ${i+1}`
+        this.toast.presentErrorToast('حجم الصورة كبير جدا', 5000)
         return
       } else {
-        this.sizeError = ''
+        this.images.push(e.target.files[i])
+        this.imageURLs.push(this.sanitizeImageUrl(URL.createObjectURL(e.target.files[i])))
       }
-      this.imageURLs.push(this.sanitizeImageUrl(URL.createObjectURL(e.target.files[i])))
+    }
+  }
+  deleteImg(i){
+    if (i.toString()==='P'){
+      document.getElementById('file_input').click()
+    } else {
+      this.images.splice(i,1)
+      this.imageURLs.splice(i,1)
     }
   }
 
@@ -271,6 +261,7 @@ export class VendeurAddproductPage implements OnInit {
       buttons: ['إلغاء', {
         text: 'تأكيد',
         handler: () => {
+          this.spinner=true
           this.setProduct();
         }
       }

@@ -1,15 +1,15 @@
 <ion-header class="ion-no-border">
   <ion-toolbar class="cssHeader bgheader">
 
-    <ion-title class="tajawal-Bold cssTitleHead">
+    <ion-title class="tajawal-Bold cssTitleHead" style="font-size: large;">
       <span class="cssBtnHeaderLeft" routerLink="/categories">
         <fa-icon icon="arrow-left"></fa-icon>
       </span>
-      <span class="cssBtnHeader" [routerLink]="['/my-cart', {id:id, idconsumer:idconsumer}]">
+      <span class="cssBtnHeader" [routerLink]="['/my-cart']">
         <fa-icon icon="shopping-basket"></fa-icon>
         <ion-badge *ngIf="commandeNum > 0">{{commandeNum}}</ion-badge>
       </span>
-      منتوجات فئة الشاي
+      منتوجات فئة {{category_name}}
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -40,7 +40,7 @@
         <ion-col *ngFor="let d of data" size="6">
           <ion-card class="cssCard">
             <div class="cssImg">
-              <img [src]="d.urls[0]" draggable="false" />
+              <img [src]="url+'/images/image_'+d.code+'.png'" draggable="false" />
             </div>
             <div class="cssPromotion">
               <span class="cssRecduction">%{{d.reduction}} -</span>

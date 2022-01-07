@@ -31,7 +31,7 @@
 // ------- slide 2
 .cssSlider2{
     border: 2px solid #F5EC32;
-    background: #F5EC32;
+    background: #ffffff;
     border-radius: 0px 0px 8px 8px;
 }
 .cssSlider2 ion-slides{
@@ -257,7 +257,7 @@
         font-size: 17px;
     }
     .cssBigCard .cssHeaderCard{
-        padding: 7px 0px;
+        padding: 2px !important;
     }
     .cssBigCard .cssTitleCrd{
         height: 32px;
@@ -267,14 +267,15 @@
 
     // --- small categories
     .cssCard{
-        height: 160px !important;
+        height: 150px !important;
         --border-radius: 4px;
     }
     .cssCard .cssImg{
         height: 110px;
     }
     .cssCard .cssHeaderCard{
-        padding: 4px 0px;
+        padding: 2px !important;
+
     }
     .cssCard .cssTitleCrd{
         font-size: 15px !important; 
@@ -327,4 +328,31 @@
         font-size: 22px;
     }
     // -------------------
+}
+.cssSlider2 ion-card {
+    width: 100%;
+    height: 160px;
+    box-shadow: none;
+    border-radius: 12px;
+    
+    img {
+        object-fit: cover;
+        width: 100%;
+        transform: scale(1.1, 1.1) rotate(1deg);
+        transition: 600ms all ease-in-out;
+    }
+}
+
+.swiper-slide-active {
+    transform: scale(1.05, 1.05);
+
+    ion-card {
+        img {
+            transform: scale(1, 1);
+        }
+    }
+}
+
+.swiper-slide {
+    transition: 400ms all ease-in-out;
 }

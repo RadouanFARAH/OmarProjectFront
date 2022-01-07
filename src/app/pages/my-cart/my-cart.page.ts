@@ -1,7 +1,9 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
 import { MyOrdersService } from 'src/app/services/my-orders.service';
+import { ParametresService } from 'src/app/services/parametres.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-my-cart',
@@ -10,84 +12,83 @@ import { MyOrdersService } from 'src/app/services/my-orders.service';
 })
 export class MyCartPage implements OnInit {
 
-  // data = [
-  //   {
-  //     img: "../../../assets/images/product/prod2.jpg",
-  //     nomProduit: "شاي لوبان الأخضر",
-  //     qte: 20,
-  //     prixUnitaire: 22.50,
-  //     point: 3
-  //   }
-  // ]
-
   data: any;
-  total: number = 0;
   showSuccessAlerte: boolean = false;
   showErrorAlerte: boolean = false;
-  id: any;
   totalPoints: number = 0;
   totalPrice: number = 0;
-  idconsumer: any;
+  url = environment.url
+  app_cost: number = 0;
 
-  constructor(private ref: ChangeDetectorRef, public alertIonic: AlertController, private orderService: MyOrdersService, private activeRouter: ActivatedRoute) {
-    console.log("hiiiiiiiiiii");
+  constructor(private paramService: ParametresService, private navCtrl: NavController, private ref: ChangeDetectorRef, public alertIonic: AlertController, private orderService: MyOrdersService, private activeRouter: ActivatedRoute) {
     this.data = this.orderService.myCart;
+  }
 
-    this.activeRouter.params.subscribe((params) => {
-      this.id = params.id
-      this.idconsumer = params.idconsumer
-
+  ngOnInit() {
+    this.paramService.getAppCost().subscribe((res:number) => {
+      this.app_cost = res
     })
   }
 
-  ngOnInit() { }
-
+  goBack() {
+    this.navCtrl.back();
+  }
 
   ionViewWillEnter() {
     for (let i = 0; i < this.data.length; i++) {
-      console.log('nnnnnnn', i);
-      this.totalPoints += this.data[i].point * this.data[i].quantite;
+      this.totalPoints += this.data[i].point_c * this.data[i].quantite;
       this.totalPrice += this.data[i].prixfinal * this.data[i].quantite;
-      console.log('fffffffffffff', this.totalPoints, this.totalPrice);
     }
+  }
+
+  addQty(index) {
+    this.orderService.increaseOrderQuantity(index)
+    this.onChangeTotals();
+    this.ref.detectChanges();
   }
 
   minusQty(index) {
-    if (this.data[index].quantite > 1) {
-      this.data[index].quantite = this.data[index].quantite - 1;
+    if (this.orderService.myCart[index].quantite > 1) {
+      this.orderService.decreaseOrderQuantity(index)
       this.onChangeTotals();
-
-      this.ref.detectChanges();
-    }
-    else {
-      this.data[index].quantite = 1;
-      this.onChangeTotals();
-
       this.ref.detectChanges();
     }
   }
-  addQty(index) {
-    this.data[index].quantite = this.data[index].quantite + 1;
-    this.onChangeTotals();
 
-    this.ref.detectChanges();
-  }
+
+
+  // minusQty(index) {
+  //   if (this.data[index].quantite > 1) {
+  //     this.data[index].quantite = this.data[index].quantite - 1;
+  //     this.onChangeTotals();
+
+  //     this.ref.detectChanges();
+  //   }
+  //   else {
+  //     this.data[index].quantite = 1;
+  //     this.onChangeTotals();
+
+  //     this.ref.detectChanges();
+  //   }
+  // }
+  // addQty(index) {
+  //   this.data[index].quantite = this.data[index].quantite + 1;
+  //   this.onChangeTotals();
+  //   this.ref.detectChanges();
+  // }
 
   onChangeTotals() {
     this.totalPoints = 0
     this.totalPrice = 0
     for (let i = 0; i < this.data.length; i++) {
-      console.log('nnnnnnn', i);
-      this.totalPoints += this.data[i].point * this.data[i].quantite;
+      this.totalPoints += this.data[i].point_c * this.data[i].quantite;
       this.totalPrice += this.data[i].prixfinal * this.data[i].quantite;
-      console.log('fffffffffffff', this.totalPoints, this.totalPrice);
     }
   }
 
   removeProductFromOrder(index) {
     this.orderService.removeProductFromOrder(index);
     this.onChangeTotals();
-
     this.ref.detectChanges();
   }
 

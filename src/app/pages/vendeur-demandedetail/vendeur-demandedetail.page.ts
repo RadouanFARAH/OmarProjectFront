@@ -1,4 +1,9 @@
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { NavController } from '@ionic/angular';
+import { ParametresService } from 'src/app/services/parametres.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-vendeur-demandedetail',
@@ -7,61 +12,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VendeurDemandedetailPage implements OnInit {
 
-  data = [
-    {
-      img: "../../../assets/images/product/prod2.jpg",
-      codeProduit: "AD2105444",
-      category: "الشاي",
-      qte: 20,
-      prixUnitaire: 22.50
-    },
-    {
-      img: "../../../assets/images/product/prod4.jpg",
-      codeProduit: "AD2105444",
-      category: "الشاي",
-      qte: 32,
-      prixUnitaire: 45.90
-    },
-    {
-      img: "../../../assets/images/product/prod4.jpg",
-      codeProduit: "AD2105444",
-      category: "الشاي",
-      qte: 32,
-      prixUnitaire: 45.90
-    },
-    {
-      img: "../../../assets/images/product/prod1.jpg",
-      codeProduit: "AD2105444",
-      category: "أدوات التنظيف",
-      qte: 12,
-      prixUnitaire: 30.10
-    },
-    {
-      img: "../../../assets/images/product/prod2.jpg",
-      codeProduit: "AD2105444",
-      category: "الشاي",
-      qte: 20,
-      prixUnitaire: 22.50
-    },
-    {
-      img: "../../../assets/images/product/prod4.jpg",
-      codeProduit: "AD2105444",
-      category: "الشاي",
-      qte: 32,
-      prixUnitaire: 45.90
-    },
-    {
-      img: "../../../assets/images/product/prod2.jpg",
-      codeProduit: "AD2105444",
-      category: "الشاي",
-      qte: 20,
-      prixUnitaire: 22.50
-    },
-  ]
-
-  constructor() { }
-
+  order_details: any[]= [];
+  url= environment.url
+  constructor( private navCtrl:NavController, private activeRoute:ActivatedRoute, private paramService:ParametresService) {
+      this.activeRoute.params.subscribe((params)=>{
+        let code = params.code
+        this.getOrderDetails(code)
+      })
+   }
+   getOrderDetails(code){
+     this.paramService.getOrderDetails({code}).subscribe((res:any)=>{
+       this.order_details = res
+     })
+   }
   ngOnInit() {
+  }
+  goBack() {
+    this.navCtrl.back();
   }
 
 }

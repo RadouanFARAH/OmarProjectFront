@@ -16,4 +16,9 @@ export class ResponsableService {
   getVendeurByResponsable(){
     return this.http.post(this.url+"/vendeur_dashboard/getVendeurByResponsable",{})
   }
+
+
+  changeResponsableVendeur(data){
+    return this.http.post(this.url+"/responsable/changeResponsableVendeur",data)
+  }
 }

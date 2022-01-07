@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MyOrdersService } from 'src/app/services/my-orders.service';
 import { ParametresService } from 'src/app/services/parametres.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-products',
@@ -11,35 +12,21 @@ import { ParametresService } from 'src/app/services/parametres.service';
 export class ProductsPage implements OnInit {
 
   commandeNum: number = 0;
-  id: any;
-  idconsumer: any;
-
-  // categories = [
-  //   { category: "الخضر", ref: "../../../assets/images/category/cat1.png" },
-  //   { category: "الفواكه", ref: "../../../assets/images/category/cat2.png" },
-  //   { category: "الدقيق", ref: "../../../assets/images/category/cat3.png" },
-  //   // { category: "اللحوم", ref: "../../../assets/images/category/cat4.png" },
-  //   { category: "الشاي", ref: "../../../assets/images/category/cat5.png" },
-  //   { category: "الشاي", ref: "../../../assets/images/category/cat5.png" },
-  //   { category: "الشاي", ref: "../../../assets/images/category/cat5.png" },
-  // ]
-
-  // data = [
-  //   { nom: "ليبتون 25 كيس", prixFinal: "27.60", prixInitial: "33.10", reduction: ((1 - (27.70 / 33.10)) * 100).toFixed(0), ref: "../../../assets/images/product/prod1.jpg" },
-  //   { nom: "شاي لوبان الأخضر", prixFinal: "79.00", prixInitial: "86.60", reduction: ((1 - (79.00 / 86.60)) * 100).toFixed(0), ref: "../../../assets/images/product/prod2.jpg" },
-  //   { nom: "الاتقان الشاي الأخضر", prixFinal: "19.50", prixInitial: "", reduction: (0 * 100).toFixed(0), ref: "../../../assets/images/product/prod3.jpg" },
-  //   { nom: "شاي الزعتر الزعيترة", prixFinal: "24.90", prixInitial: "99.00", reduction: ((1 - (24.90 / 99.00)) * 100).toFixed(0), ref: "../../../assets/images/product/prod4.jpg" },
-  // ]
-
+  category_name: any;
+  category_id: any;
+  url = environment.url
   constructor(private paramServices: ParametresService, private activeRouter: ActivatedRoute, private orderService: MyOrdersService) {
 
-
+    this.commandeNum = this.orderService.cart_quantity.value
+    this.orderService.cart_quantity.subscribe((qte)=>{
+      this.commandeNum = qte
+    })
 
     this.activeRouter.params.subscribe(params => {
-      this.commandeNum = this.orderService.getNumberProductInOrder()
-      this.id = params.id
-      this.idconsumer = params.idconsumer
-      this.getProductByCategory(params.id);
+      
+      this.category_id = params.id
+      this.category_name = params.nom
+      this.getProductByCategory(params.id, params.special)
     })
 
   }
@@ -49,16 +36,13 @@ export class ProductsPage implements OnInit {
   }
 
   data: any = [];
-  getProductByCategory(id) {
-    this.paramServices.getProductByCategory(id).subscribe(result => {
-      console.log("produit____ : ", result);
+  getProductByCategory(id,special) {
+    this.paramServices.getProductByCategory(id, special).subscribe(result => {
       this.data = result;
       this.data.forEach(d => {
-        d.urls = d.urls.split(',');
-        let reduction = ((100 - (parseFloat(d.prixfinal) / parseFloat(d.prixinitial)) * 100)).toFixed(0);
+        let reduction =  (100 - (parseFloat(d.prixfinal) * 100 / parseFloat(d.prixinitial))).toFixed(0) 
         d.reduction = reduction;
       });
-
     })
   }
 }
