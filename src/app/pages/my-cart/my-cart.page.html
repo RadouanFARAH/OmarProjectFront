@@ -24,7 +24,7 @@
               <div class="cssName tajawal-Medium">{{d.nom}}</div>
               <div class="cssPrixT">
                 <div class="cssPrix">
-                  <span>{{d.prixfinal*d.quantite}}</span> درهم
+                  <span>{{(d.special?d.prixspecial:d.prixfinal +d.special?0:d.deliveryPrice)*d.quantite}}</span> درهم
                 </div>
                 <div class="cssPrix">
                   <span>{{d.point_c*d.quantite}}</span> نقطة
@@ -65,7 +65,7 @@
           <div class="cssSome tajawal-Boldd">المجموع</div>
           <div class="cssSomeValue">
             <div class="cssDhs">
-              <p class="cssValue">{{(totalPrice+app_cost).toFixed(2)}}</p>
+              <p class="cssValue">{{totalPrice.toFixed(2)}}</p>
               <p class="cssUnit">درهم</p>
             </div>
             <div class="cssDhs">
@@ -82,7 +82,7 @@
     </ion-row>
     <ion-row>
       <ion-col>
-        <ion-button class="tajawal-Boldd animate__animated animate__zoomIn animate__delay-1s" (click)="sendOrder()">
+        <ion-button [disabled]="totalPrice<=2" class="tajawal-Boldd animate__animated animate__zoomIn animate__delay-1s" (click)="sendOrder()">
           طلب المنتوجات
         </ion-button>
       </ion-col>

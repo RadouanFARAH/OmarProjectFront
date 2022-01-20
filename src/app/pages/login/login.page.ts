@@ -22,7 +22,7 @@ export class LoginPage implements OnInit {
   password: any = "";
   identifant: any = "";
   spinner: boolean;
-  constructor(private modalController:ModalController,private toast:ToastController,private route: Router, private storage: Storage, private menu: MenuController, private userService: UserService, private fb: FormBuilder,) { }
+  constructor(private modalController: ModalController, private toast: ToastController, private route: Router, private storage: Storage, private menu: MenuController, private userService: UserService, private fb: FormBuilder,) { }
 
   ngOnInit() {
     this.dataForm = this.fb.group({
@@ -55,47 +55,47 @@ export class LoginPage implements OnInit {
     let data = this.dataForm.value;
     this.userService.login(data).subscribe(async (res: any) => {
       this.spinner = false
-      let decodedToken:any = jwtDecode(res.token)
-      console.log('token________ : ', res.token, "  ",decodedToken);
+      let decodedToken: any = jwtDecode(res.token)
+      console.log('token________ : ', res.token, "  ", decodedToken);
 
       // localStorage.setItem('token', res.token);
       await this.storage.set('token', res.token)
       await this.storage.set('username', res['name'])
       await this.storage.set('id', decodedToken.id)
       await this.storage.set('role', res['role'])
-      
-    this.userService.role.next(res['role'])
+
+      await this.userService.role.next(res['role'])
 
       await this.userService.name.next(res['name'])
-      
-      if (res.role=="C") {
+
+      if (res.role == "C") {
         await this.storage.set('tokenC', res.token)
         this.route.navigate(["categories"])
-      }else if (res.role=="V") {
+      } else if (res.role == "V") {
         await this.storage.set('tokenV', res.token)
         this.route.navigate(["vendeur-home"])
-      }else if (res.role=="R") {
+      } else if (res.role == "R") {
         await this.storage.set('tokenR', res.token)
         this.route.navigate(["responsable-home"])
-      }else if (res.role=="D") {
+      } else if (res.role == "D") {
         await this.storage.set('tokenD', res.token)
         this.route.navigate(["directeur-home"])
       }
       console.log("login successed");
-    }, async (err)=>{
+    }, async (err) => {
       this.spinner = false
       const toast = await this.toast.create({
         message: 'حدث خطأ المرجو إعادة المحاولة',
         duration: 2000,
         position: 'middle',
-        cssClass:"failedtoastclass"
+        cssClass: "failedtoastclass"
       });
       toast.present();
     })
   }
 
   async changePassword() {
-    
+
     const modal = await this.modalController.create({
       component: ForgotPasswordPage,
       cssClass: 'my-custom-class'

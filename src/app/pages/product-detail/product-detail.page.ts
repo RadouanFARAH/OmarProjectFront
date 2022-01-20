@@ -20,7 +20,9 @@ export class ProductDetailPage implements OnInit {
       prixInitial: 0,
       prixFinal: 0,
       category: "",
-      description: ""
+      description: "",
+      special:false,
+      reduction:""
     },
     vendeurInfos: {
       nom: "",
@@ -42,6 +44,7 @@ export class ProductDetailPage implements OnInit {
   url=environment.url
   added: boolean;
   constructor(private navCtrl:NavController,private callNumber:CallNumberService,private activeRouter: ActivatedRoute, private orderService: MyOrdersService) {
+    this.orderService.calculate_quantity()
     this.commandeNum = this.orderService.cart_quantity.value
     this.orderService.cart_quantity.subscribe((qte)=>{
       this.commandeNum = qte
@@ -60,7 +63,9 @@ export class ProductDetailPage implements OnInit {
           prixInitial: params.prixinitial,
           prixFinal: params.prixfinal,
           category: params.categorie,
-          description: params.description
+          description: params.description,
+          special:params.special,
+          reduction:params.reduction
         },
         vendeurInfos: {
           nom: params.nomprenom,
@@ -80,11 +85,21 @@ export class ProductDetailPage implements OnInit {
   call(number){
    this.callNumber.call(number);
   }
-  ionViewDidEnter(){
+  ionViewWillEnter(){
    this.qte = this.orderService.get_product_quantity(this.product.id)
+   this.orderService.calculate_quantity()
+   this.commandeNum = this.orderService.cart_quantity.value
+   this.orderService.cart_quantity.subscribe((qte) => {
+     this.commandeNum = qte
+   })
   }
-  ionViewDidLeave(){
+  ionViewWillLeave(){
    this.qte = this.orderService.get_product_quantity(this.product.id)
+   this.orderService.calculate_quantity()
+   this.commandeNum = this.orderService.cart_quantity.value
+   this.orderService.cart_quantity.subscribe((qte) => {
+     this.commandeNum = qte
+   })
   }
   checkProductInOrder(id) {
     for (let i = 0; i < this.orderService.myCart.length; i++) {

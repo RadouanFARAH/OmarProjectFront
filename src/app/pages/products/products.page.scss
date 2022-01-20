@@ -23,6 +23,33 @@
     text-align: center;
     font-size: 13px;
 }
+.cssQuantity{
+    display: flex;
+    justify-content: space-between;
+    width: 100% !important;
+    height: 50px !important;
+    background: #ff4747 !important;
+    border-radius: 4px;
+    margin: 15px 0px !important;
+    box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.2);
+}
+.cssQuantity .cssAddMinus{
+    width: 30%;
+    color: #fff;
+    font-size: 20px;
+    text-align: center;
+    padding: 10px 0px 14px 0px;
+    cursor: pointer;
+}
+.cssQuantity .cssQty{
+    width: 40%;
+    font-size: 34px;
+    text-align: center;
+    font-weight: 700;
+    color: #ff4747;
+    background: #fff !important;
+    border: 1px solid #ff4747;
+}
 // row 2
 // _new row2
 .cssCard{
@@ -173,6 +200,23 @@ ion-button{
 
 
 @media only screen and (max-width: 362px) {
+    .cssQuantity{
+        height: 40px !important;
+        border-radius: 4px;
+        margin: 10px 0px !important;
+    }
+    .cssQuantity .cssAddMinus{
+        font-size: 17px;
+        text-align: center;
+        padding: 7px 0px;
+        cursor: pointer;
+    }
+    .cssQuantity .cssQty{
+        font-size: 18px;
+    }
+    .cssQuantity .cssQty span{
+        font-size: 26px;
+    }
     .cssCard{
         height: 260px !important;
     }

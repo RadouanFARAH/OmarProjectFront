@@ -117,6 +117,17 @@
         <p style="font-size: 0.8rem;">{{special?'':'لن'}} يعرض في عروض اليوم</p>
         <ion-toggle [checked]="special" (ionChange)="toggelspecial()"></ion-toggle>
       </div>
+      
+      <ion-row *ngIf="special">
+        <ion-col class="ion-no-padding">
+          <div>
+            <ion-label class="cssLabel tajawal-Bold">ثمنه في عروض اليوم </ion-label>
+            <ion-input (keypress)="preventCaracters($event)" placeholder="ضع ثمنه في عروض اليوم " type="text"
+              class="cssInput tajawal-Medium" formControlName="prixspecial">
+            </ion-input>
+          </div>
+        </ion-col>
+      </ion-row>
 
       <!-- images -->
       <ion-row style="margin-left: 12px;

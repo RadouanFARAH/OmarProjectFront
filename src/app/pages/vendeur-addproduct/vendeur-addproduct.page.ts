@@ -74,7 +74,8 @@ export class VendeurAddproductPage implements OnInit {
       lvendeurs: [null],
       lresponsables: [null],
       description: [""],
-      deliveryPrice: [0]
+      deliveryPrice: [0],
+      prixspecial:[0]
     })
 
     if (this.whoisadding == 'R') {

@@ -69,6 +69,7 @@ export class CategoriesPage implements OnInit {
   idconsumer: any;
   url:string = environment.url
   constructor(private orderService: MyOrdersService,private navCtrl:NavController,private storage: Storage, private router: ActivatedRoute, private menu: MenuController, private route: Router, private paramService: ParametresService) {
+    this.orderService.calculate_quantity()
     this.commandeNum = this.orderService.cart_quantity.value
     this.orderService.cart_quantity.subscribe((qte)=>{
       this.commandeNum = qte
@@ -81,9 +82,19 @@ export class CategoriesPage implements OnInit {
   }
   ionViewWillEnter() {
     this.menu.enable(true, 'consommateur-menu')
+    this.orderService.calculate_quantity()
+    this.commandeNum = this.orderService.cart_quantity.value
+    this.orderService.cart_quantity.subscribe((qte) => {
+      this.commandeNum = qte
+    })
   }
   ionViewWillLeave() {
     this.menu.enable(false, 'consommateur-menu')
+    this.orderService.calculate_quantity()
+    this.commandeNum = this.orderService.cart_quantity.value
+    this.orderService.cart_quantity.subscribe((qte) => {
+      this.commandeNum = qte
+    })
   }
 
   showMenu() {

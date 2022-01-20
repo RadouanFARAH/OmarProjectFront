@@ -44,6 +44,7 @@ export class ResponsableSettingsPage implements OnInit {
   spinner3: boolean=false;
   spinner4: boolean=false;
   spinner5: boolean=false;
+  prixspecial:any= 0;
   constructor(private navCtrl: NavController, private userService: UserService, private toast: ToastService, private paramService: ParametresService, private storage: Storage, private toastCtrl: ToastController, private vendeurService: VendeurMyConsoService, private villesService: VilleQuartierService, private responsableService: ResponsableService) {
     this.storage.get('role').then((role) => {
       console.log(role);
@@ -223,7 +224,8 @@ export class ResponsableSettingsPage implements OnInit {
         const element = this.selectedProduct[index];
         let data = {
           id: element,
-          special: this.special
+          special: this.special,
+          prixspecial:this.prixspecial
         }
         let done = await this.updateSpecialAsync(data)
         if (!done) {

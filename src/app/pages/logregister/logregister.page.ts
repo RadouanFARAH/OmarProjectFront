@@ -200,6 +200,7 @@ export class LogregisterPage implements OnInit {
               await this.storage.set('id', decodedToken.id)
               await this.storage.set('role', res['role'])
               await this.userService.name.next(res['name'])
+              await this.userService.role.next(res['role'])
               this.route.navigate(["categories"])
   
               console.log("login successed");

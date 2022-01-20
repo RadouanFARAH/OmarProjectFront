@@ -39,7 +39,7 @@
       <ion-row>
         <ion-col *ngFor="let d of data" size="6">
           <ion-card class="cssCard">
-            <div class="cssImg">
+            <div class="cssImg" [routerLink]="['/product-detail', d]">
               <img [src]="url+'/images/image_'+d.code+'.png'" draggable="false" />
             </div>
             <div class="cssPromotion">
@@ -48,13 +48,28 @@
             <ion-card-content class="cssHeaderCard">
               <ion-card-title class="cssTitleCrd tajawal-Medium">{{d.nom}}</ion-card-title>
               <div class="cssPrix">
-                <h2 class="cssPrixInitial tajawal-Medium"><span class="tajawal-Bold">{{d.prixfinal}}</span> درهم</h2>
+                <h2 class="cssPrixInitial tajawal-Medium"><span class="tajawal-Bold">{{special?d.prixspecial:d.prixfinal}}</span> درهم</h2>
                 <h4 class="cssPrixFinal tajawal-Medium" *ngIf="d.prixinitial">
                   <span>{{d.prixinitial}}</span> درهم
                 </h4>
               </div>
-              <div class="cssBtnDetail">
-                <ion-button class="tajawal-Bold" [routerLink]="['/product-detail', d]">تفاصيل المنتوج</ion-button>
+              <!-- add to cart -->
+              <div class="cssBtnDetail" *ngIf="d.qte!=0">
+                <div class="cssQuantity">
+                  <div class="cssAddMinus" (click)="minusQty(d)">
+                    <fa-icon icon="minus"></fa-icon>
+                  </div>
+                  <div class="cssQty">
+                    {{d.qte}}
+                  </div>
+                  <div class="cssAddMinus" (click)="addQty(d)">
+                    <fa-icon icon="plus"></fa-icon>
+                  </div>
+                </div>
+              </div>
+              <!-- add to cart -->
+              <div class="cssBtnDetail" *ngIf="d.qte==0">
+                <ion-button class="tajawal-Bold" (click)="addQty(d)"> أضف إلى السلة</ion-button>
               </div>
             </ion-card-content>
           </ion-card>

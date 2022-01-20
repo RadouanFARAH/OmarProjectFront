@@ -36,13 +36,20 @@
               <span>{{data.productInfos.prixFinal}}</span> درهم
             </div>
             <div class="cssPrixInitial tajawal-Medium">
-              <span>{{data.productInfos.prixInitial}}</span> درهم
+              <span>{{data.productInfos.prixInitial}} درهم</span> 
+            </div>
+            <div class="cssPrixFinal  tajawal-Medium reduction">
+              <span>%{{data.productInfos.reduction}} -</span>
             </div>
           </div>
           <div class="cssDescription">
             <p class="cssLibel tajawal-Boldd">وصف المنتج :</p>
             <p>{{data.productInfos.description}}</p>
           </div>
+          <p *ngIf="!data.productInfos.special">
+            <span class="cssLibel tajawal-Boldd">ثمن التوصيل :</span>
+            <span class="cssValue tajawal-Medium">{{data.productInfos.deliveryPrice}}</span> درهم
+          </p>
           <!-- <p>
               <span class="cssLibel tajawal-Boldd">وصف المنتج :</span>
               <span class="cssValue tajawal-Medium">{{data.productInfos.description}}</span>
@@ -132,14 +139,14 @@
         </div>
       </ion-col>
     </ion-row>
-<!-- 
-    <ion-row *ngFor="let d of data.imgs">
+
+    <ion-row *ngFor="let img of imgs">
       <ion-col class="ion-no-padding">
         <div class="cssImages">
-          <img [src]="d">
+        <img [src]="img" alt="@youb">
         </div>
       </ion-col>
-    </ion-row> -->
+    </ion-row>
 
   </ion-grid>
 

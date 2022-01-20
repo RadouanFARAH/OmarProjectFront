@@ -37,8 +37,9 @@ export class MyCartPage implements OnInit {
   ionViewWillEnter() {
     for (let i = 0; i < this.data.length; i++) {
       this.totalPoints += this.data[i].point_c * this.data[i].quantite;
-      this.totalPrice += this.data[i].prixfinal * this.data[i].quantite;
+      this.totalPrice += (this.data[i].special?this.data[i].prixspecial:this.data[i].prixfinal +this.data[i].special?0:this.data[i].deliveryPrice)  * this.data[i].quantite;
     }
+    this.totalPrice += this.app_cost || 2
   }
 
   addQty(index) {
@@ -82,8 +83,9 @@ export class MyCartPage implements OnInit {
     this.totalPrice = 0
     for (let i = 0; i < this.data.length; i++) {
       this.totalPoints += this.data[i].point_c * this.data[i].quantite;
-      this.totalPrice += this.data[i].prixfinal * this.data[i].quantite;
+      this.totalPrice += (this.data[i].special?this.data[i].prixspecial:this.data[i].prixfinal +this.data[i].special?0:this.data[i].deliveryPrice)* this.data[i].quantite;
     }
+    this.totalPrice += this.app_cost || 2
   }
 
   removeProductFromOrder(index) {

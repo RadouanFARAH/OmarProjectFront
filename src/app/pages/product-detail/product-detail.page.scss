@@ -75,21 +75,29 @@ ion-button{
     align-items :center;
 }
 .cssCard .cssPrixFinal{
-    font-size: 20px;
+    font-size: 24px;
     margin-left: 20px;
+    color: #000;
 }
 .cssCard .cssPrixFinal span{
-    font-size: 44px; font-weight: 700;
+    font-weight: 700;
 }
 .cssCard .cssPrixInitial{
     font-size: 14px;
-    color: #666;
+    color: #999;
+    margin-left: 20px;
     position: relative;
     top: 7px;
 }
 .cssCard .cssPrixInitial span{
-    font-size: 26px; 
+
     text-decoration: line-through;
+}
+.cssCard .reduction {
+    color: #ff4747;
+    background-color: #fff1f1;
+    padding: 5px;
+    font-size: 12;
 }
 .cssCard .cssDescription{
     margin: 8px;
@@ -206,10 +214,27 @@ ion-button{
     width: 100%;
     height: auto;
 }
-
+.cssPromotion{
+    width: 80px;
+    height: 35px;
+    border-radius: 9px;
+    position: relative;
+    top: -32px;
+    left: -14px;
+    font-size: 24px;
+    font-weight: 600;
+}
 @media only screen and (max-width: 362px) {
     ion-slides {
         height: 50%;
+    }
+    .cssPromotion{
+        width: 80px; height: 35px;
+        border-radius: 9px;
+        position: relative;
+        top: -32px; left: -14px;
+        font-size: 24px;
+        font-weight: 600;
     }
 
     // row 1

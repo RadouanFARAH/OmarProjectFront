@@ -19,7 +19,9 @@ export class MyOrdersService {
     for (let i =0; i<this.myCart.length; i++){
       qte = qte + this.myCart[i].quantite
     }
-    this.cart_quantity.next(qte)
+    // this.cart_quantity.next(qte)
+    this.cart_quantity.next(this.myCart.length)
+
   }
   get_product_quantity(productID){
     let qte = 0

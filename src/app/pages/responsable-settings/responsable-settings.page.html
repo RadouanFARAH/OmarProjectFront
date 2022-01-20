@@ -167,6 +167,12 @@
             </ion-select>
           </div>
         </ion-col>
+        <ion-col class="ion-no-padding" *ngIf="special">
+          <div class="cssToRight">
+            <ion-label class="cssLabel tajawal-Medium">الثمن  </ion-label>
+            <ion-input type="prixspecial" (keypress)="preventCaracters($event)"  class="cssInput" [(ngModel)]="prixspecial" class="cssInput tajawal-Medium"></ion-input>
+          </div>
+        </ion-col>
       </ion-row>
       <ion-row class="space-arround">
         <ion-button expand='full' (click)="updateSpecial()" class="cssLabel tajawal-Medium fullWidth">
