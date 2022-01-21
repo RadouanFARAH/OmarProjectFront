@@ -1,0 +1,142 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="cssHeader bgheader">
+
+    <ion-title class="tajawal-Bold cssTitleHead">
+      <span class="cssBtnHeaderLeft" routerLink="/responsable-home">
+        <fa-icon icon="arrow-left"></fa-icon>
+      </span>
+      لائحة البائعين
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="bgInterface2">
+  <ion-grid class="ion-no-padding">
+
+    <!-- row 1 , card 1 & cared 2 : responsable -->
+    <div class="cssResponsable">
+      <ion-row>
+        <ion-col class="ion-no-padding">
+          <div class="cssCol cssBackground1">
+            <span class="cssLibel almarai-ExtraBold">عدد البائعين :</span>
+            <span class="tajawal-Medium cssNumber">{{data2.length}}</span>
+          </div>
+        </ion-col>
+
+        <ion-col class="ion-no-padding">
+          <div class="cssCol cssBackground2">
+            <span class="cssLibel almarai-ExtraBold">اليوم :</span>
+            <span class="cssValue tajawal-Medium">{{jour}}</span>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col class="ion-no-padding">
+          <div class="cssSelect">
+            <ion-label class="cssValue tajawal-Medium">البائع</ion-label>
+            <ion-select name="vendeur" id="vendeur" [(ngModel)]="d" (ionChange)="vendeurChanged()"> 
+              <!-- <ion-select-option selected value="إختيار البائع" class="cssValue tajawal-Medium">--إختيار --</ion-select-option> -->
+              <ion-select-option *ngFor="let d of data2" [value]="d" class="cssValue tajawal-Medium">{{d.nomprenom}}</ion-select-option>
+            </ion-select>
+          </div>
+        </ion-col>
+
+        <ion-col class="ion-no-padding">
+          <div class="cssSelect cssMarging">
+            <span class="cssLibel almarai-ExtraBold">المنطقة :</span>
+            <span class="cssValue tajawal-Medium">{{d.vquartier}}</span>
+          </div>
+        </ion-col>
+      </ion-row>
+    </div>
+
+    <!-- row 2 , cared 3 info vendeur -->
+    <ion-row *ngIf="d!={}">
+      <ion-col class="ion-no-padding">
+        <div class="cssCard1">
+          <div class="cssTitleCard">
+            <span class="tajawal-Bold">معلومات حول البائع</span>
+          </div>
+          <div class="cssContentCard">
+            <div>
+              <span class="cssLibel tajawal-Bold">رقم البائع :</span>
+              <span class="cssValue tajawal-Medium">{{d.id}}</span>
+            </div>
+            <div>
+              <span class="cssLibel tajawal-Bold">إسم البائع :</span>
+              <span class="cssValue tajawal-Medium">{{d.nomprenom}}</span>
+            </div>
+            <div>
+              <span class="cssLibel tajawal-Bold">العنوان :</span>
+              <span class="cssValue tajawal-Medium">{{d.adresse}}</span>
+            </div>
+            <div class="cssNum">
+              <div>
+                <span class="cssLibel tajawal-Bold">الهاتف :</span>
+                <span class="cssValue tajawal-Medium">{{d.tel}}</span>
+              </div>
+              <ion-button (click)="call(d.tel)" class="tajawal-Boldd cssBtn">
+                تواصل
+                <img src="../../../assets/images/vendeurConsoDtail/phone1.png" alt="@youb">
+              </ion-button>
+            </div>
+            <div class="cssNum">
+              <div>
+                <span class="cssLibel tajawal-Bold">الواتساب :</span>
+                <span class="cssValue tajawal-Medium">{{d.whatsapp}}</span>
+              </div>
+              <ion-button [href]="'whatsapp://send?phone='+data1.numWhatsapp" class="tajawal-Boldd cssBtn">
+                تواصل
+                <img src="../../../assets/images/vendeurConsoDtail/whatsapp1.png" alt="@youb">
+              </ion-button>
+            </div>
+            <!-- <div class="cssNum">
+              <div>
+                <span class="cssLibel tajawal-Bold">التيليجرام :</span>
+                <span class="cssValue tajawal-Medium">{{data1.numTelegram}}</span>
+              </div>
+              <ion-button class="tajawal-Boldd cssBtn">
+                تواصل
+                <img src="../../../assets/images/vendeurConsoDtail/telegram1.png" alt="@youb">
+              </ion-button>
+            </div> -->
+            <div>
+              <span class="cssLibel tajawal-Bold">البريد الإلكتروني :</span>
+              <span class="cssValue tajawal-Medium">{{d.email}}</span>
+            </div>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+
+    <!-- row 3, btn -->
+    <!-- <ion-row>
+      <ion-col class="ion-no-padding">
+        <div class="cssBtns">
+          <ion-button class="tajawal-Boldd cssBtn2" (click)="addproduct()">إضافة منتج جديد</ion-button>
+        </div>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col class="ion-no-padding">
+        <div class="cssBtns">
+          <ion-button class="tajawal-Boldd cssBtn3" routerLink="/vendeur-my-conso">عملاء البائع
+          </ion-button>
+        </div>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col class="ion-no-padding">
+        <div class="cssBtns">
+          <ion-button class="tajawal-Boldd cssBtn4" routerLink="/vendeur-statistique-vente">حصيلة مبيعات البائع
+          </ion-button>
+        </div>
+      </ion-col>
+    </ion-row> -->
+
+
+  </ion-grid>
+</ion-content>

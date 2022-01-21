@@ -1,0 +1,48 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="cssHeader bgheader">
+
+    <ion-title class="tajawal-Bold cssTitleHead">
+      <span class="cssBtnHeaderLeft" (click)="goBack()">
+        <fa-icon icon="arrow-left"></fa-icon>
+      </span>
+      تفاصيل الطلبية
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="bgInterface2">
+  <ion-grid class="ion-no-padding">
+    <div class="cssHeight">
+      <ion-row *ngFor="let d of order_details">
+        <ion-col class="ion-no-padding">
+
+          <div class="cssProduct">
+            <div class="cssImg">
+              <img [src]="url+'/images/image_'+d.code+'.png'" alt="@youb">
+            </div>
+            <div class="cssInfos">
+              <p>
+                <span class="cssLibel tajawal-Boldd">كود المنتج :</span>
+                <span class="cssValue tajawal-Medium cssNumber">{{d.code}}</span>
+              </p>
+              <p>
+                <span class="cssLibel tajawal-Boldd">إسم المنتج:</span>
+                <span class="cssValue tajawal-Medium">{{d.category}}</span>
+              </p>
+              <p>
+                <span class="cssLibel tajawal-Boldd">الكمية :</span>
+                <span class="cssValue tajawal-Medium cssNumber">{{d.quantite}}</span>
+              </p>
+              <p>
+                <span class="cssLibel tajawal-Boldd">ثمن الوحدة :</span>
+                <span class="cssValue tajawal-Medium cssNumber">{{(d.prixfinal).toFixed(2)}}</span> درهم
+              </p>
+            </div>
+          </div>
+
+        </ion-col>
+      </ion-row>
+    </div>
+  </ion-grid>
+
+</ion-content>

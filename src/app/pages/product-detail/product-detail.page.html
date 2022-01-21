@@ -1,0 +1,153 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="cssHeader bgheader">
+
+    <ion-title class="tajawal-Bold cssTitleHead">
+      <span class="cssBtnHeaderLeft" (click)="goBack()">
+        <fa-icon icon="arrow-left"></fa-icon>
+      </span>
+
+      <span class="cssBtnHeader" [routerLink]="['/my-cart']">
+        <fa-icon icon="shopping-basket"></fa-icon>
+        <ion-badge *ngIf="commandeNum > 0">{{commandeNum}}</ion-badge>
+      </span>
+      تفاصيل المنتوج
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="bgInterface2">
+
+  <!-- Slide Image -->
+  <ion-slides>
+    <ion-slide *ngFor="let img of imgs">
+      <img [src]="img" alt="@youb">
+    </ion-slide>
+  </ion-slides>
+
+  <!-- Detail infos -->
+  <ion-grid>
+    <!-- row 0 -->
+    <ion-row>
+      <ion-col class="ion-no-padding">
+        <div class="cssCard">
+          <div class="cssTitle Almarai-Bold">{{data.productInfos.nom}}</div>
+          <div class="cssPrix">
+            <div class="cssPrixFinal tajawal-Medium">
+              <span>{{data.productInfos.prixFinal}}</span> درهم
+            </div>
+            <div class="cssPrixInitial tajawal-Medium">
+              <span>{{data.productInfos.prixInitial}} درهم</span> 
+            </div>
+            <div class="cssPrixFinal  tajawal-Medium reduction">
+              <span>%{{data.productInfos.reduction}} -</span>
+            </div>
+          </div>
+          <div class="cssDescription">
+            <p class="cssLibel tajawal-Boldd">وصف المنتج :</p>
+            <p>{{data.productInfos.description}}</p>
+          </div>
+          <p *ngIf="!data.productInfos.special">
+            <span class="cssLibel tajawal-Boldd">ثمن التوصيل :</span>
+            <span class="cssValue tajawal-Medium">{{data.productInfos.deliveryPrice}}</span> درهم
+          </p>
+          <!-- <p>
+              <span class="cssLibel tajawal-Boldd">وصف المنتج :</span>
+              <span class="cssValue tajawal-Medium">{{data.productInfos.description}}</span>
+            </p> -->
+        </div>
+
+      </ion-col>
+    </ion-row>
+
+    <!-- row 1 -->
+    <ion-row>
+      <ion-col *ngIf="qte!=0">
+        <div class="cssQuantity">
+          <div class="cssAddMinus" (click)="minusQty()">
+            <fa-icon icon="minus"></fa-icon>
+          </div>
+          <div class="cssQty">
+            {{qte}}
+          </div>
+          <div class="cssAddMinus" (click)="addQty()">
+            <fa-icon icon="plus"></fa-icon>
+          </div>
+        </div>
+      </ion-col>
+
+      <ion-col *ngIf="qte==0">
+        <ion-button class="tajawal-Boldd" (click)="addQty()">أضف إلى السلة</ion-button>
+      </ion-col>
+    </ion-row>
+
+    <!-- row 2 -->
+    <!-- <ion-row>
+      <ion-col class="ion-no-padding">
+
+        <ion-card class="cssCard">
+          <ion-card-content class="cssContentCard ion-no-padding">
+            <p>
+              <span class="cssLibel tajawal-Boldd">إسم المنتج :</span>
+              <span class="cssValue tajawal-Medium">{{data.productInfos.nom}}</span>
+            </p>
+            <p>
+              <span class="cssLibel tajawal-Boldd">ثمن المنتج :</span>
+              <span class="cssValue tajawal-Medium">{{data.productInfos.prixInitial}}</span> درهم
+             
+            </p>
+            <p>
+              <span class="cssReduction">
+                <span class="cssLibel tajawal-Boldd">ثمن التخفيض :</span>
+                <span class="cssValue tajawal-Medium">{{data.productInfos.prixFinal}}</span> درهم
+              </span>
+            </p>
+            <p>
+              <span class="cssLibel tajawal-Boldd">الفئة :</span>
+              <span class="cssValue tajawal-Medium">{{data.productInfos.category}}</span>
+            </p>
+            <p>
+              <span class="cssLibel tajawal-Boldd">وصف المنتج :</span>
+              <span class="cssValue tajawal-Medium">{{data.productInfos.description}}</span>
+            </p>
+          </ion-card-content>
+        </ion-card>
+
+      </ion-col>
+    </ion-row> -->
+
+    <!-- row 3 -->
+    <ion-row>
+      <ion-col class="ion-no-padding" style="margin: 10px 0px !important;">
+
+        <div class="cssCard2">
+          <div>
+            <span class="cssLibel tajawal-Boldd">إسم البائع :</span>
+            <span class="cssValue tajawal-Medium">{{data.vendeurInfos.nom}}</span>
+          </div>
+          <div>
+            <ion-button (click)="call(data.vendeurInfos.tel)" class="ion-no-padding tajawal-Bold">
+              تواصل
+              <fa-icon icon="phone-alt"></fa-icon>
+            </ion-button>
+          </div>
+        </div>
+        <div class="cssSecurity">
+          <span class="cssLibel">
+            <fa-icon icon="shield-alt"></fa-icon>
+          </span>
+          <span class="cssValue tajawal-Medium">إرجاع المنتج مجانًا خلال 7 أيام وفق الشروط المنصوص عليها</span>
+        </div>
+      </ion-col>
+    </ion-row>
+
+    <ion-row *ngFor="let img of imgs">
+      <ion-col class="ion-no-padding">
+        <div class="cssImages">
+        <img [src]="img" alt="@youb">
+        </div>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+
+</ion-content>
